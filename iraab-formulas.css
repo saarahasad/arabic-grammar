@@ -1,0 +1,317 @@
+/* Iʿrāb Formula Guide — uses --iraab-* from styles.css */
+
+.formulas-page {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.formulas-page__title-wrap {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.formulas-page__title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.formulas-page__title-ar {
+  display: block;
+  font-family: var(--font-arabic), serif;
+  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 0.5rem;
+}
+
+.formulas-page__subtitle {
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.formulas-harakah-toolbar {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.quran-iraab-toolbar__harakah-btn {
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 0.5px solid rgba(148, 163, 184, 0.65);
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-family: var(--font-arabic), serif;
+  direction: rtl;
+  line-height: 1.35;
+  transition:
+    opacity 150ms ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.quran-iraab-toolbar__harakah-btn--on {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.quran-iraab-toolbar__harakah-btn:hover {
+  opacity: 0.92;
+}
+
+.formulas-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  justify-content: center;
+  margin: 2rem 0 2.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 14px;
+}
+
+.formulas-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+}
+
+.formulas-legend__swatch {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.formulas-legend__swatch--fn {
+  background: var(--iraab-fn);
+}
+.formulas-legend__swatch--case {
+  background: var(--iraab-case);
+}
+.formulas-legend__swatch--sign {
+  background: var(--iraab-sign);
+}
+.formulas-legend__swatch--sent {
+  background: var(--iraab-sentence);
+}
+.formulas-legend__swatch--part {
+  background: var(--iraab-particle);
+}
+
+.formulas-master-grid {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 720px) {
+  .formulas-master-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.formulas-master {
+  padding: 1.25rem 1.35rem;
+  border-radius: 16px;
+  background: linear-gradient(165deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  box-shadow: var(--card-shadow);
+}
+
+.formulas-master__label {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.formulas-master__line {
+  font-family: var(--font-arabic), 'Amiri', serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+  line-height: 1.85;
+  color: #1e293b;
+  text-align: right;
+  direction: rtl;
+  margin: 0;
+}
+
+.formulas-master__note {
+  margin: 0.85rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #64748b;
+  direction: ltr;
+  text-align: left;
+}
+
+.formulas-slot {
+  font-weight: 600;
+}
+
+.formulas-slot--fn {
+  color: var(--iraab-fn);
+}
+.formulas-slot--case {
+  color: var(--iraab-case);
+}
+.formulas-slot--sign {
+  color: var(--iraab-sign);
+}
+.formulas-slot--sent {
+  color: var(--iraab-sentence);
+}
+.formulas-slot--part {
+  color: var(--iraab-particle);
+}
+
+.formulas-section {
+  margin-bottom: 2.5rem;
+}
+
+.formulas-section__sticky {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 0.65rem 0 0.85rem;
+  margin: 0 0 1rem;
+  background: linear-gradient(180deg, rgba(250, 250, 247, 0.98) 70%, transparent);
+  border-bottom: 2px solid rgba(123, 94, 167, 0.25);
+}
+
+.formulas-section__title-en {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #334155;
+  letter-spacing: -0.01em;
+}
+
+.formulas-section__title-ar {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-arabic), serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #475569;
+  direction: rtl;
+  text-align: right;
+}
+
+.formulas-card {
+  margin-bottom: 1.35rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.formulas-card__id {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-bottom: 0.35rem;
+}
+
+.formulas-card__title-en {
+  margin: 0 0 0.75rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: left;
+  direction: ltr;
+}
+
+.formulas-card__formula {
+  font-family: var(--font-arabic), 'Amiri', serif;
+  font-size: clamp(1.05rem, 2.4vw, 1.18rem);
+  line-height: 1.9;
+  margin: 0 0 0.5rem;
+  text-align: right;
+  direction: rtl;
+  color: #1e293b;
+}
+
+.formulas-card__en-under {
+  margin: 0 0 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #64748b;
+  font-style: italic;
+  text-align: left;
+  direction: ltr;
+}
+
+.formulas-card__slots {
+  margin: 0 0 0.45rem;
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: #64748b;
+  text-align: left;
+  direction: ltr;
+}
+
+.formulas-card__when {
+  margin: 0 0 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #475569;
+  text-align: left;
+  direction: ltr;
+}
+
+.formulas-card__when strong {
+  font-weight: 700;
+  color: #334155;
+}
+
+.formulas-card__example {
+  margin: 0;
+  font-family: var(--font-arabic), 'Amiri', serif;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  font-style: italic;
+  text-align: right;
+  direction: rtl;
+  color: #334155;
+}
+
+.formulas-card__example .iraab-cat {
+  font-style: normal;
+}
+
+.formulas-card--highlight {
+  animation: formulasCardFlash 2.2s ease;
+  outline: 2px solid rgba(13, 148, 136, 0.55);
+  outline-offset: 4px;
+  border-radius: 14px;
+}
+
+@keyframes formulasCardFlash {
+  0% {
+    box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.45);
+  }
+  35% {
+    box-shadow: 0 0 0 6px rgba(13, 148, 136, 0.12);
+  }
+  100% {
+    box-shadow: none;
+  }
+}

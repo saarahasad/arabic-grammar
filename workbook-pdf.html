@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workbook — Arabic Grammar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=43">
+  <link rel="stylesheet" href="workbook-pdf.css?v=43">
+</head>
+<body class="workbook-page">
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html" class="site-nav__brand">Arabic Grammar</a>
+      <div class="site-nav__links">
+        <a href="index.html" class="site-nav__link">Course home</a>
+        <a href="lessons/inna-sisters.html" class="site-nav__link">Inna lesson</a>
+        <a href="lessons/magnified-nouns.html" class="site-nav__link">Magnified nouns</a>
+        <a href="map.html" class="site-nav__link">Grammar map</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="workbook-main" id="workbook-main">
+    <p class="workbook-lede">
+      Use <strong>Previous</strong> / <strong>Next</strong> to move one page at a time. Keyboard:
+      <kbd>←</kbd> <kbd>→</kbd>
+    </p>
+
+    <div class="workbook-toolbar" role="toolbar" aria-label="Workbook navigation">
+      <div class="workbook-toolbar__title">
+        <h1 id="workbook-title">Workbook</h1>
+        <p class="workbook-toolbar__ar" id="workbook-arabic" lang="ar" dir="rtl" hidden></p>
+      </div>
+      <div class="workbook-toolbar__controls">
+        <button type="button" class="workbook-btn" id="workbook-prev" aria-label="Previous page">← Previous</button>
+        <span class="workbook-page-indicator" id="workbook-page-indicator" aria-live="polite">—</span>
+        <button type="button" class="workbook-btn workbook-btn--primary" id="workbook-next" aria-label="Next page">Next →</button>
+      </div>
+    </div>
+
+    <div class="workbook-loading" id="workbook-loading">Loading PDF…</div>
+
+    <div class="workbook-error" id="workbook-error" hidden>
+      <p id="workbook-error-text"></p>
+      <p class="workbook-hint">
+        Expected files: <code>assets/workbooks/inna-workbook.pdf</code>,
+        <code>assets/workbooks/laalla-workbook.pdf</code>, and
+        <code>assets/workbooks/dhu-workbook.pdf</code>. See the README in the
+        <code>assets/workbooks</code> folder for setup.
+      </p>
+    </div>
+
+    <div class="workbook-canvas-wrap" id="workbook-canvas-wrap" hidden>
+      <canvas id="workbook-canvas" aria-label="Workbook page"></canvas>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"></script>
+  <script>
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+  <script src="workbook-pdf.js?v=43"></script>
+</body>
+</html>

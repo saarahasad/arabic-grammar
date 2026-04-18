@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map of Arabic Grammar — النحو</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=43">
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html" class="site-nav__brand">Arabic Grammar</a>
+      <div class="site-nav__links">
+        <a href="index.html" class="site-nav__link">Home</a>
+        <a href="map.html" class="site-nav__link site-nav__link--active" aria-current="page">Map of Arabic Grammar</a>
+        <a href="quran-iraab.html" class="site-nav__link">Qurʾān Iʿrāb</a>
+        <a href="formulas.html" class="site-nav__link"><span lang="ar" dir="rtl">دليل الإعراب</span> · Formula Guide</a>
+        <a href="iraab-quiz.html" class="site-nav__link">Iʿrāb quiz</a>
+      </div>
+    </nav>
+  </header>
+  <div class="app">
+    <main class="mind-map-scroll">
+      <h1 class="sr-only">Arabic Grammar — النحو العربي</h1>
+      <div class="mind-map">
+        <svg class="mind-map-connections" aria-hidden="true"></svg>
+        <div class="mind-map-content">
+          <!-- Center node -->
+          <div class="mind-map-header-row">
+            <div class="mind-map-center node grammar-card grammar-card--topic" data-rule="intro" data-card-kind="topic">
+              <span class="node-card-icon" aria-hidden="true">📘</span>
+              <span class="node-arabic">قواعد النحو</span>
+              <span class="node-english">Grammar Rules</span>
+            </div>
+          </div>
+
+          <!-- Cards in a row — horizontal scroll -->
+          <div class="mind-map-cards-row">
+            <!-- Kalimaat (Words) — parent of Noun, Verb, Particle; expands to show children in one row -->
+            <div class="mind-map-card mind-map-card-kalimaat">
+              <div class="mind-map-branch mind-map-branch-kalimaat">
+                <div class="mind-map-node node grammar-card grammar-card--words mind-map-card-header mind-map-node-kalimaat" data-rule="kalimaat" data-has-children data-expand-id="kalimaat" data-card-kind="words">
+                  <span class="node-card-icon" aria-hidden="true">🔤</span>
+                  <span class="node-arabic">كَلِمَات</span>
+                  <span class="node-english">Kalimaat (Words)</span>
+                  <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                </div>
+                <!-- Noun, Verb, Particle in ONE horizontal row under Kalimaat -->
+                <div class="mind-map-kalimaat-row branch-children" data-children-of="kalimaat">
+            <!-- Noun (الاسم) — expands to Gender, Number, Idāfah, Followers, Naʿt, Conjunction, Special Nouns, Pronouns -->
+            <div class="mind-map-kalimaat-child mind-map-card-noun">
+              <div class="mind-map-branch">
+                <div class="mind-map-node node grammar-card grammar-card--noun mind-map-card-header mind-map-node-child" data-rule="noun" data-has-children data-expand-id="noun" data-card-kind="noun">
+                  <span class="node-card-icon" aria-hidden="true">📝</span>
+                  <span class="node-arabic">الْإِسْم</span>
+                  <span class="node-english">Noun</span>
+                  <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                </div>
+                <div class="mind-map-card-grid branch-children" data-children-of="noun">
+                  <div class="mind-map-branch">
+                    <div class="mind-map-node node" data-rule="gender" data-has-children>
+                      <span class="node-arabic">الْجِنْس</span><span class="node-english">Gender</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner">
+                      <div class="mind-map-node node" data-rule="gender-masc"><span class="node-arabic">مُذَكَّر</span><span class="node-english">Masc</span></div>
+                      <div class="mind-map-node node" data-rule="gender-fem"><span class="node-arabic">مُؤَنَّث</span><span class="node-english">Fem</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-branch">
+                    <div class="mind-map-node node" data-rule="number" data-has-children>
+                      <span class="node-arabic">الْعَدَد</span><span class="node-english">Number</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner">
+                      <div class="mind-map-node node" data-rule="number-singular"><span class="node-arabic">مُفْرَد</span><span class="node-english">Singular</span></div>
+                      <div class="mind-map-node node" data-rule="number-dual"><span class="node-arabic">مُثَنًّى</span><span class="node-english">Dual</span></div>
+                      <div class="mind-map-node node" data-rule="number-plural"><span class="node-arabic">جَمْع</span><span class="node-english">Plural</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="vocab-body-parts"><span class="node-arabic">مُفْرَدَاتُ الْجَسَد</span><span class="node-english">Body parts</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="idafah"><span class="node-arabic">الْإِضَافَة</span><span class="node-english">Idāfah</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="tawabi"><span class="node-arabic">التوابع</span><span class="node-english">Followers</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="naat"><span class="node-arabic">النَّعْت</span><span class="node-english">Naʿt (Adj.)</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="sifah-mawsuf"><span class="node-arabic">الصِّفَةُ وَالْمَوْصُوفُ</span><span class="node-english">Descriptive phrase</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="atf"><span class="node-arabic">الْعَطْف</span><span class="node-english">Conjunction</span></div>
+                  </div>
+                  <div class="mind-map-branch">
+                    <div class="mind-map-node node" data-rule="special-nouns" data-has-children>
+                      <span class="node-arabic">أَسْمَاء خَاصَّة</span><span class="node-english">Special Nouns</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner">
+                      <div class="mind-map-node node" data-rule="demonstratives"><span class="node-arabic">أَسْمَاءُ الإِشَارَة</span><span class="node-english">Demonstratives</span></div>
+                      <div class="mind-map-node node" data-rule="relative-nouns"><span class="node-arabic">اسْمُ المَوْصُول</span><span class="node-english">Relative</span></div>
+                      <div class="mind-map-node node" data-rule="silah-mawsul"><span class="node-arabic">صِلَة المَوْصُول</span><span class="node-english">Ṣilah</span></div>
+                      <div class="mind-map-node node" data-rule="interrogative-nouns"><span class="node-arabic">اسْمُ الاستِفْهَام</span><span class="node-english">Interrogative</span></div>
+                      <div class="mind-map-node node" data-rule="magnified-nouns"><span class="node-arabic">الْأَسْمَاءُ الْمُكَبَّرَة</span><span class="node-english">Magnified nouns</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="definite-indefinite"><span class="node-arabic">نَكِرَة وَ مَعْرِفَة</span><span class="node-english">Definite & Indefinite</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="mabni-muarab"><span class="node-arabic">الْمَبْنِي وَالْمُعْرَبُ</span><span class="node-english">Mabnī &amp; muʿrab — noun endings</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="mamnu-sarf"><span class="node-arabic">الْمَمْنُوعُ مِنَ الصَّرْف</span><span class="node-english">Non‑diptote</span></div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="masdar"><span class="node-arabic">الْمَصْدَر</span><span class="node-english">Verbal noun</span></div>
+                  </div>
+                  <div class="mind-map-branch">
+                    <div class="mind-map-node node" data-rule="pronouns" data-has-children>
+                      <span class="node-arabic">ضَمَائِر</span><span class="node-english">Pronouns</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner">
+                      <div class="mind-map-branch mind-map-branch-leaf">
+                        <div class="mind-map-node node" data-rule="detached-pronouns"><span class="node-arabic">مُنْفَصِلَة</span><span class="node-english">Detached</span></div>
+                      </div>
+                      <div class="mind-map-branch">
+                        <div class="mind-map-node node" data-rule="attached-pronouns" data-has-children>
+                          <span class="node-arabic">مُتَّصِلَة</span><span class="node-english">Attached</span>
+                          <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                        </div>
+                        <div class="mind-map-sub-grid branch-children-inner">
+                          <div class="mind-map-node node" data-rule="attached-nouns"><span class="node-arabic">مَعَ الأَسْمَاء</span><span class="node-english">With Nouns</span></div>
+                          <div class="mind-map-node node" data-rule="attached-verbs"><span class="node-arabic">مَعَ الأَفْعَال</span><span class="node-english">With Verbs</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Verb (الفعل) — expands to Past, Present, Imperative -->
+            <div class="mind-map-kalimaat-child mind-map-card-verb">
+              <div class="mind-map-branch">
+                <div class="mind-map-node node grammar-card grammar-card--verb mind-map-card-header mind-map-node-child" data-rule="verb" data-has-children data-expand-id="verb" data-card-kind="verb">
+                  <span class="node-card-icon" aria-hidden="true">⚡</span>
+                  <span class="node-arabic">الْفِعْل</span>
+                  <span class="node-english">Verb</span>
+                  <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                </div>
+                <div class="mind-map-card-grid branch-children" data-children-of="verb">
+                  <div class="mind-map-branch">
+                    <div class="mind-map-node node" data-rule="verb-past" data-has-children data-expand-id="verbPastExpand">
+                      <span class="node-arabic">الْمَاضِي</span>
+                      <span class="node-english">Past</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner" data-children-of="verbPastExpand">
+                      <div class="mind-map-node node" data-rule="verb-past-passive"><span class="node-arabic">مَاضِي مَجْهُول</span><span class="node-english">Past passive</span></div>
+                      <div class="mind-map-node node" data-rule="verb-mudaaf"><span class="node-arabic">فَعْلٌ مُضَاعَفٌ</span><span class="node-english">Geminate verb</span></div>
+                      <div class="mind-map-node node" data-rule="verb-mahmuz"><span class="node-arabic">فِعْلٌ مَهْمُوزٌ</span><span class="node-english">Verb w/ hamza</span></div>
+                      <div class="mind-map-node node" data-rule="verb-ajwaf-wawi"><span class="node-arabic">الْأَجْوَفُ الْوَاوِيُ</span><span class="node-english">Hollow (wāw)</span></div>
+                      <div class="mind-map-node node" data-rule="verb-ajwaf-yaee"><span class="node-arabic">الْأَجْوَفُ الْيَائِيُ</span><span class="node-english">Hollow (yāʾ)</span></div>
+                      <div class="mind-map-node node" data-rule="verb-ajwaf-exception"><span class="node-arabic">أَجْوَفٌ — اسْتِثْنَاء</span><span class="node-english">Hollow exceptions</span></div>
+                      <div class="mind-map-node node" data-rule="verb-initial-waw"><span class="node-arabic">وَاوُ الْأَوَّلِ</span><span class="node-english">Initial wāw</span></div>
+                      <div class="mind-map-node node" data-rule="verb-naqis-wawi"><span class="node-arabic">النَّاقِصُ الْوَاوِيُ</span><span class="node-english">Defective (wāw)</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-branch">
+                    <div class="mind-map-node node" data-rule="verb-present" data-has-children data-expand-id="verbPresentNegation">
+                      <span class="node-arabic">الْمُضَارِع</span>
+                      <span class="node-english">Present</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner" data-children-of="verbPresentNegation">
+                      <div class="mind-map-node node" data-rule="verb-present-passive"><span class="node-arabic">مُضَارِع مَجْهُول</span><span class="node-english">Present passive</span></div>
+                      <div class="mind-map-node node" data-rule="verb-present-negation"><span class="node-arabic">نَفْيٌ وَ نَهْيٌ</span><span class="node-english">Negation</span></div>
+                      <div class="mind-map-node node" data-rule="verb-present-conditional-particles"><span class="node-arabic">حُرُوفُ الشَّرْط</span><span class="node-english">Conditional words</span></div>
+                      <div class="mind-map-node node" data-rule="verb-present-jussive-particles"><span class="node-arabic">حُرُوفٌ جَازِمَة</span><span class="node-english">Jussive particles</span></div>
+                      <div class="mind-map-node node" data-rule="verb-present-nasb-particles"><span class="node-arabic">حُرُوفٌ نَاصِبَة</span><span class="node-english">Accusative particles</span></div>
+                      <div class="mind-map-node node" data-rule="verb-present-double-emphasis"><span class="node-arabic">لَامُ التَّوْكِيدِ</span><span class="node-english">Double emphasis</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-branch">
+                    <div class="mind-map-node node" data-rule="verb-imperative" data-has-children data-expand-id="verbImperative">
+                      <span class="node-arabic">الْأَمْرُ</span>
+                      <span class="node-english">Imperative</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner" data-children-of="verbImperative">
+                      <div class="mind-map-node node" data-rule="verb-imperative-li"><span class="node-arabic">لِـ</span><span class="node-english">Lam al-amr</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Particle (الحرف) — expands to Letters, Particles with Meaning, Prepositions -->
+            <div class="mind-map-kalimaat-child mind-map-card-harf">
+              <div class="mind-map-branch">
+                <div class="mind-map-node node grammar-card grammar-card--harf mind-map-card-header mind-map-node-child" data-rule="harf" data-has-children data-expand-id="harf" data-card-kind="harf">
+                  <span class="node-card-icon" aria-hidden="true">✨</span>
+                  <span class="node-arabic">الْحَرْف</span>
+                  <span class="node-english">Particle</span>
+                  <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                </div>
+                <div class="mind-map-card-grid branch-children" data-children-of="harf">
+                  <div class="mind-map-node node" data-rule="harf-letters"><span class="node-arabic">حُرُوفُ الْهِجَاء</span><span class="node-english">Letters</span></div>
+                  <div class="mind-map-node node" data-rule="harf-maani"><span class="node-arabic">حُرُوفُ الْمَعَانِي</span><span class="node-english">Particles w/ Meaning</span></div>
+                  <div class="mind-map-node node" data-rule="harf-jarr"><span class="node-arabic">حُرُوفُ الْجَرِّ</span><span class="node-english">Prepositions</span></div>
+                  <div class="mind-map-node node" data-rule="munada"><span class="node-arabic">الْمُنَادَى</span><span class="node-english">Vocative</span></div>
+                </div>
+              </div>
+            </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Sentence -->
+            <div class="mind-map-card mind-map-card-sentence">
+              <div class="mind-map-branch">
+                <div class="mind-map-node node grammar-card grammar-card--sentence mind-map-card-header" data-rule="sentence-structure" data-has-children data-card-kind="sentence">
+                  <span class="node-card-icon" aria-hidden="true">📖</span>
+                  <span class="node-arabic">الْجُمْلَة</span>
+                  <span class="node-english">Sentence</span>
+                  <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                </div>
+                <div class="mind-map-card-grid branch-children">
+                  <div class="mind-map-branch mind-map-branch-nominal">
+                    <div class="mind-map-node node" data-rule="nominal-sentence" data-has-children data-expand-id="nominalSentence">
+                      <span class="node-arabic">الْجُمْلَة الْإِسْمِيَّة</span>
+                      <span class="node-english">Nominal</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner" data-children-of="nominalSentence">
+                      <div class="mind-map-node node" data-rule="inna-sisters"><span class="node-arabic">إِنَّ وَ أَخَوَاتُهَا</span><span class="node-english">Inna &amp; sisters</span></div>
+                      <div class="mind-map-node node" data-rule="kaana-sisters"><span class="node-arabic">كَانَ وَ أَخَوَاتُهَا</span><span class="node-english">Kaana &amp; sisters</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-verbal">
+                    <div class="mind-map-node node" data-rule="verbal-sentence" data-has-children data-expand-id="verbalSentence">
+                      <span class="node-arabic">الْجُمْلَة الْفِعْلِيَّة</span>
+                      <span class="node-english">Verbal</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-sub-grid branch-children-inner" data-children-of="verbalSentence">
+                      <div class="mind-map-node node" data-rule="fael"><span class="node-arabic">الْفَاعِل</span><span class="node-english">Faʿil (subject)</span></div>
+                      <div class="mind-map-node node" data-rule="mafool"><span class="node-arabic">الْمَفْعُول</span><span class="node-english">Mafʿūl (object)</span></div>
+                      <div class="mind-map-node node" data-rule="verb-passive-overview"><span class="node-arabic">الْفِعْلُ الْمَجْهُول</span><span class="node-english">Passive verb</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-branch mind-map-branch-leaf">
+                    <div class="mind-map-node node" data-rule="istithna"><span class="node-arabic">الْإِسْتِثْنَاء</span><span class="node-english">Exception</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 5: I'rāb -->
+            <div class="mind-map-card mind-map-card-irab">
+              <div class="mind-map-branch">
+                <div class="mind-map-node node grammar-card grammar-card--irab mind-map-card-header" data-rule="irab" data-has-children data-card-kind="irab">
+                  <span class="node-card-icon" aria-hidden="true">📐</span>
+                  <span class="node-arabic">الْإِعْرَاب</span>
+                  <span class="node-english">I'rāb</span>
+                  <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                </div>
+                <div class="mind-map-card-grid branch-children mind-map-irab-row">
+                  <div class="mind-map-branch mind-map-irab-raf-branch">
+                    <div class="mind-map-node node" data-rule="irab-raf" data-has-children data-expand-id="rafSigns">
+                      <span class="node-arabic">رَفْع</span>
+                      <span class="node-english">Raf'</span>
+                      <button type="button" class="learn-more-btn" aria-label="Expand or collapse"><span class="expand-hint">Learn More</span><span class="expand-icon" aria-hidden="true">▶</span></button>
+                    </div>
+                    <div class="mind-map-card-grid branch-children mind-map-irab-raf-signs" data-children-of="rafSigns">
+                      <div class="mind-map-node node" data-rule="irab-raf-dammah"><span class="node-arabic">الضَّمَّة</span><span class="node-english">Dammah</span></div>
+                      <div class="mind-map-node node" data-rule="irab-raf-waw"><span class="node-arabic">الْوَاو</span><span class="node-english">Wāw</span></div>
+                      <div class="mind-map-node node" data-rule="irab-raf-alif"><span class="node-arabic">الْأَلِف</span><span class="node-english">Alif</span></div>
+                      <div class="mind-map-node node" data-rule="irab-raf-noon"><span class="node-arabic">النُّون</span><span class="node-english">Nūn</span></div>
+                    </div>
+                  </div>
+                  <div class="mind-map-node node" data-rule="irab-nasb"><span class="node-arabic">نَصْب</span><span class="node-english">Naṣb</span></div>
+                  <div class="mind-map-node node" data-rule="irab-jarr"><span class="node-arabic">جَرّ</span><span class="node-english">Jarr</span></div>
+                  <div class="mind-map-node node" data-rule="irab-jazm"><span class="node-arabic">جَزْم</span><span class="node-english">Jazm</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="explanation-panel" id="explanation-panel" aria-hidden="true" aria-label="Lesson panel">
+      <button type="button" class="panel-close" id="panel-close" aria-label="Close lesson and return to the map">
+        <span class="panel-close-x" aria-hidden="true">&times;</span>
+        <span class="panel-close-label">Back to map</span>
+      </button>
+      <div class="panel-content" id="panel-content"></div>
+    </aside>
+
+    <div class="panel-overlay" id="panel-overlay" aria-hidden="true"></div>
+  </div>
+
+  <script src="lesson-content.js?v=40" defer></script>
+  <script src="components/edu-card.js" defer></script>
+  <script src="app.js?v=40" defer></script>
+</body>
+</html>

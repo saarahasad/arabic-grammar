@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+
+@theme {
+  /* CASE — global standard */
+  --color-iraab-marfu: #2563eb;
+  --color-iraab-mansub: #dc2626;
+  --color-iraab-majrur: #16a34a;
+  --color-iraab-majzum: #9333ea;
+  --color-iraab-mabni: #475569;
+
+  /* TYPE */
+  --color-iraab-type-ism: #fef08a;
+  --color-iraab-type-verb: #ea580c;
+  --color-iraab-type-harf: #6b7280;
+
+  /* ROLE (specific roles) */
+  --color-iraab-role-fael: #2563eb;
+  --color-iraab-role-mafool: #dc2626;
+  --color-iraab-role-mudaf-il: #16a34a;
+  --color-iraab-role-mubtada: #92400e;
+  --color-iraab-role-khabar: #7c3aed;
+
+  /* Rule families */
+  --color-iraab-family-jarr: #16a34a;
+  --color-iraab-family-nasb: #dc2626;
+  --color-iraab-family-raf: #2563eb;
+  --color-iraab-family-jazm: #9333ea;
+}
+
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.font-arabic {
+  font-family: 'Amiri', 'Scheherazade New', serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: #fafaf8;
+}
+
+#root {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  text-align: initial;
+  border: none;
+}

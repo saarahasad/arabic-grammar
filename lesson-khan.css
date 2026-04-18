@@ -1,0 +1,1423 @@
+/* Khan-style lesson: sidebar + main + next bar */
+
+body.lesson-khan {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0f2f5;
+}
+
+.lesson-khan-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 0;
+  position: relative;
+  max-width: 100%;
+}
+
+.lesson-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #d4dae0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  z-index: 2;
+  transition: width 0.22s ease, opacity 0.18s ease;
+  overflow: hidden;
+}
+
+.lesson-khan-shell--collapsed .lesson-sidebar {
+  width: 0;
+  opacity: 0;
+  border-right-width: 0;
+  pointer-events: none;
+}
+
+.lesson-sidebar__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1rem 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.lesson-sidebar__book {
+  font-size: 1.1rem;
+}
+
+.lesson-sidebar__crumb {
+  margin: 0 1rem 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.lesson-sidebar__current-unit {
+  margin: 0 1rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.lesson-sidebar__lesson-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.75rem 0.75rem;
+  border-bottom: 1px solid #e8ecf0;
+}
+
+.lesson-nav-arrow {
+  flex: 0 0 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+  font-size: 1.25rem;
+  line-height: 1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.lesson-nav-arrow:hover:not(.is-disabled) {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #1865f2;
+}
+
+.lesson-nav-arrow.is-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  cursor: default;
+}
+
+.lesson-sidebar__lesson-title {
+  flex: 1;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.lesson-sidebar__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lesson-sidebar__unit-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  padding: 0.75rem 1rem 0.35rem;
+}
+
+.lesson-sidebar__unit-label-ar {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', 'Amiri', serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #64748b;
+}
+
+.lesson-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lesson-sidebar__item {
+  margin: 0;
+}
+
+.lesson-sidebar__link {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem 0.5rem 0.65rem;
+  font-size: 0.875rem;
+  color: #334155;
+  text-decoration: none;
+  border-left: 4px solid transparent;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.lesson-sidebar__link:hover {
+  background: #f8fafc;
+  color: #1865f2;
+}
+
+.lesson-sidebar__item.is-active .lesson-sidebar__link {
+  background: rgba(24, 101, 242, 0.1);
+  border-left-color: #1865f2;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.lesson-sidebar__item.is-done:not(.is-active) .lesson-sidebar__link {
+  color: #475569;
+}
+
+.lesson-sidebar__icon {
+  flex: 0 0 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  background: #f8fafc;
+  font-size: 0.55rem;
+  color: #64748b;
+}
+
+.lesson-sidebar__icon--done {
+  background: #1865f2;
+  border-color: #1865f2;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.lesson-sidebar__link-text {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lesson-sidebar__link-ar {
+  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', 'Amiri', serif);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.lesson-sidebar__footer {
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid #e8ecf0;
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.lesson-sidebar__mini-crumb {
+  margin: 0 0 0.35rem;
+  line-height: 1.4;
+}
+
+.lesson-sidebar__legal {
+  margin: 0;
+}
+
+.lesson-sidebar__legal a {
+  color: #1865f2;
+  text-decoration: none;
+}
+
+.lesson-sidebar__legal a:hover {
+  text-decoration: underline;
+}
+
+.lesson-sidebar-toggle {
+  flex: 0 0 28px;
+  align-self: center;
+  z-index: 3;
+  width: 28px;
+  height: 28px;
+  margin-left: -14px;
+  border-radius: 50%;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.15s ease;
+}
+
+.lesson-khan-shell--collapsed .lesson-sidebar-toggle span {
+  transform: rotate(180deg);
+  display: inline-block;
+}
+
+.lesson-sidebar-toggle:hover {
+  background: #f8fafc;
+  color: #1865f2;
+}
+
+.lesson-main {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  min-height: 0;
+  overflow-y: auto;
+  border-left: 1px solid #e8ecf0;
+}
+
+.lesson-main__inner {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+
+.lesson-khan-article .panel-reading-main,
+.lesson-khan-shell .lesson-khan-article {
+  padding: 0;
+}
+
+.lesson-khan-shell .lesson-khan-article > h2 {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  border-bottom: none;
+}
+
+.lesson-khan-shell .lesson-khan-article .arabic-title {
+  text-align: center;
+}
+
+.lesson-next-bar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  border-top: 1px solid #e8ecf0;
+}
+
+.lesson-next-bar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: #1865f2;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.lesson-next-bar__btn:hover {
+  background: #1554c9;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .lesson-khan-shell {
+    flex-direction: column;
+  }
+
+  .lesson-sidebar {
+    width: 100%;
+    max-height: 38vh;
+    border-right: none;
+    border-bottom: 1px solid #e8ecf0;
+  }
+
+  .lesson-khan-shell--collapsed .lesson-sidebar {
+    display: none;
+    width: 100%;
+    opacity: 0;
+    max-height: 0;
+  }
+
+  .lesson-sidebar-toggle {
+    position: fixed;
+    bottom: 5rem;
+    left: 0.75rem;
+    margin: 0;
+    z-index: 10;
+  }
+
+  .lesson-main {
+    border-left: none;
+  }
+
+  .lesson-main__inner {
+    padding: 1.25rem 1rem 3rem;
+  }
+}
+
+/* Inna + detached pronouns chart — large, readable, two-column cards */
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.35rem 1.75rem;
+  margin: 1.5rem 0 1.75rem;
+  padding: 0;
+  max-width: 100%;
+  align-items: stretch;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart--featured {
+  padding: 1.15rem 1.1rem 1.25rem;
+  background: linear-gradient(165deg, #f8fafc 0%, #ffffff 45%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.07);
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col {
+  border-radius: 14px;
+  padding: 1rem 1rem 1.05rem;
+  min-width: 0;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--singular {
+  background: linear-gradient(180deg, #fff1f2 0%, #ffffff 55%);
+  border: 1px solid #fecdd3;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #991b1b;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--plural {
+  background: linear-gradient(180deg, #f1f5f9 0%, #ffffff 55%);
+  border: 1px solid #cbd5e1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  color: #1e293b;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__label {
+  margin: 0 0 0.9rem;
+  padding: 0.45rem 0.5rem 0.55rem;
+  text-align: center;
+  font-family: var(--font-arabic);
+  font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--singular .inna-pronoun-chart__label {
+  color: #9f1239;
+  border-bottom-color: #fecdd3;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--plural .inna-pronoun-chart__label {
+  color: #334155;
+  border-bottom-color: #cbd5e1;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__label-en {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em 0.45em;
+  font-family: var(--font-arabic);
+  font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.55;
+  margin: 0.35rem 0;
+  padding: 0.55rem 0.45rem;
+  border-radius: 10px;
+  unicode-bidi: embed;
+  transition: background 0.15s ease;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--singular .inna-pronoun-chart__row:hover,
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--plural .inna-pronoun-chart__row:hover {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--singular .inna-pronoun-chart__row:hover {
+  background: rgba(255, 241, 242, 0.9);
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--plural .inna-pronoun-chart__row:hover {
+  background: rgba(241, 245, 249, 0.95);
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__op {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.55em;
+  font-weight: 800;
+  color: #94a3b8;
+  padding: 0 0.05em;
+  user-select: none;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__inna {
+  color: #be123c;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--plural .inna-pronoun-chart__inna {
+  color: #0f766e;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__result {
+  font-weight: 800;
+  font-size: 1.05em;
+  letter-spacing: 0.01em;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--singular .inna-pronoun-chart__result {
+  color: #9f1239;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__col--plural .inna-pronoun-chart__result {
+  color: #0f172a;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__result-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15em 0.25em;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__slash {
+  font-family: Inter, sans-serif;
+  font-size: 0.5em;
+  font-weight: 700;
+  color: #94a3b8;
+  padding: 0 0.1em;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__row .example-arabic-standalone {
+  font-size: inherit;
+}
+
+.lesson-khan-shell .textbook-lesson .inna-pronoun-chart__row--split {
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+@media (max-width: 720px) {
+  .lesson-khan-shell .textbook-lesson .inna-pronoun-chart {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  .lesson-khan-shell .textbook-lesson .inna-pronoun-chart--featured {
+    padding: 1rem 0.75rem 1.1rem;
+  }
+}
+
+#inna-detached-pronouns {
+  scroll-margin-top: 1rem;
+}
+
+.lesson-khan-shell .textbook-lesson .workbook-file-hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.lesson-khan-shell .lesson-workbook-callout {
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.lesson-khan-shell .lesson-workbook-callout h3 {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.lesson-khan-shell .lesson-workbook-group + .lesson-workbook-group {
+  margin-top: 1.35rem;
+}
+
+.lesson-khan-shell .lesson-workbook-group__title {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.lesson-khan-shell .lesson-workbook-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.lesson-khan-shell .lesson-workbook-list li {
+  margin: 0;
+}
+
+.lesson-khan-shell .lesson-workbook-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.lesson-khan-shell .lesson-workbook-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
+  border-color: #c7d2fe;
+  background: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+}
+
+.lesson-khan-shell .lesson-workbook-card:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.lesson-khan-shell .lesson-workbook-card--alt {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+}
+
+.lesson-khan-shell .lesson-workbook-card--alt:hover {
+  border-color: #99f6e4;
+  box-shadow: 0 8px 24px rgba(20, 184, 166, 0.14);
+  background: linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%);
+}
+
+.lesson-khan-shell .lesson-workbook-card__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.lesson-khan-shell .lesson-workbook-card__title {
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+}
+
+.lesson-khan-shell .lesson-workbook-card__ar {
+  font-family: var(--font-arabic, inherit);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f766e;
+  line-height: 1.4;
+}
+
+.lesson-khan-shell .lesson-workbook-card--alt .lesson-workbook-card__ar {
+  color: #7c3aed;
+}
+
+.lesson-khan-shell .lesson-workbook-card__action {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #475569;
+  padding: 0.45em 0.85em;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.lesson-khan-shell .lesson-workbook-card:hover .lesson-workbook-card__action {
+  background: #4f46e5;
+  border-color: #4338ca;
+  color: #fff;
+}
+
+.lesson-khan-shell .lesson-workbook-card--alt:hover .lesson-workbook-card__action {
+  background: #0d9488;
+  border-color: #0f766e;
+  color: #fff;
+}
+
+.lesson-khan-shell .lesson-workbook-card--interactive {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+}
+
+.lesson-khan-shell .lesson-workbook-card--interactive:hover {
+  border-color: #c4b5fd;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.14);
+  background: linear-gradient(135deg, #ffffff 0%, #ede9fe 100%);
+}
+
+.lesson-khan-shell .lesson-workbook-card--interactive .lesson-workbook-card__ar {
+  color: #5b21b6;
+}
+
+.lesson-khan-shell .lesson-workbook-card--interactive:hover .lesson-workbook-card__action {
+  background: #6366f1;
+  border-color: #4f46e5;
+  color: #fff;
+}
+
+/* —— General textbook lesson helpers (in-page nav, muted lede, Qurʾān attestation marks) —— */
+.lesson-khan-shell .textbook-lesson .note-box:not(.note-box--inna-anna):not(.note-box--inna-kaana):not(.note-box--inna-gloss) {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #334155;
+}
+
+.lesson-khan-shell .lesson-lede-muted {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #64748b;
+  margin: -0.25rem 0 1.25rem;
+  max-width: 42rem;
+}
+
+.lesson-khan-shell .lesson-inpage-nav {
+  margin: 0 0 1.75rem;
+  padding: 0.85rem 1rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  max-width: 42rem;
+}
+
+.lesson-khan-shell .lesson-inpage-nav__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin: 0 0 0.5rem;
+}
+
+.lesson-khan-shell .lesson-inpage-nav ol {
+  margin: 0;
+  padding-left: 1.15rem;
+  line-height: 1.65;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.lesson-khan-shell .lesson-inpage-nav a {
+  color: #0f766e;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.lesson-khan-shell .lesson-inpage-nav a:hover {
+  text-decoration: underline;
+}
+
+.lesson-khan-shell .quran-not-in-text {
+  color: #b91c1c;
+  font-weight: 800;
+  margin-left: 0.15em;
+}
+
+.lesson-khan-shell .lesson-table-footnote {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0.35rem 0 0.65rem;
+  line-height: 1.45;
+}
+
+/* —— Chapter-style lesson (numbered sections + outline; e.g. magnified nouns) —— */
+.lesson-khan-shell .lesson-chapter-header {
+  margin-bottom: 1.5rem;
+}
+
+.lesson-khan-shell .lesson-chapter-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin: 0 0 0.75rem;
+}
+
+.lesson-khan-shell .lesson-chapter-toc {
+  background: linear-gradient(135deg, #faf5ff 0%, #f8fafc 45%, #f0fdfa 100%);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  box-shadow: 0 2px 14px rgba(15, 23, 42, 0.05);
+}
+
+.lesson-khan-shell .lesson-chapter-toc .lesson-inpage-nav__title {
+  color: #475569;
+}
+
+.lesson-khan-shell .lesson-chapter-toc ol {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.lesson-khan-shell .lesson-chapter-toc li {
+  margin: 0;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.95);
+}
+
+.lesson-khan-shell .lesson-chapter-toc li:last-child {
+  border-bottom: none;
+}
+
+.lesson-khan-shell .lesson-chapter-toc a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  font-weight: 600;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.lesson-khan-shell .lesson-chapter-toc a:hover {
+  color: #0f766e;
+  text-decoration: underline;
+}
+
+.lesson-khan-shell .lesson-chapter-toc-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #14b8a6, #6366f1);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.lesson-khan-shell .lesson--inna.lesson-chapter .lesson-chapter-section {
+  margin-bottom: 1.35rem;
+  padding: 1.35rem 1.35rem 1.5rem;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(165deg, #ffffff 0%, #f8fafc 48%, #f1f5f9 100%);
+  box-shadow: 0 4px 22px rgba(15, 23, 42, 0.06);
+}
+
+.lesson-khan-shell .lesson--inna.lesson-chapter .lesson-chapter-section--emphasis {
+  border-color: rgba(20, 184, 166, 0.35);
+  background: linear-gradient(165deg, #f0fdfa 0%, #ffffff 45%, #f8fafc 100%);
+  box-shadow: 0 4px 26px rgba(15, 118, 110, 0.08);
+}
+
+.lesson-khan-shell .lesson--inna.lesson-chapter .lesson-chapter-section--finale {
+  border-color: rgba(124, 58, 237, 0.28);
+  background: linear-gradient(165deg, #faf5ff 0%, #ffffff 50%, #f8fafc 100%);
+}
+
+.lesson-khan-shell .lesson--inna.lesson-chapter .lesson-chapter-section > h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding: 0 0 0.65rem;
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.35;
+}
+
+.lesson-khan-shell .lesson--inna.lesson-chapter .lesson-chapter-section > h3::before {
+  display: none;
+}
+
+.lesson-khan-shell .lesson-chapter-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.45rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #14b8a6, #6366f1);
+  flex-shrink: 0;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+.lesson-khan-shell .lesson-chapter-heading-text {
+  flex: 1;
+  min-width: 0;
+  padding-top: 0.2rem;
+}
+
+.lesson-khan-shell .lesson--inna.lesson-chapter .lesson-chapter-section h4 {
+  margin-top: 1.35rem;
+  margin-bottom: 0.55rem;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: #334155;
+  padding-left: 0.65rem;
+  border-left: 3px solid #a5b4fc;
+}
+
+/* —— Inna & sisters lesson: visual hierarchy & readability (lesson--inna) —— */
+.lesson-main__inner:has(.lesson--inna) {
+  max-width: 44rem;
+}
+
+.lesson-main__inner:has(.lesson--inna) > h2 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.lesson-main__inner:has(.lesson--inna) > h2::after {
+  content: '';
+  display: block;
+  height: 4px;
+  margin-top: 0.65rem;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #14b8a6, #6366f1, #a855f7);
+}
+
+.lesson-main__inner:has(.lesson--inna) > .arabic-title {
+  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  margin-top: 0.25rem;
+  margin-bottom: 1.5rem;
+  padding: 0.65rem 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, #f0fdfa 0%, #eef2ff 50%, #faf5ff 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(20, 184, 166, 0.25);
+  color: #134e4a;
+}
+
+.lesson-khan-shell .textbook-lesson.lesson--inna {
+  --inna-teal: #0f766e;
+  --inna-teal-mid: #14b8a6;
+  --inna-violet: #7c3aed;
+  --inna-amber: #d97706;
+}
+
+.lesson-khan-shell .lesson-inna-lede {
+  position: relative;
+  background: linear-gradient(145deg, #f0fdfa 0%, #ecfeff 45%, #f8fafc 100%);
+  border: 1px solid #a7f3d0;
+  border-radius: 14px;
+  padding: 1.15rem 1.35rem 1.25rem;
+  margin-bottom: 2rem;
+  border-left: 5px solid var(--inna-teal-mid);
+  box-shadow: 0 4px 20px rgba(15, 118, 110, 0.06);
+  font-size: 1.03rem;
+  line-height: 1.65;
+  color: #1e293b;
+}
+
+.lesson-khan-shell .lesson-inna-lede > p.lesson-inna-lede__p {
+  margin: 0 0 0.85rem;
+}
+
+.lesson-khan-shell .lesson-inna-lede > p.lesson-inna-lede__p:last-child {
+  margin-bottom: 0;
+}
+
+.lesson-khan-shell .khamsa-five-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.lesson-khan-shell .khamsa-five-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.55rem;
+  margin: 0 0 1rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, #f0fdfa 100%);
+  border-radius: 12px;
+  border: 1px solid #c7f0e3;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.lesson-khan-shell .khamsa-five-row__item .example-arabic-standalone {
+  font-size: 1.22rem;
+  font-weight: 650;
+  color: #422006;
+}
+
+.lesson-khan-shell .khamsa-five-row__sep {
+  box-sizing: border-box;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 1px dashed #64748b;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lesson-khan-shell .khamsa-five-row__sep::after {
+  content: '';
+  width: 0.28rem;
+  height: 0.28rem;
+  background: #475569;
+  border-radius: 50%;
+}
+
+.lesson-khan-shell .lesson-inna-eyebrow {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--inna-teal);
+  margin-bottom: 0.65rem;
+}
+
+.lesson-khan-shell .lesson-inna-muted {
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.98rem;
+}
+
+.lesson-khan-shell .textbook-lesson.lesson--inna > h3 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lesson-khan-shell .textbook-lesson.lesson--inna > h3::before {
+  content: '';
+  width: 5px;
+  height: 1.15em;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #14b8a6, #6366f1);
+  flex-shrink: 0;
+}
+
+.lesson-khan-shell .textbook-lesson.lesson--inna > h4 {
+  margin-top: 1.5rem;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: #334155;
+}
+
+.lesson-khan-shell .lesson-inna-table-wrap {
+  margin: 1rem 0 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.lesson-khan-shell .lesson--inna .pronoun-table {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.lesson-khan-shell .lesson--inna .pronoun-table thead th {
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
+  color: #134e4a;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  border-color: #bbf7d0;
+}
+
+.lesson-khan-shell .lesson--inna .pronoun-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.lesson-khan-shell .lesson--inna .pronoun-table tbody tr:hover {
+  background: #f0fdfa;
+}
+
+.lesson-khan-shell .lesson--inna .pronoun-table td:first-child {
+  font-weight: 600;
+  color: var(--inna-teal);
+  white-space: nowrap;
+}
+
+.lesson-khan-shell .lesson--inna .pronoun-table td {
+  border-color: #e5e7eb;
+  vertical-align: top;
+}
+
+.lesson-khan-shell .lesson--inna .note-box {
+  border-radius: 10px;
+  border-left-width: 4px;
+  line-height: 1.55;
+}
+
+.lesson-khan-shell .lesson--inna .note-box--inna-anna {
+  background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+  border-color: #e9d5ff;
+  border-left-color: var(--inna-violet);
+}
+
+.lesson-khan-shell .lesson--inna .note-box--inna-kaana {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border-color: #fde68a;
+  border-left-color: var(--inna-amber);
+}
+
+.lesson-khan-shell .lesson--inna .note-box--inna-gloss {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-color: #e2e8f0;
+  border-left-color: #64748b;
+}
+
+.lesson-khan-shell .lesson-inna-arabic-rule {
+  text-align: center;
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem) !important;
+  font-weight: 600;
+  line-height: 1.75;
+  margin: 1rem 0 1.25rem !important;
+  padding: 1.1rem 1.25rem !important;
+  background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+  border: 1px solid #5eead4 !important;
+  border-radius: 12px;
+  color: #115e59 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.lesson-khan-shell .lesson-inna-compare .example-table-row {
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  align-items: center;
+}
+
+.lesson-khan-shell .lesson-inna-compare .example-table-row:first-child {
+  border-left: 4px solid #94a3b8;
+  background: #f8fafc;
+}
+
+.lesson-khan-shell .lesson-inna-compare .example-table-row:last-child {
+  border-left: 4px solid #14b8a6;
+  background: #f0fdfa;
+  margin-bottom: 0;
+}
+
+.lesson-khan-shell .lesson-inna-compare__first {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.lesson-khan-shell .lesson-inna-compare__tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2em 0.45em;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.lesson-khan-shell .lesson-inna-compare .example-table-row:last-child .lesson-inna-compare__tag {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+.lesson-khan-shell .lesson-inna-irab li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.6rem;
+}
+
+.lesson-khan-shell .lesson-inna-irab__tag {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+}
+
+.lesson-khan-shell .lesson-inna-irab__tag--nasb {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.lesson-khan-shell .lesson-inna-irab__tag--raf {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* Qurʾān reference tables — إِنَّ (اسْمٌ / خَبَرٌ) */
+.lesson-khan-shell .lesson-inna-quran__h {
+  margin-top: 2.5rem;
+}
+
+.lesson-khan-shell .lesson-inna-quran__intro {
+  margin: 0 0 1.15rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #334155;
+  max-width: 40rem;
+}
+
+.lesson-khan-shell .lesson-inna-quran__term--ism {
+  color: #6d28d9;
+}
+
+.lesson-khan-shell .lesson-inna-quran__term--khabar {
+  color: #047857;
+}
+
+.lesson-khan-shell .lesson-inna-quran__sub {
+  margin: 1.75rem 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 650;
+  color: #475569;
+}
+
+.lesson-khan-shell .lesson-inna-quran-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 0 0.25rem;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.lesson-khan-shell .lesson-inna-quran-table {
+  width: 100%;
+  min-width: 52rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table thead th {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #f8fafc;
+  background: linear-gradient(135deg, #0f766e 0%, #4f46e5 100%);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table thead th:nth-child(3),
+.lesson-khan-shell .lesson-inna-quran-table thead th:nth-child(4),
+.lesson-khan-shell .lesson-inna-quran-table thead th:nth-child(5) {
+  text-align: right;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table__th-hint {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.92;
+  margin-top: 0.2rem;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table tbody td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+  color: #1e293b;
+  line-height: 1.45;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table tbody tr:hover {
+  background: #f0fdfa;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table tbody td:first-child {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #0f766e;
+  white-space: nowrap;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table__ar {
+  font-family: var(--font-arabic);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table__ism {
+  color: #6d28d9;
+  font-weight: 800;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table__khabar {
+  color: #047857;
+  font-weight: 800;
+}
+
+.lesson-khan-shell .lesson-inna-quran-table__note {
+  display: inline-block;
+  margin-top: 0.2rem;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-style: normal;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.lesson-khan-shell .lesson-inna-quran__footnote {
+  margin: 0.85rem 0 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #64748b;
+  max-width: 42rem;
+}
+
+.lesson-khan-shell .lesson-workbook-callout h3::before {
+  display: none;
+}
+
+.lesson-khan-shell .lesson-workbook-callout h3 {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-top: 0;
+}
+
+.lesson-khan-shell .lesson--inna .lesson-workbook-callout {
+  position: relative;
+  border-top: none;
+  padding-top: 1.75rem;
+  margin-top: 2.5rem;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+}
+
+.lesson-khan-shell .lesson--inna .lesson-workbook-callout::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #14b8a6, #6366f1);
+}
+
+/* Standalone lesson pages: figures & exercise blocks */
+.lesson-figure {
+  margin: 1.35rem 0 1.5rem;
+  text-align: center;
+}
+
+.lesson-figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(28, 25, 23, 0.08);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+.lesson-figure figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.lesson-exercise {
+  margin: 1.5rem 0;
+  padding: 1rem 1.15rem 1.1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.lesson-exercise__title {
+  margin: 0 0 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #475569;
+}

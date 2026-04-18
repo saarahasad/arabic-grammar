@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise — إِنَّ — Arabic Grammar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=55">
+  <link rel="stylesheet" href="inna-exercise.css?v=55">
+</head>
+<body class="inna-ex-page workbook-page">
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html" class="site-nav__brand">Arabic Grammar</a>
+      <div class="site-nav__links">
+        <a href="lessons/inna-sisters.html" class="site-nav__link">Inna lesson</a>
+        <a href="workbook-pdf.html?id=inna" class="site-nav__link">Inna PDF</a>
+        <a href="laalla-exercise.html" class="site-nav__link"><span lang="ar" dir="rtl">لَعَلَّ</span> exercise</a>
+        <a href="map.html" class="site-nav__link">Grammar map</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="workbook-main" id="main">
+    <div class="inna-ex-hero">
+      <h1>Interactive exercise: insert <span lang="ar" dir="rtl">إِنَّ</span></h1>
+      <p class="inna-ex-sub">
+        Like the workbook: rewrite each sentence so it begins with <strong lang="ar" dir="rtl">إِنَّ</strong> + the correct attached pronoun.
+        Click a answer box, then type or use the on-screen keyboard. Place the cursor after a letter to add <em>harakāt</em> (diacritics).
+      </p>
+    </div>
+
+    <div class="inna-ex-task">
+      <h2 class="inna-ex-task__title" lang="en" dir="ltr">Insert (inna) into the following sentences:</h2>
+      <p class="inna-ex-task__ar" dir="rtl" lang="ar">أَدْخِلْ (إِنَّ) عَلَى الْجُمَلِ الْآتِيَةِ:</p>
+    </div>
+
+    <div class="inna-ex-grid" id="inna-ex-grid"></div>
+
+    <div class="inna-ex-answers" id="inna-ex-answers" hidden>
+      <h2>Answer key</h2>
+      <div id="inna-ex-answers-body"></div>
+    </div>
+
+    <section class="inna-ex-actions-bar" aria-label="Check your answers">
+      <div class="inna-ex-actions-bar__buttons">
+        <button type="button" class="inna-ex-btn inna-ex-btn--primary" id="inna-ex-check">Check answers</button>
+        <button type="button" class="inna-ex-btn" id="inna-ex-toggle-answers">Show answer key</button>
+      </div>
+      <p class="inna-ex-result" id="inna-ex-result" role="status" aria-live="polite"></p>
+      <div class="inna-ex-hint-wrap">
+        <p class="inna-ex-hint">
+          Checking ignores vowel marks and only compares letters.
+          <span class="inna-ex-hint__note">So small ḥarakah differences still count as correct.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="inna-ex-kb-wrap" aria-label="Arabic virtual keyboard">
+      <p class="inna-ex-kb-title">Arabic keyboard — letters &amp; ḥarakāt</p>
+      <div class="inna-ex-kb" id="inna-ex-keyboard">
+        <div id="inna-ex-keyboard-rows"></div>
+        <p class="inna-ex-kb-legend">Use <strong>⌫ Back</strong> to delete before the cursor. Click a box above first so keys go to the right line.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="inna-exercise.js?v=56" defer></script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arabic Grammar — Learn النحو</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=43">
+  <link rel="stylesheet" href="home.css?v=40">
+</head>
+<body class="course-home">
+  <!--
+    Add a lesson: new row in course-outline.js, then node scripts/generate-lesson-pages.js
+    Copy a <li> here with href="lesson.html?rule=RULE_KEY" — course-home-links.js → lessons/<rule>.html
+    RULE_KEY must exist in app.js → RULES.
+  -->
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html" class="site-nav__brand">Arabic Grammar</a>
+      <div class="site-nav__links">
+        <a href="index.html" class="site-nav__link site-nav__link--active" aria-current="page">Home</a>
+        <a href="map.html" class="site-nav__link">Map of Arabic Grammar</a>
+        <a href="quran-iraab.html" class="site-nav__link">Qurʾān Iʿrāb</a>
+        <a href="formulas.html" class="site-nav__link"><span lang="ar" dir="rtl">دليل الإعراب</span> · Formula Guide</a>
+        <a href="iraab-quiz.html" class="site-nav__link">Iʿrāb quiz</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="course-shell">
+    <main class="course-main" id="course-main">
+      <div class="course-hero">
+        <span class="course-hero__label">Course</span>
+        <h1>Learn Arabic Grammar</h1>
+        <p class="course-hero__ar" lang="ar" dir="rtl">تَعَلَّمَ النَّحْوَ الْعَرَبِيَّ</p>
+        <p class="course-hero__lede">
+          Work through units in order or jump to any topic. Each lesson opens on its <strong>own page</strong> for reading.
+          Use the <strong>Map of Arabic Grammar</strong> when you want the full connected overview beside the lesson.
+        </p>
+        <div class="course-hero__actions">
+          <a class="btn-primary" href="lesson.html?rule=intro">Start first lesson</a>
+          <a class="btn-secondary" href="map.html">Open the grammar map</a>
+          <a class="btn-secondary" href="quran-iraab.html">Qurʾān Iʿrāb</a>
+          <a class="btn-secondary" href="iraab-quiz.html">Iʿrāb quiz</a>
+        </div>
+      </div>
+
+      <section class="course-engage" aria-label="Progress">
+        <p class="course-engage__text">Track your path from this page. The grammar map is optional—open it whenever you want to see how topics connect. (Streak and level are placeholders.)</p>
+        <div class="course-engage__meta">
+          <span class="course-engage__streak" title="Weekly streak"><span aria-hidden="true">🔥</span> 0-week streak</span>
+          <div class="course-engage__level" title="Level progress">
+            <div class="course-engage__level-bar" aria-hidden="true"><div class="course-engage__level-fill"></div></div>
+          </div>
+          <a class="course-engage__btn" href="lesson.html?rule=intro">Continue</a>
+        </div>
+      </section>
+
+      <div class="course-layout">
+        <aside class="course-sidebar" aria-label="Units">
+          <p class="course-sidebar__title">Arabic Grammar</p>
+          <p class="course-sidebar__meta">6 units · all sub-topics listed</p>
+          <nav class="course-sidebar__nav">
+            <ul>
+              <li><a href="#unit-1">Unit 1 — Foundations <span lang="ar" dir="rtl" class="course-sidebar__nav-ar">الْمَقْدِمَاتُ</span></a></li>
+              <li><a href="#unit-2">Unit 2 — The noun <span lang="ar" dir="rtl" class="course-sidebar__nav-ar">الْإِسْم</span></a></li>
+              <li><a href="#unit-3">Unit 3 — The verb <span lang="ar" dir="rtl" class="course-sidebar__nav-ar">الْفِعْل</span></a></li>
+              <li><a href="#unit-4">Unit 4 — Particles <span lang="ar" dir="rtl" class="course-sidebar__nav-ar">الْحُرُوف</span></a></li>
+              <li><a href="#unit-5">Unit 5 — The sentence <span lang="ar" dir="rtl" class="course-sidebar__nav-ar">الْجُمْلَة</span></a></li>
+              <li><a href="#unit-6">Unit 6 — Iʿrāb <span lang="ar" dir="rtl" class="course-sidebar__nav-ar">الْإِعْرَاب</span></a></li>
+            </ul>
+          </nav>
+          <div class="course-sidebar__challenge">
+            <p>See every topic on the interactive map.</p>
+            <a href="map.html">Go to map →</a>
+          </div>
+        </aside>
+
+        <div>
+          <div class="course-legend" aria-label="Legend">
+            <span><span class="course-legend__sq course-legend__sq--mastered" aria-hidden="true"></span> Mastered</span>
+            <span><span class="course-legend__sq course-legend__sq--prof" aria-hidden="true"></span> In progress</span>
+            <span><span class="course-legend__sq" aria-hidden="true"></span> Not started</span>
+          </div>
+
+          <div class="course-units">
+            <article class="course-unit course-unit--next" id="unit-1">
+              <span class="course-unit__badge">Up next for you</span>
+              <div class="course-unit__head">
+                <h2>Unit 1: Foundations <span lang="ar" dir="rtl" style="font-family: var(--font-arabic); font-weight: 500;">الْمَقْدِمَاتُ</span></h2>
+                <span class="course-unit__mastery">Unit mastery: 0% <abbr title="Track locally later">ⓘ</abbr></span>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Introduction</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=intro"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Grammar rules — welcome</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=kalimaat"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Kalimaat — the three word types</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-unit__footer">
+                <a class="course-unit__cta" href="lesson.html?rule=kalimaat">Get started</a>
+              </div>
+            </article>
+
+            <article class="course-unit" id="unit-2">
+              <div class="course-unit__head">
+                <h2>Unit 2: The noun <span lang="ar" dir="rtl" style="font-family: var(--font-arabic); font-weight: 500;">الْإِسْم</span></h2>
+                <span class="course-unit__mastery">Unit mastery: 0% <abbr title="Track locally later">ⓘ</abbr></span>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Overview</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=noun"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">The noun — signs &amp; overview</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-grid-2">
+                <div class="course-unit__subsection">
+                  <h3>Gender &amp; number</h3>
+                  <ul class="course-lesson-list">
+                    <li><a class="course-lesson" href="lesson.html?rule=gender"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Gender</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=gender-masc"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Masculine</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=gender-fem"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Feminine</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=number"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Number</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=number-singular"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Singular</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=number-dual"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Dual</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=number-plural"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Plural</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=vocab-body-parts"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Body parts vocabulary</span><span class="course-lesson__tag">Read</span></a></li>
+                  </ul>
+                </div>
+                <div class="course-unit__subsection">
+                  <h3>Structure &amp; followers</h3>
+                  <ul class="course-lesson-list">
+                    <li><a class="course-lesson" href="lesson.html?rule=idafah"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Iḍāfah</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=tawabi"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Tawābiʿ (followers)</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=naat"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Naʿt (adjective)</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=sifah-mawsuf"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Ṣifah &amp; mawṣūf</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=atf"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">ʿAṭf (conjunction)</span><span class="course-lesson__tag">Read</span></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Special nouns</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=special-nouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Special nouns — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=demonstratives"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Demonstratives</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=relative-nouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Relative noun (mawṣūl)</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=silah-mawsul"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Ṣilah of mawṣūl</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=interrogative-nouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Interrogative nouns</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=magnified-nouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Magnified nouns</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-grid-2">
+                <div class="course-unit__subsection">
+                  <h3>Definiteness &amp; declension</h3>
+                  <ul class="course-lesson-list">
+                    <li><a class="course-lesson" href="lesson.html?rule=definite-indefinite"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Definite &amp; indefinite</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=mabni-muarab"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Mabnī &amp; muʿrab — noun endings</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=mamnu-sarf"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Mamnūʿ min al-ṣarf</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=masdar"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Maṣdar (verbal noun)</span><span class="course-lesson__tag">Read</span></a></li>
+                  </ul>
+                </div>
+                <div class="course-unit__subsection">
+                  <h3>Pronouns</h3>
+                  <ul class="course-lesson-list">
+                    <li><a class="course-lesson" href="lesson.html?rule=pronouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Pronouns — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=detached-pronouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Detached pronouns</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=attached-pronouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Attached pronouns</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=attached-nouns"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">With nouns</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=attached-verbs"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">With verbs</span><span class="course-lesson__tag">Read</span></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="course-unit__footer">
+                <a class="course-unit__cta" href="lesson.html?rule=noun">Get started</a>
+              </div>
+            </article>
+
+            <article class="course-unit" id="unit-3">
+              <div class="course-unit__head">
+                <h2>Unit 3: The verb <span lang="ar" dir="rtl" style="font-family: var(--font-arabic); font-weight: 500;">الْفِعْل</span></h2>
+                <span class="course-unit__mastery">Unit mastery: 0% <abbr title="Track locally later">ⓘ</abbr></span>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Overview</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=verb"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">The verb — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Past tense — الْمَاضِي</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-past"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Past tense — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-past-passive"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Past passive</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-mudaaf"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Geminate verb (mudāʿaf)</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-mahmuz"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Verb with hamza (mahmūz)</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-ajwaf-wawi"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Hollow verb — wāw</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-ajwaf-yaee"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Hollow verb — yāʾ</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-ajwaf-exception"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Hollow verbs — exceptions</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-initial-waw"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Initial wāw (assimilated)</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-naqis-wawi"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Defective verb — wāw (nāqiṣ)</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Present / future — الْمُضَارِع</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-present"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Present / future — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-present-passive"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Present passive</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-present-negation"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Negation &amp; prohibition</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-present-conditional-particles"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Conditional particles (sharṭ)</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-present-jussive-particles"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Jussive particles</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-present-nasb-particles"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Accusative particles (naṣb)</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-present-double-emphasis"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Lām al-tawkīd (double emphasis)</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Imperative — الْأَمْر</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-imperative"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Imperative</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=verb-imperative-li"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Lām al-amr (لِـ)</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-unit__footer">
+                <a class="course-unit__cta" href="lesson.html?rule=verb">Get started</a>
+              </div>
+            </article>
+
+            <article class="course-unit" id="unit-4">
+              <div class="course-unit__head">
+                <h2>Unit 4: Particles <span lang="ar" dir="rtl" style="font-family: var(--font-arabic); font-weight: 500;">الْحُرُوف</span></h2>
+                <span class="course-unit__mastery">Unit mastery: 0% <abbr title="Track locally later">ⓘ</abbr></span>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>All particle lessons</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=harf"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Particle — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=harf-letters"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Letters of the alphabet</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=harf-maani"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Particles with meaning</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=harf-jarr"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Prepositions (ḥurūf al-jarr)</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=munada"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Vocative (munādā)</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-unit__footer">
+                <a class="course-unit__cta" href="lesson.html?rule=harf">Get started</a>
+              </div>
+            </article>
+
+            <article class="course-unit" id="unit-5">
+              <div class="course-unit__head">
+                <h2>Unit 5: The sentence <span lang="ar" dir="rtl" style="font-family: var(--font-arabic); font-weight: 500;">الْجُمْلَة</span></h2>
+                <span class="course-unit__mastery">Unit mastery: 0% <abbr title="Track locally later">ⓘ</abbr></span>
+              </div>
+              <div class="course-grid-2">
+                <div class="course-unit__subsection">
+                  <h3>Types &amp; structure</h3>
+                  <ul class="course-lesson-list">
+                    <li><a class="course-lesson" href="lesson.html?rule=sentence-structure"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Sentence structure</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=nominal-sentence"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Nominal sentence</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=inna-sisters"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Inna &amp; sisters</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=kaana-sisters"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Kāna &amp; sisters</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=verbal-sentence"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Verbal sentence</span><span class="course-lesson__tag">Read</span></a></li>
+                  </ul>
+                </div>
+                <div class="course-unit__subsection">
+                  <h3>Roles &amp; voice</h3>
+                  <ul class="course-lesson-list">
+                    <li><a class="course-lesson" href="lesson.html?rule=fael"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Faʿil (subject)</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=mafool"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Mafʿūl (object)</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=verb-passive-overview"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Passive verb — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                    <li><a class="course-lesson" href="lesson.html?rule=istithna"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Istithnāʾ (exception)</span><span class="course-lesson__tag">Read</span></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="course-unit__footer">
+                <a class="course-unit__cta" href="lesson.html?rule=sentence-structure">Get started</a>
+              </div>
+            </article>
+
+            <article class="course-unit" id="unit-6">
+              <div class="course-unit__head">
+                <h2>Unit 6: Iʿrāb <span lang="ar" dir="rtl" style="font-family: var(--font-arabic); font-weight: 500;">الْإِعْرَاب</span></h2>
+                <span class="course-unit__mastery">Unit mastery: 0% <abbr title="Track locally later">ⓘ</abbr></span>
+              </div>
+              <div class="course-unit__subsection">
+                <h3>Cases</h3>
+                <ul class="course-lesson-list">
+                  <li><a class="course-lesson" href="lesson.html?rule=irab"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Iʿrāb — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-raf"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Rafʿ — overview</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-raf-dammah"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Rafʿ — dammah</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-raf-waw"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Rafʿ — wāw</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-raf-alif"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Rafʿ — alif</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-raf-noon"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Rafʿ — nūn</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-nasb"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Naṣb</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-jarr"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Jarr</span><span class="course-lesson__tag">Read</span></a></li>
+                  <li><a class="course-lesson" href="lesson.html?rule=irab-jazm"><span class="course-lesson__icon" aria-hidden="true">▶</span><span class="course-lesson__title">Jazm</span><span class="course-lesson__tag">Read</span></a></li>
+                </ul>
+              </div>
+              <div class="course-unit__footer">
+                <a class="course-unit__cta" href="lesson.html?rule=irab">Get started</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js?v=40" defer></script>
+  <script src="course-outline.js?v=40" defer></script>
+  <script src="course-home-links.js?v=40" defer></script>
+  <script src="course-home-arabic.js?v=40" defer></script>
+  <script src="home.js" defer></script>
+</body>
+</html>

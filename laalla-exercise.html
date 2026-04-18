@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise — لَعَلَّ — Arabic Grammar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=55">
+  <link rel="stylesheet" href="laalla-exercise.css?v=1">
+</head>
+<body class="laalla-ex-page workbook-page">
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html" class="site-nav__brand">Arabic Grammar</a>
+      <div class="site-nav__links">
+        <a href="lessons/inna-sisters.html" class="site-nav__link">Inna &amp; sisters</a>
+        <a href="workbook-pdf.html?id=laalla" class="site-nav__link">Laʿalla PDF</a>
+        <a href="inna-exercise.html" class="site-nav__link">إِنَّ exercise</a>
+        <a href="map.html" class="site-nav__link">Grammar map</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="workbook-main" id="main">
+    <div class="laalla-ex-hero">
+      <h1>Interactive exercise: insert <span lang="ar" dir="rtl">لَعَلَّ</span></h1>
+      <p class="laalla-ex-sub">
+        Rewrite each sentence so it begins with <strong lang="ar" dir="rtl">لَعَلَّ</strong> + the correct attached pronoun (or <em>ism</em> in the accusative for nouns).
+        Click an answer box, then type or use the on-screen keyboard. Place the cursor after a letter to add <em>harakāt</em> (diacritics).
+      </p>
+    </div>
+
+    <div class="laalla-ex-task">
+      <h2 class="laalla-ex-task__title" lang="en" dir="ltr">Insert (laʿalla) into the following sentences:</h2>
+      <p class="laalla-ex-task__ar" dir="rtl" lang="ar">أَدْخِلْ (لَعَلَّ) عَلَى الْجُمَلِ الْآتِيَةِ عِلْمًا بِأَنَّ (لَعَلَّ) مِنْ أَخَوَاتِ (إِنَّ):</p>
+    </div>
+
+    <div class="laalla-ex-grid" id="laalla-ex-grid"></div>
+
+    <div class="laalla-ex-answers" id="laalla-ex-answers" hidden>
+      <h2>Answer key</h2>
+      <div id="laalla-ex-answers-body"></div>
+    </div>
+
+    <section class="laalla-ex-actions-bar" aria-label="Check your answers">
+      <div class="laalla-ex-actions-bar__buttons">
+        <button type="button" class="laalla-ex-btn laalla-ex-btn--primary" id="laalla-ex-check">Check answers</button>
+        <button type="button" class="laalla-ex-btn" id="laalla-ex-toggle-answers">Show answer key</button>
+      </div>
+      <p class="laalla-ex-result" id="laalla-ex-result" role="status" aria-live="polite"></p>
+      <div class="laalla-ex-hint-wrap">
+        <p class="laalla-ex-hint">
+          Checking ignores vowel marks and only compares letters.
+          <span class="laalla-ex-hint__note">So small ḥarakah differences still count as correct.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="laalla-ex-kb-wrap" aria-label="Arabic virtual keyboard">
+      <p class="laalla-ex-kb-title">Arabic keyboard — letters &amp; ḥarakāt</p>
+      <div class="laalla-ex-kb" id="laalla-ex-keyboard">
+        <div id="laalla-ex-keyboard-rows"></div>
+        <p class="laalla-ex-kb-legend">Use <strong>⌫ Back</strong> to delete before the cursor. Click a box above first so keys go to the right line.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="laalla-exercise.js?v=1" defer></script>
+</body>
+</html>

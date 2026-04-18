@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="paper-plain">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اختبار الإعراب — Arabic Grammar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=43">
+  <link rel="stylesheet" href="iraab-quiz.css?v=1">
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html" class="site-nav__brand">Arabic Grammar</a>
+      <div class="site-nav__links">
+        <a href="index.html" class="site-nav__link">Home</a>
+        <a href="map.html" class="site-nav__link">Map of Arabic Grammar</a>
+        <a href="quran-iraab.html" class="site-nav__link">Qurʾān Iʿrāb</a>
+        <a href="formulas.html" class="site-nav__link"><span lang="ar" dir="rtl">دليل الإعراب</span> · Formula Guide</a>
+        <a href="iraab-quiz.html" class="site-nav__link site-nav__link--active" aria-current="page">Iʿrāb quiz</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="iraab-quiz-page" id="main">
+    <p class="iraab-quiz-page__kicker">تَدَرَّبْ عَلَى الْإِعْرَابِ</p>
+    <h1 class="iraab-quiz-page__title">اختبار الإعراب</h1>
+    <p class="iraab-quiz-page__lede" dir="ltr" lang="en" style="text-align: center;">
+      Fifteen mixed-surah questions from curated Qurʾān analysis. Use <strong>New quiz</strong> for a new draw; optional seed for the same set again.
+    </p>
+
+    <div class="iraab-quiz-toolbar" dir="ltr">
+      <button type="button" class="iraab-quiz-btn" id="iraab-quiz-new">New quiz</button>
+      <label>
+        Seed (optional)
+        <input type="number" id="iraab-quiz-seed" name="seed" step="1" placeholder="random" aria-label="Quiz seed for reproducible sets" />
+      </label>
+      <button type="button" class="iraab-quiz-btn iraab-quiz-btn--secondary" id="iraab-quiz-check">Check answers</button>
+    </div>
+
+    <p id="iraab-quiz-error" class="iraab-quiz-error" hidden></p>
+    <p id="iraab-quiz-score" class="iraab-quiz-score" hidden></p>
+
+    <div id="iraab-quiz-root" class="iraab-quiz-root" aria-live="polite"></div>
+
+    <div class="iraab-quiz-actions" dir="ltr">
+      <a href="quran-iraab.html" class="iraab-quiz-btn iraab-quiz-btn--secondary">← Qurʾān Iʿrāb</a>
+    </div>
+  </main>
+
+  <script src="quran-iraab-data.js?v=3"></script>
+  <script src="iraab-quiz-generator.js"></script>
+  <script src="iraab-quiz-page.js?v=1" defer></script>
+</body>
+</html>
