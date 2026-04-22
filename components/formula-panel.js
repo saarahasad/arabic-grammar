@@ -311,7 +311,7 @@
       e.preventDefault();
       e.stopPropagation();
 
-      const row = btn.closest('.quran-iraab__row');
+      const row = btn.closest('.qg-word-card, .quran-iraab__row');
       const segment = row && row.dataset.segment ? row.dataset.segment : '';
       const analysisPlain = row && row.dataset.analysisPlain ? row.dataset.analysisPlain : '';
 

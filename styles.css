@@ -1,11 +1,6 @@
-/* Arabic Grammar — Ed-tech mind map (reusable grammar-card system) */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&display=swap');
 
-@font-face {
-  font-family: 'KFGQPC Uthmanic Script HAFS';
-  src: url('fonts/KFGQPC%20Uthmanic%20Script%20HAFS%20Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
+/* Arabic Grammar — Ed-tech mind map (reusable grammar-card system) */
 
 :root {
   /* Page canvas — quiet paper (#FAFAF7); no tinted washes. Optional grid: 40px, ~3% opacity (see body). */
@@ -37,8 +32,22 @@
   --accent-irab: #be123c;
   --accent-select: #4338ca;
 
-  --font-arabic: 'KFGQPC Uthmanic Script HAFS', serif;
+  /* Arabic: Amiri = Quranic / iʿrāb / classical body; Cairo = UI labels & short chrome */
+  --font-arabic: 'Amiri', serif;
+  --font-arabic-ui: 'Cairo', sans-serif;
   --font-latin: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.arabic-classical {
+  font-family: 'Amiri', serif;
+  direction: rtl;
+  line-height: 2;
+}
+
+.arabic-ui {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  line-height: 1.8;
 }
 
 *,
@@ -404,7 +413,7 @@ html.paper-plain body {
 
 /* Typography — larger, readable */
 .node-arabic {
-  font-family: var(--font-arabic);
+  font-family: var(--font-arabic-ui);
   font-size: 1.35rem;
   font-weight: 700;
   display: block;
@@ -2549,6 +2558,12 @@ html.paper-plain body {
 .site-nav__link--active {
   color: #fff;
   background: rgba(255, 255, 255, 0.14);
+}
+
+.site-nav [lang='ar'],
+.site-nav__link span[dir='rtl'] {
+  font-family: var(--font-arabic-ui);
+  line-height: 1.8;
 }
 
 body:has(> .site-header) {

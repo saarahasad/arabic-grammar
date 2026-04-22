@@ -150,44 +150,56 @@
    * @param {{ lastRule: string | null, rowFirstRule: string | null }} ctx
    * @returns {string}
    */
+  function wrapOneColoredSpan(full, color, inner, lastRule, rowFirstRule) {
+    const fid = resolveFormulaIdForColoredSpan(color, inner, lastRule, rowFirstRule);
+    if (fid) {
+      return (
+        '<button type="button" class="quran-iraab__formula-hit" tabindex="0" data-formula="' +
+        String(fid).replace(/"/g, '&quot;') +
+        '">' +
+        full +
+        '</button>'
+      );
+    }
+    const lrSoon = lastRule || rowFirstRule;
+    if (
+      lrSoon &&
+      isComingSoonRule(lrSoon) &&
+      getFormulaIdForRule(lrSoon) == null &&
+      !isParticleColor(color)
+    ) {
+      return (
+        '<button type="button" class="quran-iraab__formula-hit quran-iraab__formula-hit--soon" tabindex="0" data-formula-soon="1" data-rule="' +
+        String(lrSoon).replace(/"/g, '&quot;') +
+        '">' +
+        full +
+        '</button>'
+      );
+    }
+    return full;
+  }
+
   function wrapColorizedFormulaSpans(html, ctx) {
     if (html == null || html === '') return '';
     const lastRule = ctx && ctx.lastRule != null ? ctx.lastRule : null;
     const rowFirstRule = ctx && ctx.rowFirstRule != null ? ctx.rowFirstRule : null;
 
-    return html.replace(
+    let out = html.replace(
       /<span style="([^"]*)">([^<]*)<\/span>/gi,
       function (full, styleBlock, inner) {
         const m = /color:\s*([^;]+)/i.exec(styleBlock);
         const color = m ? m[1].trim() : '';
-        const fid = resolveFormulaIdForColoredSpan(color, inner, lastRule, rowFirstRule);
-        if (fid) {
-          return (
-            '<button type="button" class="quran-iraab__formula-hit" tabindex="0" data-formula="' +
-            String(fid).replace(/"/g, '&quot;') +
-            '">' +
-            full +
-            '</button>'
-          );
-        }
-        const lrSoon = lastRule || rowFirstRule;
-        if (
-          lrSoon &&
-          isComingSoonRule(lrSoon) &&
-          getFormulaIdForRule(lrSoon) == null &&
-          !isParticleColor(color)
-        ) {
-          return (
-            '<button type="button" class="quran-iraab__formula-hit quran-iraab__formula-hit--soon" tabindex="0" data-formula-soon="1" data-rule="' +
-            String(lrSoon).replace(/"/g, '&quot;') +
-            '">' +
-            full +
-            '</button>'
-          );
-        }
-        return full;
+        return wrapOneColoredSpan(full, color, inner, lastRule, rowFirstRule);
       }
     );
+    out = out.replace(
+      /<span class="irab-term([^"]*)"[^>]*data-iraab-c="([^"]+)"[^>]*>([^<]*)<\/span>/gi,
+      function (full, _classRest, dataC, inner) {
+        const color = String(dataC || '').trim();
+        return wrapOneColoredSpan(full, color, inner, lastRule, rowFirstRule);
+      }
+    );
+    return out;
   }
 
   function isParticleColor(colorHex) {

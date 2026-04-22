@@ -82,7 +82,7 @@ class EduCard extends HTMLElement {
         ::slotted([slot="arabic"]) {
           display: block;
           margin: 0;
-          font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', serif);
+          font-family: var(--font-arabic, 'Amiri', serif);
           font-size: 1.35rem;
           font-weight: 700;
           line-height: 1.35;

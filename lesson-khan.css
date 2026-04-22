@@ -135,7 +135,7 @@ body.lesson-khan {
 .lesson-sidebar__unit-label-ar {
   display: block;
   margin-top: 0.2rem;
-  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', 'Amiri', serif);
+  font-family: var(--font-arabic-ui);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0;
@@ -214,7 +214,7 @@ body.lesson-khan {
 }
 
 .lesson-sidebar__link-ar {
-  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', 'Amiri', serif);
+  font-family: var(--font-arabic-ui);
   font-size: 0.72rem;
   font-weight: 500;
   color: #64748b;

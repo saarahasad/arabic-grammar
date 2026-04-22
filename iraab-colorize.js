@@ -13,6 +13,8 @@
     sign: '#B5860D',
     sent: '#7B5EA7',
     part: '#888888',
+    /** Pronoun-heavy phrases (distinct from general `case` bucket for `.t-pronoun`). */
+    pron: '#15803D',
   };
 
   function escapeHtml(str) {
@@ -104,7 +106,6 @@
     'فعل ماضٍ مبني للمجهول',
     'منصوب بأن مضمرة',
     'اسم موصول',
-    'ضمير متصل',
     'فعل ناقص',
     'شبه جملة',
     'جمع مذكر سالم',
@@ -176,6 +177,8 @@
     'كسرة',
     'ضمة',
   ]);
+
+  add(COL.pron, ['ضمير متصل', 'ضمير منفصل', 'ضمير مستتر']);
 
   add(COL.part, [
     'حرف توكيد ونصب',
@@ -265,6 +268,64 @@
     if (seen[p.norm]) continue;
     seen[p.norm] = true;
     PATTERNS.push(p);
+  }
+
+  /** Map legacy bucket colors to beginner CSS classes (see `quran-iraab.css`). */
+  function irabTermClassForColor(hex) {
+    const c = String(hex || '').trim().toLowerCase();
+    if (c === COL.sent.toLowerCase()) return 't-clause';
+    if (c === COL.case.toLowerCase()) return 't-case';
+    if (c === COL.sign.toLowerCase()) return 't-sign';
+    if (c === COL.part.toLowerCase() || c === '#888') return 't-particle';
+    if (c === COL.pron.toLowerCase()) return 't-pronoun';
+    if (c === COL.fun.toLowerCase()) return 't-verb';
+    return 't-case';
+  }
+
+  /**
+   * Same longest-match tokenizer as `colorizeIraab`, but emits
+   * `<span class="irab-term t-…" data-iraab-c="…">` for beginner styling (no inline color).
+   */
+  function colorizeIraabClasses(text) {
+    if (text == null) return '';
+    const str = String(text);
+    if (!str) return '';
+    const { norm, normStart, str: original } = buildNormMap(str);
+    let j = 0;
+    const out = [];
+    while (j < norm.length) {
+      let best = null;
+      for (let p = 0; p < PATTERNS.length; p++) {
+        const pat = PATTERNS[p];
+        if (norm.startsWith(pat.norm, j)) {
+          if (!best || pat.norm.length > best.norm.length) best = pat;
+        }
+      }
+      if (best) {
+        const plen = best.norm.length;
+        const o0 = normStart[j];
+        const o1 = normStart[j + plen];
+        const slice = original.slice(o0, o1);
+        const cls = irabTermClassForColor(best.color);
+        const dc = escapeHtml(String(best.color).trim());
+        out.push(
+          '<span class="irab-term ' +
+            cls +
+            '" data-iraab-c="' +
+            dc +
+            '">' +
+            escapeHtml(slice) +
+            '</span>'
+        );
+        j += plen;
+      } else {
+        const o0 = normStart[j];
+        const o1 = normStart[j + 1];
+        out.push(escapeHtml(original.slice(o0, o1)));
+        j += 1;
+      }
+    }
+    return out.join('');
   }
 
   function colorizeIraab(text) {
@@ -384,5 +445,7 @@
   }
 
   global.colorizeIraab = colorizeIraab;
+  global.colorizeIraabClasses = colorizeIraabClasses;
+  global.irabTermClassForColor = irabTermClassForColor;
   global.ruleLinkColorForRule = ruleLinkColorForRule;
 })(typeof window !== 'undefined' ? window : globalThis);

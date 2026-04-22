@@ -6,10 +6,10 @@
   <title>Qurʾān Iʿrāb — Arabic Grammar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=43">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=44">
   <link rel="stylesheet" href="iraab-formulas.css?v=2">
-  <link rel="stylesheet" href="quran-iraab.css?v=23">
+  <link rel="stylesheet" href="quran-iraab.css?v=37">
 </head>
 <body class="quran-iraab-body">
   <header class="site-header" role="banner">
@@ -80,11 +80,21 @@
           <span class="quran-iraab-page__instruction-num" aria-hidden="true">٤</span>
           <span class="quran-iraab-page__instruction-text"><a href="iraab-quiz.html">Practice with the mixed-surah iʿrāb quiz</a> (15 questions).</span>
         </p>
+        <p class="quran-iraab-page__instruction">
+          <span class="quran-iraab-page__instruction-num" aria-hidden="true">٥</span>
+          <span class="quran-iraab-page__instruction-text">Each analysed word has <strong>My note</strong> under its card; notes stay in this browser unless you use <strong>Download notes</strong> in the toolbar (JSON backup).</span>
+        </p>
       </div>
     </div>
 
     <div class="quran-iraab-toolbar">
       <div class="quran-iraab-toolbar__card">
+        <div class="qg-mode-bar qg-mode-bar--toolbar" role="radiogroup" aria-label="Reading mode">
+          <div class="qg-mode-bar__inner">
+            <button type="button" class="qg-mode-btn" data-qg-mode="beginner" aria-pressed="true">🌱 Beginner</button>
+            <button type="button" class="qg-mode-btn" data-qg-mode="scholar" aria-pressed="false">📖 Scholar</button>
+          </div>
+        </div>
         <div class="quran-iraab-toolbar__grid">
           <div class="quran-iraab-toolbar__field">
             <label class="quran-iraab-toolbar__label" for="quran-iraab-surah">
@@ -127,9 +137,34 @@
                 إخفاء التشكيل
               </button>
             </div>
+            <div
+              class="quran-iraab-toolbar__notes-download"
+              title="Export all per-word notes as JSON (keys like 95-1::0 = āyah + word row)"
+            >
+              <span class="quran-iraab-toolbar__harakah-label">Notes backup</span>
+              <button
+                type="button"
+                id="quran-iraab-download-notes"
+                class="quran-iraab-toolbar__btn quran-iraab-toolbar__btn--secondary quran-iraab-toolbar__notes-download-btn"
+              >
+                <span class="quran-iraab-toolbar__notes-download-en">Download notes</span>
+                <span class="quran-iraab-toolbar__notes-download-ar" lang="ar" dir="rtl">تَنْزِيلُ الْمُلَاحَظَاتِ</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div id="qg-global-legend" class="qg-iraab-legend qg-iraab-legend--global" lang="en" dir="ltr" aria-label="Colour key for grammar terms">
+      <span class="qg-iraab-legend__items">
+        <span class="qg-iraab-legend__item"><span class="irab-term t-verb qg-iraab-legend__chip" dir="rtl" lang="ar">فِعْل</span> Verb</span>
+        <span class="qg-iraab-legend__item"><span class="irab-term t-case qg-iraab-legend__chip" dir="rtl" lang="ar">إعْرَاب</span> Grammatical case</span>
+        <span class="qg-iraab-legend__item"><span class="irab-term t-pronoun qg-iraab-legend__chip" dir="rtl" lang="ar">ضَمِير</span> Pronoun</span>
+        <span class="qg-iraab-legend__item"><span class="irab-term t-particle qg-iraab-legend__chip" dir="rtl" lang="ar">حَرْف</span> Particle / preposition</span>
+        <span class="qg-iraab-legend__item"><span class="irab-term t-sign qg-iraab-legend__chip" dir="rtl" lang="ar">عَلَامَة</span> Vowel sign</span>
+        <span class="qg-iraab-legend__item"><span class="irab-term t-clause qg-iraab-legend__chip" dir="rtl" lang="ar">جُمْلَة</span> Clause</span>
+      </span>
     </div>
 
     <div id="quran-iraab-detail" class="quran-iraab-detail" aria-live="polite"></div>
@@ -146,6 +181,8 @@
   <script src="components/formula-panel.js" defer></script>
   <script src="quran-text-96-114.js" defer></script>
   <script src="quran-iraab-data.js?v=3" defer></script>
-  <script src="quran-iraab.js?v=18" defer></script>
+  <script src="utils/iraab-simple-en.js?v=1" defer></script>
+  <script src="quran-iraab.js?v=29" defer></script>
+  <div id="qg-tooltip" class="qg-tooltip" hidden lang="ar" dir="rtl"></div>
 </body>
 </html>

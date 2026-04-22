@@ -46,7 +46,7 @@ body.course-home {
 }
 
 .course-hero__ar {
-  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', serif);
+  font-family: var(--font-arabic-ui);
   font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 500;
   color: #334155;
@@ -225,7 +225,7 @@ body.course-home {
 .course-sidebar__nav-ar {
   display: block;
   margin-top: 0.2rem;
-  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', 'Amiri', serif);
+  font-family: var(--font-arabic-ui);
   font-size: 0.92rem;
   font-weight: 600;
   color: #0f766e;
@@ -345,7 +345,7 @@ body.course-home {
 
 /* Unit Arabic subtitle (inline in h2) — match lesson Arabic emphasis */
 .course-unit__head h2 [lang='ar'] {
-  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', 'Amiri', serif);
+  font-family: var(--font-arabic-ui);
   font-weight: 600;
   color: #0f766e;
 }
@@ -443,7 +443,7 @@ body.course-home {
 }
 
 .course-lesson__ar {
-  font-family: var(--font-arabic, 'KFGQPC Uthmanic Script HAFS', 'Amiri', 'Scheherazade New', serif);
+  font-family: var(--font-arabic-ui);
   font-size: 1rem;
   font-weight: 600;
   color: #0f766e;
