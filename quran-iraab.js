@@ -1,9 +1,10 @@
 /**
  * Qurʾān Iʿrāb — merges curated rows from `quran-iraab-data.js` with full āyāt 95–114 text
- * from `quran-text-96-114.js`, two-level navigation (surah → āyah), and unavailable state.
+ * from `quran-text-96-114.js`, appends standalone curated āyāt (e.g. other surahs with full `ayahText`), two-level navigation (surah → āyah), and unavailable state.
  * Choosing a surah shows **all** its āyāt in one scrollable column; the āyah menu (or ← / → keys)
  * moves within that surah and scrolls the active verse into view.
  * Per-word **Explanation** fields use `localStorage` (`quranIraabWordNotes`); the toolbar downloads a JSON backup.
+ * **Studied surahs**: toolbar button toggles finish state per surah (`localStorage` `quranIraabStudiedSurahs`).
  */
 (function () {
   const IRAAB_UNAVAILABLE_EN = 'Irab is not available for this ayah.';
@@ -69,6 +70,45 @@
   /** Legacy: `quranIraabDirectIraab` === '1' meant direct (no prompts). Migrated once to `quranIraabShowPrompts`. */
   const IRAAB_LEGACY_DIRECT_KEY = 'quranIraabDirectIraab';
   const WORD_NOTES_STORAGE_KEY = 'quranIraabWordNotes';
+  /** Object keyed by surah number string, truthy = user marked surah studied. */
+  const STUDIED_SURAHS_STORAGE_KEY = 'quranIraabStudiedSurahs';
+
+  function readStudiedSurahsMap() {
+    try {
+      const raw = localStorage.getItem(STUDIED_SURAHS_STORAGE_KEY);
+      if (!raw) return {};
+      const o = JSON.parse(raw);
+      return o && typeof o === 'object' && !Array.isArray(o) ? o : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function writeStudiedSurahsMap(map) {
+    try {
+      localStorage.setItem(STUDIED_SURAHS_STORAGE_KEY, JSON.stringify(map));
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function isSurahStudied(sn) {
+    return !!readStudiedSurahsMap()[String(sn)];
+  }
+
+  function setSurahStudied(sn, studied) {
+    const m = readStudiedSurahsMap();
+    const k = String(sn);
+    if (studied) m[k] = true;
+    else delete m[k];
+    writeStudiedSurahsMap(m);
+  }
+
+  function toggleSurahStudied(sn) {
+    const next = !isSurahStudied(sn);
+    setSurahStudied(sn, next);
+    return next;
+  }
 
   function wordNoteStorageKey(ayahId, rowIndex) {
     return String(ayahId) + '::' + String(rowIndex);
@@ -252,9 +292,16 @@
         }, 320);
         timers.set(ta, timer);
       });
+      ta.addEventListener('paste', function () {
+        window.setTimeout(function () {
+          setWordNote(ayahId, rowIndex, ta.value);
+        }, 0);
+      });
       ta.addEventListener('blur', function () {
-        setWordNote(ayahId, rowIndex, ta.value);
-        applyModeFromValue();
+        window.requestAnimationFrame(function () {
+          setWordNote(ayahId, rowIndex, ta.value);
+          applyModeFromValue();
+        });
       });
     });
   }
@@ -388,8 +435,9 @@
 
   const QG_THEMES = ['qg-theme--amber', 'qg-theme--blue', 'qg-theme--green'];
 
-  /** Latin surah names for verse reference line (Juz ʿAmma 95–114). */
+  /** Latin surah names for verse reference line (Juz ʿAmma 95–114 + optional extras). */
   const SURAH_REF_LATIN = {
+    2: 'AL-BAQARAH',
     95: 'AT-TIN',
     96: 'AL-ALAQ',
     97: 'AL-QADR',
@@ -548,7 +596,7 @@
   /**
    * Colored iʿrāb fragment: beginner uses class-based terms; scholar uses plain highlights
    * then replaces them with `.irab-term` + tooltip data attributes.
-   * @param {{ lastRule?: string | null, rowFirstRule?: string | null, analysisEn?: string }} [opts]
+   * @param {{ analysisEn?: string }} [opts]
    */
   function iraabFragmentHtml(raw, alwaysShowHarakah, opts) {
     if (raw == null || raw === '') return '';
@@ -556,32 +604,20 @@
       typeof window.displayArabic === 'function'
         ? window.displayArabic(String(raw), alwaysShowHarakah)
         : String(raw);
-    const lastRule = opts && opts.lastRule != null ? opts.lastRule : null;
-    const rowFirstRule = opts && opts.rowFirstRule != null ? opts.rowFirstRule : null;
     const rawDef = opts && opts.analysisEn != null ? opts.analysisEn : '';
     const analysisEn = SHOW_QURAN_IRAAB_ENGLISH ? rawDef : '';
     const scholar = readQuranGrammarMode() === 'scholar';
 
     if (scholar) {
-      let html = typeof window.colorizeIraab === 'function' ? window.colorizeIraab(t) : escapeHtml(t);
-      html =
-        typeof window.wrapColorizedFormulaSpans === 'function'
-          ? window.wrapColorizedFormulaSpans(html, { lastRule: lastRule, rowFirstRule: rowFirstRule })
-          : html;
+      const html = typeof window.colorizeIraab === 'function' ? window.colorizeIraab(t) : escapeHtml(t);
       return scholarAnnotateTerms(html, analysisEn);
     }
 
-    let html =
-      typeof window.colorizeIraabClasses === 'function'
-        ? window.colorizeIraabClasses(t)
-        : typeof window.colorizeIraab === 'function'
-          ? window.colorizeIraab(t)
-          : escapeHtml(t);
-    html =
-      typeof window.wrapColorizedFormulaSpans === 'function'
-        ? window.wrapColorizedFormulaSpans(html, { lastRule: lastRule, rowFirstRule: rowFirstRule })
-        : html;
-    return html;
+    return typeof window.colorizeIraabClasses === 'function'
+      ? window.colorizeIraabClasses(t)
+      : typeof window.colorizeIraab === 'function'
+        ? window.colorizeIraab(t)
+        : escapeHtml(t);
   }
 
   function renderLinkPart(p, row) {
@@ -595,76 +631,30 @@
         ? window.ruleLinkColorForRule(p.rule)
         : '#334155';
     const linkInner = iraabFragmentHtml(p.text, false, {
-      lastRule: p.rule,
-      rowFirstRule: firstLinkRuleInRow(row && row.analysisParts),
       analysisEn: effectiveAnalysisEn(row),
     });
-
-    const fid =
-      typeof window.getFormulaIdForRule === 'function' ? window.getFormulaIdForRule(p.rule) : null;
-    const soon =
-      typeof window.isComingSoonRule === 'function' ? window.isComingSoonRule(p.rule) : false;
-    const useSplit = !!(fid || soon);
 
     const titleAttr = showTitle ? ' title="' + tip + '"' : '';
     const linkStyle = beginner
       ? ''
       : ' style="color: ' + escapeHtml(base) + '; font-weight: 400"';
     const linkPillClass = beginner ? ' quran-iraab__rule-link--pill' : '';
-    const hitPillClass = beginner ? ' quran-iraab__formula-hit--pill' : '';
-
-    if (!useSplit) {
-      return (
-        '<span class="quran-iraab__rule-link-stack">' +
-        '<a class="quran-iraab__rule-link' +
-        linkPillClass +
-        '" href="' +
-        escapeHtml(href) +
-        '"' +
-        titleAttr +
-        ' aria-label="' +
-        tip +
-        '"' +
-        linkStyle +
-        '>' +
-        linkInner +
-        '</a></span>'
-      );
-    }
-
-    const dataFid = fid ? ' data-formula="' + escapeHtml(fid) + '"' : '';
-    const dataSoon =
-      soon && !fid
-        ? ' data-formula-soon="1" data-rule="' + escapeHtml(String(p.rule)) + '"'
-        : '';
-    const soonClass = soon && !fid ? ' quran-iraab__formula-hit--soon' : '';
 
     return (
-      '<span class="quran-iraab__rule-link-stack quran-iraab__rule-link-stack--split">' +
-      '<span class="quran-iraab__term-tools" dir="rtl">' +
-      '<button type="button" class="quran-iraab__formula-hit quran-iraab__formula-hit--term' +
-      soonClass +
-      hitPillClass +
-      '" tabindex="0"' +
-      dataFid +
-      dataSoon +
-      titleAttr +
-      ' aria-label="Show formula: ' +
-      tip +
-      '">' +
-      linkInner +
-      '</button>' +
-      '<a class="quran-iraab__lesson-ref" href="' +
+      '<span class="quran-iraab__rule-link-stack">' +
+      '<a class="quran-iraab__rule-link' +
+      linkPillClass +
+      '" href="' +
       escapeHtml(href) +
       '"' +
       titleAttr +
       ' aria-label="' +
       tip +
-      ' — open lesson">' +
-      '<span class="quran-iraab__lesson-ref__glyph" aria-hidden="true">↗</span>' +
-      '<span class="quran-iraab__lesson-ref__txt" lang="ar">درس</span>' +
-      '</a>' +
-      '</span></span>'
+      '"' +
+      linkStyle +
+      '>' +
+      linkInner +
+      '</a></span>'
     );
   }
 
@@ -694,25 +684,6 @@
     if (!parts || !parts.length) return null;
     for (let i = 0; i < parts.length; i++) {
       if (parts[i].type === 'link' && parts[i].rule) return parts[i].rule;
-    }
-    return null;
-  }
-
-  function getRowFormulaIndicator(row) {
-    if (!row || !row.analysisParts || typeof window.getFormulaIdForRule !== 'function') return null;
-    for (let i = 0; i < row.analysisParts.length; i++) {
-      const p = row.analysisParts[i];
-      if (p.type === 'link' && p.rule) {
-        const fid = window.getFormulaIdForRule(p.rule);
-        if (fid && window.FORMULA_BY_ID && window.FORMULA_BY_ID[fid]) {
-          const f = window.FORMULA_BY_ID[fid];
-          const dot =
-            typeof window.getDotColorForFormulaCategory === 'function'
-              ? window.getDotColorForFormulaCategory(f.category)
-              : '#64748b';
-          return { formulaId: fid, title: normalizeIraabEnglishToAscii(String(f.title || '')), dotColor: dot };
-        }
-      }
     }
     return null;
   }
@@ -831,14 +802,11 @@
   function renderAnalysisParts(row) {
     const parts = row && row.analysisParts;
     if (!parts || !parts.length) return '';
-    const rowFirstRule = firstLinkRuleInRow(parts);
     const chunks = [];
-    let lastRule = null;
     let i = 0;
     while (i < parts.length) {
       const p = parts[i];
       if (p.type === 'link') {
-        lastRule = p.rule || lastRule;
         const head = renderLinkPart(p, row);
         i += 1;
         const rawTexts = [];
@@ -849,8 +817,6 @@
         let explain = '';
         if (rawTexts.length) {
           explain = iraabFragmentHtml(rawTexts.join(''), false, {
-            lastRule: lastRule,
-            rowFirstRule: rowFirstRule,
             analysisEn: effectiveAnalysisEn(row),
           });
         }
@@ -863,8 +829,6 @@
           i += 1;
         }
         const explain = iraabFragmentHtml(rawTexts.join(''), false, {
-          lastRule: lastRule,
-          rowFirstRule: rowFirstRule,
           analysisEn: effectiveAnalysisEn(row),
         });
         chunks.push(`<span class="quran-iraab__flow-seg">${explain}</span>`);
@@ -936,7 +900,6 @@
   function renderBeginnerStackedAnalysis(row) {
     const parts = row && row.analysisParts;
     if (!parts || !parts.length) return '';
-    const rowFirstRule = firstLinkRuleInRow(parts);
     const lines = [];
     let i = 0;
     while (i < parts.length) {
@@ -956,8 +919,6 @@
         for (let s = 0; s < segs.length; s++) {
           const seg = segs[s];
           const ar = iraabFragmentHtml(seg, false, {
-            lastRule: rule,
-            rowFirstRule: rowFirstRule,
             analysisEn: effectiveAnalysisEn(row),
           });
           const g = glossFromArabicChunk(seg);
@@ -969,13 +930,10 @@
           textBuf += parts[i].text;
           i += 1;
         }
-        const lastR = rowFirstRule;
         const segs = splitIraabTextRows(textBuf);
         for (let s = 0; s < segs.length; s++) {
           const seg = segs[s];
           const ar = iraabFragmentHtml(seg, false, {
-            lastRule: lastR,
-            rowFirstRule: rowFirstRule,
             analysisEn: effectiveAnalysisEn(row),
           });
           lines.push({ ar: ar, gloss: glossFromArabicChunk(seg) });
@@ -1167,6 +1125,36 @@
         });
       }
     }
+
+    /** Curated āyāt whose ids are `surah-ayah` but lie outside 95–114 (full text + rows live only in `quran-iraab-data.js`). */
+    const seenExtra = new Set(out.map((e) => e.id));
+    for (let ix = 0; ix < raw.length; ix++) {
+      const ex = raw[ix];
+      if (!ex || ex.id == null) continue;
+      const sid = String(ex.id);
+      if (/^\d+-\d+-\d+$/.test(sid)) continue;
+      if (!/^\d+-\d+$/.test(sid)) continue;
+      if (seenExtra.has(sid)) continue;
+      seenExtra.add(sid);
+      out.push(ex);
+    }
+    /** Keep Juz ʿAmma block (95–114) first in list order so default `#` / first row stays 95:1; extras follow. */
+    const MAIN_SURAH_MIN = 95;
+    const MAIN_SURAH_MAX = 114;
+    function ayahBucket(entry) {
+      const s = entry.surah;
+      return s >= MAIN_SURAH_MIN && s <= MAIN_SURAH_MAX ? 0 : 1;
+    }
+    out.sort((a, b) => {
+      const bk = ayahBucket(a) - ayahBucket(b);
+      if (bk !== 0) return bk;
+      if (a.surah !== b.surah) return a.surah - b.surah;
+      const ax = Number(a.ayah);
+      const bx = Number(b.ayah);
+      if (!Number.isNaN(ax) && !Number.isNaN(bx)) return ax - bx;
+      return String(a.ayah).localeCompare(String(b.ayah), 'ar');
+    });
+
     return out;
   }
 
@@ -1199,15 +1187,6 @@
     const rowsHtml = entry.rows
       .map((row, idx) => {
         const plain = rowAnalysisPlain(row);
-        const ind = getRowFormulaIndicator(row);
-        const showDotTip = readQuranGrammarMode() === 'scholar';
-        const dotHtml = ind
-          ? `<span class="quran-iraab__row-formula-dot" style="background:${escapeHtml(
-              ind.dotColor
-            )}"${showDotTip ? ` title="${escapeHtml(ind.title)}"` : ''} role="img" aria-label="${escapeHtml(
-              ind.title
-            )}"></span>`
-          : '';
         const theme = QG_THEMES[idx % QG_THEMES.length];
         const lit =
           SHOW_QURAN_IRAAB_ENGLISH && readQuranGrammarMode() === 'scholar' && literalGlossLine(row)
@@ -1221,8 +1200,7 @@
         )}" data-analysis-plain="${escapeHtml(plain)}">
           <div class="qg-word-card__arabic">
             <span class="qg-word-card__word" lang="ar" dir="rtl">${escapeHtml(row.segment)}</span>
-            <div class="qg-word-card__iraab-wrap${ind ? ' qg-word-card__iraab-wrap--has-formula' : ''}">
-              ${dotHtml}
+            <div class="qg-word-card__iraab-wrap">
               <div class="qg-word-card__iraab-body">
                 ${renderRowAnalysisCell(row)}
               </div>
@@ -1465,11 +1443,16 @@
 
   /**
    * Left sidebar: one row per surah (no āyah sub-list). Tap navigates to that surah (first āyah scroll).
-   * @returns {function(string): void} updateActive(id)
+   * @returns {{ updateActive: function(string): void, refreshStudiedMarkers: function(): void }}
    */
   function setupLeftNav(ayahList, navigateTo) {
     const navRoot = document.getElementById('quran-iraab-nav-tree');
-    if (!navRoot) return () => {};
+    if (!navRoot) {
+      return {
+        updateActive: function () {},
+        refreshStudiedMarkers: function () {},
+      };
+    }
 
     const bySurah = new Map();
     ayahList.forEach((a) => {
@@ -1499,12 +1482,17 @@
       nameSpan.setAttribute('lang', 'ar');
       nameSpan.textContent = surahMenuLabel(sn, arabicUiText(nameAr, false));
 
+      const studiedMark = document.createElement('span');
+      studiedMark.className = 'quran-iraab-nav-surah__studied-mark';
+      studiedMark.setAttribute('aria-hidden', 'true');
+
       const chevron = document.createElement('span');
       chevron.className = 'quran-iraab-nav-surah__chevron';
       chevron.setAttribute('aria-hidden', 'true');
       chevron.textContent = '▸';
 
       btn.appendChild(nameSpan);
+      btn.appendChild(studiedMark);
       btn.appendChild(chevron);
 
       btn.addEventListener('click', () => {
@@ -1514,6 +1502,26 @@
 
       navRoot.appendChild(btn);
     });
+
+    function refreshStudiedMarkers() {
+      navRoot.querySelectorAll('.quran-iraab-nav-surah').forEach((btn) => {
+        const sn = Number(btn.dataset.surah);
+        const studied = isSurahStudied(sn);
+        btn.classList.toggle('quran-iraab-nav-surah--studied', studied);
+        const nameAr = btn.dataset.harakahSrc || '';
+        btn.setAttribute(
+          'aria-label',
+          studied
+            ? `${surahMenuLabel(sn, nameAr)}. Studied. Open surah.`
+            : `${surahMenuLabel(sn, nameAr)}. Open surah.`
+        );
+        const mark = btn.querySelector('.quran-iraab-nav-surah__studied-mark');
+        if (mark) {
+          mark.textContent = studied ? '✓' : '';
+          mark.hidden = !studied;
+        }
+      });
+    }
 
     function updateActive(id) {
       const entry = ayahList.find((a) => a.id === id);
@@ -1540,7 +1548,8 @@
       if (toggle) toggle.setAttribute('aria-expanded', 'false');
     }
 
-    return updateActive;
+    refreshStudiedMarkers();
+    return { updateActive, refreshStudiedMarkers };
   }
 
   function applyQuranIraabChromeHarakah() {
@@ -1599,22 +1608,53 @@
 
     let syncSelects = null;
     let updateSidebarActive = () => {};
+    let refreshStudiedMarkers = () => {};
+
+    const markStudiedBtn = document.getElementById('quran-iraab-mark-surah-studied');
+
+    function syncMarkStudiedButton() {
+      if (!markStudiedBtn) return;
+      const id = ayahSel && ayahSel.value ? ayahSel.value : ayahList[0].id;
+      const entry = ayahList.find((a) => a.id === id);
+      if (!entry) return;
+      const done = isSurahStudied(entry.surah);
+      markStudiedBtn.classList.toggle('quran-iraab-toolbar__mark-studied-btn--done', done);
+      markStudiedBtn.setAttribute('aria-pressed', done ? 'true' : 'false');
+      const en = markStudiedBtn.querySelector('.quran-iraab-toolbar__mark-studied-en');
+      const ar = markStudiedBtn.querySelector('.quran-iraab-toolbar__mark-studied-ar');
+      if (en) en.textContent = done ? 'Studied · tap to undo' : 'Mark surah studied';
+      if (ar) ar.textContent = done ? 'مُكْتَمَلَةٌ — أَلْغِي التَّسْجِيلَ' : 'أَنْهَيْتُ دِرَاسَةَ هَذِهِ السُّورَةِ';
+    }
 
     function navigateTo(id) {
       if (syncSelects) syncSelects(id);
       showAyah(id, container, ayahList);
       updateSidebarActive(id);
+      syncMarkStudiedButton();
     }
 
     syncSelects = populateSurahAndAyahSelects(ayahList, surahSel, ayahSel, navigateTo);
 
-    updateSidebarActive = setupLeftNav(ayahList, navigateTo);
+    const navApi = setupLeftNav(ayahList, navigateTo);
+    updateSidebarActive = navApi.updateActive;
+    refreshStudiedMarkers = navApi.refreshStudiedMarkers;
     wireMobileSidebarNav();
 
     migrateLegacyIraabDirectStorage();
     document.documentElement.classList.toggle('quran-iraab--direct-iraab', !readIraabShowPrompts());
     applyGrammarModeClass();
     applyQuranIraabChromeHarakah();
+
+    if (markStudiedBtn) {
+      markStudiedBtn.addEventListener('click', function () {
+        const id = ayahSel && ayahSel.value ? ayahSel.value : ayahList[0].id;
+        const entry = ayahList.find((a) => a.id === id);
+        if (!entry) return;
+        toggleSurahStudied(entry.surah);
+        syncMarkStudiedButton();
+        refreshStudiedMarkers();
+      });
+    }
 
     function refreshSurahAndNavHarakah() {
       if (typeof window.displayArabic !== 'function') return;
@@ -1646,6 +1686,7 @@
         }
         nameSpan.textContent = surahMenuLabel(sn, window.displayArabic(src, false));
       });
+      refreshStudiedMarkers();
     }
 
     function syncHarakahToggleButton() {
@@ -1743,10 +1784,14 @@
           tipEl.hidden = true;
           tipEl.innerHTML = '';
         }
+        qgTooltipCurrent = null;
+        qgTooltipLastSig = '';
       });
     }
 
     let qgTooltipCurrent = null;
+    /** Separate from `qgTooltipCurrent`: two terms can match the same node ref across moves; defs differ when Arabic label repeats. */
+    let qgTooltipLastSig = '';
     container.addEventListener('mousemove', function (e) {
       const tip = document.getElementById('qg-tooltip');
       if (!tip) return;
@@ -1756,6 +1801,7 @@
           tip.innerHTML = '';
         }
         qgTooltipCurrent = null;
+        qgTooltipLastSig = '';
         return;
       }
       const el = e.target.closest('.irab-term');
@@ -1763,12 +1809,15 @@
         tip.hidden = true;
         tip.innerHTML = '';
         qgTooltipCurrent = null;
+        qgTooltipLastSig = '';
         return;
       }
       const term = el.getAttribute('data-term') || (el.textContent || '').trim();
       const roman = el.getAttribute('data-roman') || '';
       const def = el.getAttribute('data-def') || '';
-      if (el !== qgTooltipCurrent) {
+      const sig = term + '\x1e' + roman + '\x1e' + def + '\x1e' + (el.closest('[data-segment]')?.getAttribute('data-segment') || '');
+      if (sig !== qgTooltipLastSig) {
+        qgTooltipLastSig = sig;
         qgTooltipCurrent = el;
         tip.innerHTML =
           '<div class="qg-tooltip__term" dir="rtl" lang="ar">' +
@@ -1842,9 +1891,6 @@
       });
     }
 
-    if (typeof window.initQuranFormulaPanel === 'function') {
-      window.initQuranFormulaPanel(container);
-    }
   }
 
   if (document.readyState === 'loading') {

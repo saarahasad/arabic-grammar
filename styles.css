@@ -2577,7 +2577,7 @@ body:has(> .site-header) > .app {
   min-height: 0;
 }
 
-/* —— Iʿrāb keyword colors (Qurʾān viewer, formula guide, shared) —— */
+/* —— Iʿrāb keyword colors (Qurʾān viewer & shared) —— */
 :root {
   --iraab-fn: #e05a2b;
   --iraab-case: #1a7f5a;

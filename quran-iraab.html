@@ -8,8 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=44">
-  <link rel="stylesheet" href="iraab-formulas.css?v=2">
-  <link rel="stylesheet" href="quran-iraab.css?v=37">
+  <link rel="stylesheet" href="quran-iraab.css?v=39">
 </head>
 <body class="quran-iraab-body">
   <header class="site-header" role="banner">
@@ -19,7 +18,6 @@
         <a href="index.html" class="site-nav__link">Home</a>
         <a href="map.html" class="site-nav__link">Map of Arabic Grammar</a>
         <a href="quran-iraab.html" class="site-nav__link site-nav__link--active" aria-current="page">Qurʾān Iʿrāb</a>
-        <a href="formulas.html" class="site-nav__link"><span lang="ar" dir="rtl">دليل الإعراب</span> · Formula Guide</a>
         <a href="iraab-quiz.html" class="site-nav__link">Iʿrāb quiz</a>
       </div>
     </nav>
@@ -70,7 +68,7 @@
         </p>
         <p class="quran-iraab-page__instruction">
           <span class="quran-iraab-page__instruction-num" aria-hidden="true">٢</span>
-          <span class="quran-iraab-page__instruction-text">Full iʿrāb shows by default. Turn on <strong>Show prompts</strong> in the toolbar for think-first questions. Colored terms follow the <a href="formulas.html">formula color key</a>. Terms with a dotted underline open the matching <strong>F01–F30</strong> card; use <strong>↗ درس</strong> beside a rule for the full lesson.</span>
+          <span class="quran-iraab-page__instruction-text">Full iʿrāb shows by default. Turn on <strong>Show prompts</strong> in the toolbar for think-first questions. Colored terms match the scholar colour key (toolbar). Tap an underlined grammatical term to open its lesson.</span>
         </p>
         <p class="quran-iraab-page__instruction">
           <span class="quran-iraab-page__instruction-num" aria-hidden="true">٣</span>
@@ -138,6 +136,21 @@
               </button>
             </div>
             <div
+              class="quran-iraab-toolbar__mark-studied"
+              title="Tracks this surah as finished for you in this browser only."
+            >
+              <span class="quran-iraab-toolbar__harakah-label">Progress</span>
+              <button
+                type="button"
+                id="quran-iraab-mark-surah-studied"
+                class="quran-iraab-toolbar__btn quran-iraab-toolbar__btn--secondary quran-iraab-toolbar__mark-studied-btn"
+                aria-pressed="false"
+              >
+                <span class="quran-iraab-toolbar__mark-studied-en">Mark surah studied</span>
+                <span class="quran-iraab-toolbar__mark-studied-ar" lang="ar" dir="rtl">أَنْهَيْتُ دِرَاسَةَ هَذِهِ السُّورَةِ</span>
+              </button>
+            </div>
+            <div
               class="quran-iraab-toolbar__notes-download"
               title="Export all per-word notes as JSON (keys like 95-1::0 = āyah + word row)"
             >
@@ -175,14 +188,11 @@
 
   <script src="utils/harakah.js?v=2" defer></script>
   <script src="course-outline.js" defer></script>
-  <script src="formulaMap.js" defer></script>
-  <script src="data/formulas.js" defer></script>
   <script src="iraab-colorize.js" defer></script>
-  <script src="components/formula-panel.js" defer></script>
   <script src="quran-text-96-114.js" defer></script>
   <script src="quran-iraab-data.js?v=3" defer></script>
   <script src="utils/iraab-simple-en.js?v=1" defer></script>
-  <script src="quran-iraab.js?v=29" defer></script>
+  <script src="quran-iraab.js?v=30" defer></script>
   <div id="qg-tooltip" class="qg-tooltip" hidden lang="ar" dir="rtl"></div>
 </body>
 </html>
