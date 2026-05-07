@@ -102,7 +102,11 @@
     ],
     [
       'فِعْلٌ مَاضٍ مَبْنِيٌّ عَلَى الْفَتْحِ الْمُقَدَّرِ لِلتَّعَذُّرِ',
-      'A past verb on estimated fatḥah where you cannot show it on the surface.',
+      'A past verb on estimated fatḥah (muqaddar li-t-taʿadhthur): the vowel is understood but not written because showing it would be awkward or impossible.',
+    ],
+    [
+      'لِلتَّعَذُّرِ',
+      'li-t-taʿadhthur — “because of impossibility / awkwardness”: grammarians assign the vowel mentally when it cannot be written clearly on the surface.',
     ],
     [
       'مَفْعُولٌ بِهٍ مَنْصُوبٌ وَعَلَامَةُ نَصْبِهِ الْفَتْحَةَ الظَّاهِرَةَ',
@@ -490,7 +494,7 @@
     ],
     [
       'الْمُقَدَّرِ لِلتَّعَذُّرِ',
-      "estimated (muqaddar) when you cannot show the short vowel on the surface",
+      'estimated vowel (muqaddar) li-t-taʿadhthur — not written because showing the harakah would be awkward or impossible on that letter',
     ],
     [
       'مُبْتَدَأٍ',

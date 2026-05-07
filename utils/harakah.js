@@ -8,11 +8,21 @@
   var HARAKAH_STRIP_RE =
     /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED]/g;
   var HARAKAH_DETECT_RE = /[\u064B-\u065F\u0670]/;
+  /**
+   * Mushaf-only marks often missing in bundled KFGQPC TTFs → dotted-circle placeholders.
+   * ۟ U+06DF (sifr / small high rounded zero on alif), ۠ U+06E0 (high rectangular zero),
+   * ۢ U+06E2 / ۭ U+06ED (small meem hints).
+   */
+  var QURAN_SMALL_MEEM_HINT_RE = /\u06DF|\u06E0|\u06E2|\u06ED/g;
 
   var STORAGE_KEY = 'quran-iraab-show-harakah';
 
   function stripHarakah(text) {
     return String(text == null ? '' : text).replace(HARAKAH_STRIP_RE, '');
+  }
+
+  function stripQuranSmallMeemHints(text) {
+    return String(text == null ? '' : text).replace(QURAN_SMALL_MEEM_HINT_RE, '');
   }
 
   function hasHarakah(text) {
@@ -52,6 +62,7 @@
   }
 
   global.stripHarakah = stripHarakah;
+  global.stripQuranSmallMeemHints = stripQuranSmallMeemHints;
   global.hasHarakah = hasHarakah;
   global.readShowHarakah = readShowHarakah;
   global.writeShowHarakah = writeShowHarakah;

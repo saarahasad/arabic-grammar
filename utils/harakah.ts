@@ -6,6 +6,14 @@ export function stripHarakah(text: string): string {
   );
 }
 
+/**
+ * Mushaf-only marks often missing in bundled KFGQPC → dotted-circle placeholders:
+ * ۟ U+06DF (sifr on alif), ۠ U+06E0, ۢ U+06E2, ۭ U+06ED.
+ */
+export function stripQuranSmallMeemHints(text: string): string {
+  return text.replace(/\u06DF|\u06E0|\u06E2|\u06ED/g, '');
+}
+
 /** Check if a string contains standard harakah (tanwin, fatha, etc.). */
 export function hasHarakah(text: string): boolean {
   return /[\u064B-\u065F\u0670]/.test(text);

@@ -6,9 +6,9 @@
   <title>Qurʾān Iʿrāb — Arabic Grammar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=44">
-  <link rel="stylesheet" href="quran-iraab.css?v=39">
+  <link rel="stylesheet" href="quran-iraab.css?v=68">
 </head>
 <body class="quran-iraab-body">
   <header class="site-header" role="banner">
@@ -59,7 +59,7 @@
       <p class="quran-iraab-page__kicker" lang="ar" dir="rtl" data-harakah-chrome>الْإِعْرَابُ مِنَ الْقُرْآنِ</p>
       <h1 class="quran-iraab-page__title">Qurʾān Iʿrāb</h1>
       <p class="quran-iraab-page__lede">
-        Study grammar in context: each phrase is paired with its analysis. Tap a <strong class="quran-iraab-page__lede-strong">rule</strong> to open the full lesson—same course as the map.
+        Read each verse once, tap words for English glosses, and use your notes if you like. Lesson links for grammar rules live in the course map when you need deeper explanations.
       </p>
       <div class="quran-iraab-page__instructions" aria-label="How to use this page">
         <p class="quran-iraab-page__instruction">
@@ -68,7 +68,7 @@
         </p>
         <p class="quran-iraab-page__instruction">
           <span class="quran-iraab-page__instruction-num" aria-hidden="true">٢</span>
-          <span class="quran-iraab-page__instruction-text">Full iʿrāb shows by default. Turn on <strong>Show prompts</strong> in the toolbar for think-first questions. Colored terms match the scholar colour key (toolbar). Tap an underlined grammatical term to open its lesson.</span>
+          <span class="quran-iraab-page__instruction-text">Tap a word in the verse (teal underline shows the active word). The English gloss appears below; use <strong>←</strong> / <strong>→</strong> or the arrows to move between analysed words. Optional <strong>My note</strong> saves per word in this browser.</span>
         </p>
         <p class="quran-iraab-page__instruction">
           <span class="quran-iraab-page__instruction-num" aria-hidden="true">٣</span>
@@ -87,17 +87,10 @@
 
     <div class="quran-iraab-toolbar">
       <div class="quran-iraab-toolbar__card">
-        <div class="qg-mode-bar qg-mode-bar--toolbar" role="radiogroup" aria-label="Reading mode">
-          <div class="qg-mode-bar__inner">
-            <button type="button" class="qg-mode-btn" data-qg-mode="beginner" aria-pressed="true">🌱 Beginner</button>
-            <button type="button" class="qg-mode-btn" data-qg-mode="scholar" aria-pressed="false">📖 Scholar</button>
-          </div>
-        </div>
         <div class="quran-iraab-toolbar__grid">
           <div class="quran-iraab-toolbar__field">
             <label class="quran-iraab-toolbar__label" for="quran-iraab-surah">
-              <span class="quran-iraab-toolbar__label-en">Surah</span>
-              <span class="quran-iraab-toolbar__label-ar" lang="ar" dir="rtl" data-harakah-chrome>السُّورَةُ</span>
+              <span class="quran-iraab-toolbar__label-text">Surah</span>
             </label>
             <div class="quran-iraab-toolbar__select-wrap quran-iraab-toolbar__select-wrap--surah">
               <select id="quran-iraab-surah" class="quran-iraab-toolbar__select" aria-label="Choose surah" lang="ar" dir="rtl"></select>
@@ -105,8 +98,7 @@
           </div>
           <div class="quran-iraab-toolbar__field">
             <label class="quran-iraab-toolbar__label" for="quran-iraab-ayah">
-              <span class="quran-iraab-toolbar__label-en">Ayah</span>
-              <span class="quran-iraab-toolbar__label-ar" lang="ar" dir="rtl" data-harakah-chrome>الْآيَةُ</span>
+              <span class="quran-iraab-toolbar__label-text">Ayah</span>
             </label>
             <div class="quran-iraab-toolbar__select-wrap quran-iraab-toolbar__select-wrap--ayah">
               <select id="quran-iraab-ayah" class="quran-iraab-toolbar__select" aria-label="Choose āyah" lang="ar" dir="rtl"></select>
@@ -114,54 +106,63 @@
           </div>
         </div>
         <div class="quran-iraab-toolbar__actions">
-          <div class="quran-iraab-toolbar__secondary" title="Show think-first prompts before each analysis. Off by default. Saved in this browser.">
-            <label class="quran-iraab-toolbar__toggle">
-              <input type="checkbox" id="quran-iraab-show-prompts" class="quran-iraab-toolbar__toggle-input" />
-              <span class="quran-iraab-toolbar__toggle-body">
-                <span class="quran-iraab-toolbar__toggle-en">Show prompts</span>
-                <span class="quran-iraab-toolbar__toggle-ar" lang="ar" dir="rtl" data-harakah-chrome>إِظْهَارُ الْأَسْئِلَةِ</span>
-              </span>
-            </label>
-            <div class="quran-iraab-toolbar__harakah" title="Show / hide vowel marks (تشكيل)">
-              <span class="quran-iraab-toolbar__harakah-label">Tashkīl</span>
-              <button
-                type="button"
-                id="quran-iraab-toggle-harakah"
-                class="quran-iraab-toolbar__btn quran-iraab-toolbar__btn--secondary quran-iraab-toolbar__harakah-btn"
-                data-toggle-harakah
-                lang="ar"
-                dir="rtl"
-              >
-                إخفاء التشكيل
-              </button>
+          <div class="quran-iraab-toolbar__secondary">
+            <div
+              class="quran-iraab-toolbar__grammar-mode"
+              role="radiogroup"
+              aria-labelledby="quran-iraab-grammar-mode-label"
+              title="Beginner: structured Arabic rows in the focus card. Scholar: colour-coded analysis and grammar legend. Saved in this browser. Keyboard: Alt+G (Option+G on Mac — physical G key) toggles Beginner/Scholar, except inside selects, inputs, textareas, or the Browse / Surahs controls."
+            >
+              <span class="quran-iraab-toolbar__group-label" id="quran-iraab-grammar-mode-label">View</span>
+              <div class="quran-iraab-toolbar__mode-radios">
+                <label class="quran-iraab-toolbar__mode-option">
+                  <input
+                    type="radio"
+                    name="quran-iraab-grammar-mode"
+                    value="beginner"
+                    id="quran-iraab-mode-beginner"
+                    class="quran-iraab-toolbar__mode-input"
+                    checked
+                  />
+                  <span class="quran-iraab-toolbar__mode-option-text">Beginner</span>
+                </label>
+                <label class="quran-iraab-toolbar__mode-option">
+                  <input
+                    type="radio"
+                    name="quran-iraab-grammar-mode"
+                    value="scholar"
+                    id="quran-iraab-mode-scholar"
+                    class="quran-iraab-toolbar__mode-input"
+                  />
+                  <span class="quran-iraab-toolbar__mode-option-text">Scholar</span>
+                </label>
+              </div>
             </div>
             <div
               class="quran-iraab-toolbar__mark-studied"
               title="Tracks this surah as finished for you in this browser only."
             >
-              <span class="quran-iraab-toolbar__harakah-label">Progress</span>
+              <span class="quran-iraab-toolbar__group-label">Progress</span>
               <button
                 type="button"
                 id="quran-iraab-mark-surah-studied"
                 class="quran-iraab-toolbar__btn quran-iraab-toolbar__btn--secondary quran-iraab-toolbar__mark-studied-btn"
                 aria-pressed="false"
               >
-                <span class="quran-iraab-toolbar__mark-studied-en">Mark surah studied</span>
-                <span class="quran-iraab-toolbar__mark-studied-ar" lang="ar" dir="rtl">أَنْهَيْتُ دِرَاسَةَ هَذِهِ السُّورَةِ</span>
+                <span class="quran-iraab-toolbar__btn-label">Mark surah studied</span>
               </button>
             </div>
             <div
               class="quran-iraab-toolbar__notes-download"
               title="Export all per-word notes as JSON (keys like 95-1::0 = āyah + word row)"
             >
-              <span class="quran-iraab-toolbar__harakah-label">Notes backup</span>
+              <span class="quran-iraab-toolbar__group-label">Notes backup</span>
               <button
                 type="button"
                 id="quran-iraab-download-notes"
                 class="quran-iraab-toolbar__btn quran-iraab-toolbar__btn--secondary quran-iraab-toolbar__notes-download-btn"
               >
-                <span class="quran-iraab-toolbar__notes-download-en">Download notes</span>
-                <span class="quran-iraab-toolbar__notes-download-ar" lang="ar" dir="rtl">تَنْزِيلُ الْمُلَاحَظَاتِ</span>
+                <span class="quran-iraab-toolbar__btn-label">Download notes</span>
               </button>
             </div>
           </div>
@@ -169,15 +170,109 @@
       </div>
     </div>
 
-    <div id="qg-global-legend" class="qg-iraab-legend qg-iraab-legend--global" lang="en" dir="ltr" aria-label="Colour key for grammar terms">
-      <span class="qg-iraab-legend__items">
-        <span class="qg-iraab-legend__item"><span class="irab-term t-verb qg-iraab-legend__chip" dir="rtl" lang="ar">فِعْل</span> Verb</span>
-        <span class="qg-iraab-legend__item"><span class="irab-term t-case qg-iraab-legend__chip" dir="rtl" lang="ar">إعْرَاب</span> Grammatical case</span>
-        <span class="qg-iraab-legend__item"><span class="irab-term t-pronoun qg-iraab-legend__chip" dir="rtl" lang="ar">ضَمِير</span> Pronoun</span>
-        <span class="qg-iraab-legend__item"><span class="irab-term t-particle qg-iraab-legend__chip" dir="rtl" lang="ar">حَرْف</span> Particle / preposition</span>
-        <span class="qg-iraab-legend__item"><span class="irab-term t-sign qg-iraab-legend__chip" dir="rtl" lang="ar">عَلَامَة</span> Vowel sign</span>
-        <span class="qg-iraab-legend__item"><span class="irab-term t-clause qg-iraab-legend__chip" dir="rtl" lang="ar">جُمْلَة</span> Clause</span>
-      </span>
+    <div id="qg-global-legend" class="qg-iraab-legend qg-iraab-legend--global qg-scholar-only" lang="en" dir="ltr" aria-label="Colour key for grammar terms">
+      <div class="qg-iraab-legend__sections">
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--nouns" aria-labelledby="qg-leg-nouns">
+          <h3 id="qg-leg-nouns" class="qg-iraab-legend__heading">Nouns &amp; noun functions</h3>
+          <p class="qg-iraab-legend__blurb">Purple — the base substance of a sentence</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--nouns" dir="rtl" lang="ar">مُبْتَدَأ</span> <span class="qg-iraab-legend__lat">mubtadaʾ</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--nouns" dir="rtl" lang="ar">خَبَر</span> <span class="qg-iraab-legend__lat">khabar</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--nouns" dir="rtl" lang="ar">فَاعِل</span> <span class="qg-iraab-legend__lat">fāʿil</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--nouns" dir="rtl" lang="ar">نَائِبُ الْفَاعِلِ</span> <span class="qg-iraab-legend__lat">nāʾib fāʿil</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--nouns" dir="rtl" lang="ar">اسْم</span> <span class="qg-iraab-legend__lat">ism</span></li>
+          </ul>
+        </section>
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--verbs" aria-labelledby="qg-leg-verbs">
+          <h3 id="qg-leg-verbs" class="qg-iraab-legend__heading">Verbs</h3>
+          <p class="qg-iraab-legend__blurb">Coral — action &amp; movement</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--verbs" dir="rtl" lang="ar">فِعْلُ أَمْر</span> <span class="qg-iraab-legend__lat">imperative</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--verbs" dir="rtl" lang="ar">فِعْلُ مَاضٍ</span> <span class="qg-iraab-legend__lat">past</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--verbs" dir="rtl" lang="ar">فِعْلُ مُضَارِع</span> <span class="qg-iraab-legend__lat">present / future</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--verbs" dir="rtl" lang="ar">مَاضٍ لِلْمَجْهُولِ</span> <span class="qg-iraab-legend__lat">past passive</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--verbs" dir="rtl" lang="ar">مُضَارِعٌ لِلْمَجْهُولِ</span> <span class="qg-iraab-legend__lat">present passive</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--verbs" dir="rtl" lang="ar">كَانَ وَأَخَوَاتُهَا</span> <span class="qg-iraab-legend__lat">kāna sisters</span></li>
+          </ul>
+        </section>
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--irab" aria-labelledby="qg-leg-irab">
+          <h3 id="qg-leg-irab" class="qg-iraab-legend__heading">Iʿrāb signs — case &amp; mood</h3>
+          <p class="qg-iraab-legend__blurb">Blue — the grammar signal itself</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--irab" dir="rtl" lang="ar">رَفْع</span> <span class="qg-iraab-legend__lat">rafʿ (ḍammah / wāw / nūn)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--irab" dir="rtl" lang="ar">نَصْب</span> <span class="qg-iraab-legend__lat">naṣb (fatḥah / alif / yāʾ)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--irab" dir="rtl" lang="ar">جَرّ</span> <span class="qg-iraab-legend__lat">jarr (kasrah / yāʾ)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--irab" dir="rtl" lang="ar">جَزْم</span> <span class="qg-iraab-legend__lat">jazm (sukūn)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--irab" dir="rtl" lang="ar">مَبْنِيّ</span> <span class="qg-iraab-legend__lat">mabnī (fixed)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--irab" dir="rtl" lang="ar">أَفْعَالُ الْخَمْسَةِ</span> <span class="qg-iraab-legend__lat">afʿāl khamsah rafʿ</span></li>
+          </ul>
+        </section>
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--particles" aria-labelledby="qg-leg-part">
+          <h3 id="qg-leg-part" class="qg-iraab-legend__heading">Particles &amp; connectors</h3>
+          <p class="qg-iraab-legend__blurb">Teal — the glue between words</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--particles" dir="rtl" lang="ar">حَرْفُ جَرّ</span> <span class="qg-iraab-legend__lat">ḥarf jarr</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--particles" dir="rtl" lang="ar">حَرْفُ عَطْف</span> <span class="qg-iraab-legend__lat">ʿaṭf</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--particles" dir="rtl" lang="ar">إِنَّ وَأَخَوَاتُهَا</span> <span class="qg-iraab-legend__lat">inna sisters</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--particles" dir="rtl" lang="ar">حَرْفُ شَرْط</span> <span class="qg-iraab-legend__lat">conditional particle</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--particles" dir="rtl" lang="ar">لَا النَّاهِيَة</span> <span class="qg-iraab-legend__lat">prohibitive lā</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--particles" dir="rtl" lang="ar">لَا النَّافِيَة</span> <span class="qg-iraab-legend__lat">negation lā</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--particles" dir="rtl" lang="ar">لَمْ / لَامُ الْأَمْرِ</span> <span class="qg-iraab-legend__lat">jussive particles</span></li>
+          </ul>
+        </section>
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--pronouns" aria-labelledby="qg-leg-pro">
+          <h3 id="qg-leg-pro" class="qg-iraab-legend__heading">Pronouns</h3>
+          <p class="qg-iraab-legend__blurb">Pink — persons &amp; reference</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--pronouns" dir="rtl" lang="ar">ضَمِيرٌ مُتَّصِل</span> <span class="qg-iraab-legend__lat">attached pronoun</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--pronouns" dir="rtl" lang="ar">ضَمِيرٌ مُنْفَصِل</span> <span class="qg-iraab-legend__lat">detached pronoun</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--pronouns" dir="rtl" lang="ar">ضَمِيرٌ مُسْتَتِر</span> <span class="qg-iraab-legend__lat">hidden pronoun</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--pronouns" dir="rtl" lang="ar">اسْمُ إِشَارَة</span> <span class="qg-iraab-legend__lat">demonstrative</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--pronouns" dir="rtl" lang="ar">اسْمٌ مَوْصُول</span> <span class="qg-iraab-legend__lat">relative noun</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--pronouns" dir="rtl" lang="ar">اسْمُ اسْتِفْهَام</span> <span class="qg-iraab-legend__lat">interrogative</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--pronouns" dir="rtl" lang="ar">مُنَادًى (يَا)</span> <span class="qg-iraab-legend__lat">vocative</span></li>
+          </ul>
+        </section>
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--modifiers" aria-labelledby="qg-leg-mod">
+          <h3 id="qg-leg-mod" class="qg-iraab-legend__heading">Noun modifiers</h3>
+          <p class="qg-iraab-legend__blurb">Amber — words that describe or complete nouns</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">نَعْت / صِفَة</span> <span class="qg-iraab-legend__lat">adjective</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">مُضَافٌ إِلَيْهِ</span> <span class="qg-iraab-legend__lat">iḍāfah (genitive)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">بَدَل</span> <span class="qg-iraab-legend__lat">badal (apposition)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">حَال</span> <span class="qg-iraab-legend__lat">ḥāl (circumstantial)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">تَمْيِيز</span> <span class="qg-iraab-legend__lat">tamyīz (specification)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">مَفْعُولٌ بِهِ</span> <span class="qg-iraab-legend__lat">direct object</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">مَفْعُولٌ مُطْلَق</span> <span class="qg-iraab-legend__lat">cognate object</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--modifiers" dir="rtl" lang="ar">ظَرْفُ زَمَان / مَكَان</span> <span class="qg-iraab-legend__lat">adverb of time / place</span></li>
+          </ul>
+        </section>
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--clauses" aria-labelledby="qg-leg-clause">
+          <h3 id="qg-leg-clause" class="qg-iraab-legend__heading">Sentence-level grammar</h3>
+          <p class="qg-iraab-legend__blurb">Green — how clauses relate &amp; function</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--clauses" dir="rtl" lang="ar">صِلَةُ الْمَوْصُولِ</span> <span class="qg-iraab-legend__lat">relative clause</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--clauses" dir="rtl" lang="ar">جَوَابُ الشَّرْطِ</span> <span class="qg-iraab-legend__lat">conditional response</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--clauses" dir="rtl" lang="ar">جُمْلَةٌ فِعْلِيَّة</span> <span class="qg-iraab-legend__lat">verbal sentence</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--clauses" dir="rtl" lang="ar">جُمْلَةٌ اسْمِيَّة</span> <span class="qg-iraab-legend__lat">nominal sentence</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--clauses" dir="rtl" lang="ar">جَوَابُ الْقَسَمِ</span> <span class="qg-iraab-legend__lat">oath response</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--clauses" dir="rtl" lang="ar">اسْتِئْنَافِيَّة</span> <span class="qg-iraab-legend__lat">resumptive clause</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--clauses" dir="rtl" lang="ar">الْمَصْدَرُ الْمُؤَوَّلُ</span> <span class="qg-iraab-legend__lat">implied maṣdar</span></li>
+          </ul>
+        </section>
+        <section class="qg-iraab-legend__section qg-iraab-legend__section--exceptions" aria-labelledby="qg-leg-exc">
+          <h3 id="qg-leg-exc" class="qg-iraab-legend__heading">Special / exceptions</h3>
+          <p class="qg-iraab-legend__blurb">Gray — uninflected, irregular, footnote-level</p>
+          <ul class="qg-iraab-legend__chip-list">
+            <li><span class="qg-iraab-legend__chip iraab-fam--exceptions" dir="rtl" lang="ar">مَمْنُوعٌ مِنَ الصَّرْفِ</span> <span class="qg-iraab-legend__lat">diptote</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--exceptions" dir="rtl" lang="ar">مُسْتَثْنًى</span> <span class="qg-iraab-legend__lat">exception (illā)</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--exceptions" dir="rtl" lang="ar">جَمْعُ الْمُذَكَّرِ السَّالِمِ</span> <span class="qg-iraab-legend__lat">sound masc. plural</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--exceptions" dir="rtl" lang="ar">جَمْعُ الْمُؤَنَّثِ السَّالِمِ</span> <span class="qg-iraab-legend__lat">sound fem. plural</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--exceptions" dir="rtl" lang="ar">نُونُ التَّوْكِيدِ</span> <span class="qg-iraab-legend__lat">emphatic nūn</span></li>
+            <li><span class="qg-iraab-legend__chip iraab-fam--exceptions" dir="rtl" lang="ar">لَا مَحَلَّ لَهَا</span> <span class="qg-iraab-legend__lat">no grammatical position</span></li>
+          </ul>
+        </section>
+      </div>
     </div>
 
     <div id="quran-iraab-detail" class="quran-iraab-detail" aria-live="polite"></div>
@@ -186,13 +281,73 @@
   </main>
   <div class="quran-iraab-sidebar-backdrop" id="quran-iraab-sidebar-backdrop" aria-hidden="true"></div>
 
+  <button
+    type="button"
+    id="quran-iraab-glossary-fab"
+    class="quran-iraab-glossary-fab"
+    aria-haspopup="dialog"
+    aria-controls="quran-iraab-glossary-dialog"
+    aria-expanded="false"
+    title="Open glossary of common iʿrāb connecting words (Arabic → English)"
+  >
+    <span class="quran-iraab-glossary-fab__label">Iʿrāb words</span>
+  </button>
+
+  <div
+    id="quran-iraab-glossary-overlay"
+    class="quran-iraab-glossary-overlay"
+    aria-hidden="true"
+  >
+    <div class="quran-iraab-glossary-overlay__backdrop" id="quran-iraab-glossary-backdrop"></div>
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="quran-iraab-glossary-title"
+      id="quran-iraab-glossary-dialog"
+      class="quran-iraab-glossary-dialog"
+    >
+      <header class="quran-iraab-glossary-dialog__head">
+        <div class="quran-iraab-glossary-dialog__head-text">
+          <h2 id="quran-iraab-glossary-title" class="quran-iraab-glossary-dialog__title">Iʿrāb connecting words</h2>
+          <p class="quran-iraab-glossary-dialog__sub">Arabic phrases that link analysis together, with short English glosses.</p>
+        </div>
+        <button
+          type="button"
+          id="quran-iraab-glossary-close"
+          class="quran-iraab-glossary-dialog__close"
+          aria-label="Close glossary"
+        >
+          ×
+        </button>
+      </header>
+      <div class="quran-iraab-glossary-dialog__scroll">
+        <table class="quran-iraab-glossary-table">
+          <thead>
+            <tr>
+              <th scope="col" class="quran-iraab-glossary-table__th quran-iraab-glossary-table__th--ar" lang="ar" dir="rtl">الْعَبَارَةُ</th>
+              <th scope="col" class="quran-iraab-glossary-table__th quran-iraab-glossary-table__th--en" lang="en" dir="ltr">English</th>
+            </tr>
+          </thead>
+          <tbody id="quran-iraab-glossary-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <script src="utils/harakah.js?v=2" defer></script>
+  <script src="utils/iraab-word-gloss-en.js?v=5" defer></script>
+  <script src="utils/quran-wbw-api.js?v=2" defer></script>
   <script src="course-outline.js" defer></script>
   <script src="iraab-colorize.js" defer></script>
   <script src="quran-text-96-114.js" defer></script>
   <script src="quran-iraab-data.js?v=3" defer></script>
   <script src="utils/iraab-simple-en.js?v=1" defer></script>
-  <script src="quran-iraab.js?v=30" defer></script>
+  <script type="module">
+    import { parseIraab } from './utils/iraab-parser.js?v=1';
+    window.parseIraab = parseIraab;
+  </script>
+  <script src="utils/iraab-connecting-glossary.js?v=1" defer></script>
+  <script src="quran-iraab.js?v=64" defer></script>
   <div id="qg-tooltip" class="qg-tooltip" hidden lang="ar" dir="rtl"></div>
 </body>
 </html>
