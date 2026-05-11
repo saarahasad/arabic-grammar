@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="paper-plain">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iʿrāb terms — flashcards — Arabic Grammar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=44">
+  <link rel="stylesheet" href="iraab-terms-flashcards.css?v=2">
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html" class="site-nav__brand">Arabic Grammar</a>
+      <div class="site-nav__links">
+        <a href="index.html" class="site-nav__link">Home</a>
+        <a href="map.html" class="site-nav__link">Map of Arabic Grammar</a>
+        <a href="quran-iraab.html" class="site-nav__link">Qurʾān Iʿrāb</a>
+        <a href="iraab-quiz.html" class="site-nav__link">Iʿrāb quiz</a>
+        <a href="iraab-terms-flashcards.html" class="site-nav__link site-nav__link--active" aria-current="page">Iʿrāb flashcards</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flashcards-page" id="main">
+    <p class="flashcards-page__kicker" lang="ar" dir="rtl">بِطَاقَاتٌ لِمُصْطَلَحَاتِ الْإِعْرَابِ</p>
+    <h1 class="flashcards-page__title">Iʿrāb terminology flashcards</h1>
+    <p class="flashcards-page__lede">
+      Forty-four common Arabic grammar labels used in Qurʾānic analysis, with short English glosses.
+      Flip to check yourself; shuffle when you want a new order.
+    </p>
+
+    <div class="flashcards-toolbar" aria-label="Study options">
+      <span id="flashcards-counter" class="flashcards-counter" aria-live="polite">1 / 44</span>
+      <div class="flashcards-toolbar__group" role="group" aria-label="Which side shows first">
+        <span>First side:</span>
+        <label><input type="radio" name="flashcards-face" value="ar" checked /> Arabic</label>
+        <label><input type="radio" name="flashcards-face" value="en" /> English</label>
+      </div>
+      <button type="button" class="flashcards-btn" id="flashcards-shuffle">Shuffle</button>
+    </div>
+
+    <div id="flashcards-root"></div>
+
+    <div class="flashcards-actions">
+      <button type="button" class="flashcards-btn" id="flashcards-prev" aria-label="Previous card">← Previous</button>
+      <button type="button" class="flashcards-btn flashcards-btn--primary" id="flashcards-flip">Flip card</button>
+      <button type="button" class="flashcards-btn" id="flashcards-next" aria-label="Next card">Next →</button>
+    </div>
+
+    <p class="flashcards-footer">
+      <a href="quran-iraab.html">← Qurʾān Iʿrāb</a>
+      &nbsp;·&nbsp;
+      <a href="iraab-quiz.html">Iʿrāb quiz</a>
+    </p>
+  </main>
+
+  <script src="iraab-terms-flashcards.js?v=2" defer></script>
+</body>
+</html>

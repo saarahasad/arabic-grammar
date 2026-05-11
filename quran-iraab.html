@@ -6,9 +6,10 @@
   <title>Qurʾān Iʿrāb — Arabic Grammar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=Scheherazade+New:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=44">
-  <link rel="stylesheet" href="quran-iraab.css?v=68">
+  <link rel="stylesheet" href="quran-iraab.css?v=73">
+  <link rel="stylesheet" href="surah-iraab-revision.css?v=14">
 </head>
 <body class="quran-iraab-body">
   <header class="site-header" role="banner">
@@ -19,6 +20,8 @@
         <a href="map.html" class="site-nav__link">Map of Arabic Grammar</a>
         <a href="quran-iraab.html" class="site-nav__link site-nav__link--active" aria-current="page">Qurʾān Iʿrāb</a>
         <a href="iraab-quiz.html" class="site-nav__link">Iʿrāb quiz</a>
+        <a href="iraab-terms-flashcards.html" class="site-nav__link">Iʿrāb flashcards</a>
+        <a href="surah-iraab-revision.html" class="site-nav__link">Revision index</a>
       </div>
     </nav>
   </header>
@@ -60,6 +63,7 @@
       <h1 class="quran-iraab-page__title">Qurʾān Iʿrāb</h1>
       <p class="quran-iraab-page__lede">
         Read each verse once, tap words for English glosses, and use your notes if you like. Lesson links for grammar rules live in the course map when you need deeper explanations.
+        Surahs <strong>91–101</strong>: use <strong>View → Mushaf</strong> or <strong>Table</strong> on this page for the full-surah Arabic tag walkthrough (same data as the <a href="surah-iraab-revision.html">revision index</a>).
       </p>
       <div class="quran-iraab-page__instructions" aria-label="How to use this page">
         <p class="quran-iraab-page__instruction">
@@ -111,10 +115,10 @@
               class="quran-iraab-toolbar__grammar-mode"
               role="radiogroup"
               aria-labelledby="quran-iraab-grammar-mode-label"
-              title="Beginner: structured Arabic rows in the focus card. Scholar: colour-coded analysis and grammar legend. Saved in this browser. Keyboard: Alt+G (Option+G on Mac — physical G key) toggles Beginner/Scholar, except inside selects, inputs, textareas, or the Browse / Surahs controls."
+              title="Beginner / Scholar: per-āyah iʿrāb cards. Mushaf / Table: full-surah Arabic tag walkthrough (surahs 91–101). Saved in this browser. Alt+G (Option+G on Mac — physical G key) toggles Beginner/Scholar when not in a select, input, textarea, or the Browse / Surahs controls."
             >
               <span class="quran-iraab-toolbar__group-label" id="quran-iraab-grammar-mode-label">View</span>
-              <div class="quran-iraab-toolbar__mode-radios">
+              <div class="quran-iraab-toolbar__mode-radios quran-iraab-toolbar__mode-radios--quad">
                 <label class="quran-iraab-toolbar__mode-option">
                   <input
                     type="radio"
@@ -136,7 +140,41 @@
                   />
                   <span class="quran-iraab-toolbar__mode-option-text">Scholar</span>
                 </label>
+                <label class="quran-iraab-toolbar__mode-option">
+                  <input
+                    type="radio"
+                    name="quran-iraab-grammar-mode"
+                    value="rev-mushaf"
+                    id="quran-iraab-mode-rev-mushaf"
+                    class="quran-iraab-toolbar__mode-input"
+                  />
+                  <span class="quran-iraab-toolbar__mode-option-text">Mushaf</span>
+                </label>
+                <label class="quran-iraab-toolbar__mode-option">
+                  <input
+                    type="radio"
+                    name="quran-iraab-grammar-mode"
+                    value="rev-table"
+                    id="quran-iraab-mode-rev-table"
+                    class="quran-iraab-toolbar__mode-input"
+                  />
+                  <span class="quran-iraab-toolbar__mode-option-text">Table</span>
+                </label>
               </div>
+            </div>
+            <div
+              class="quran-iraab-toolbar__harakah"
+              title="Show or hide Arabic ḥarakāt (tashkīl) on iʿrāb analysis, lesson pills, and surah / āyah menus. Verse text always keeps its marks. Saved in this browser."
+            >
+              <span class="quran-iraab-toolbar__group-label">Tashkīl</span>
+              <button
+                type="button"
+                id="quran-iraab-toggle-harakah"
+                class="quran-iraab-toolbar__btn quran-iraab-toolbar__btn--secondary quran-iraab-toolbar__harakah-btn"
+                aria-pressed="true"
+              >
+                <span class="quran-iraab-toolbar__btn-label" data-harakah-on-label="Hide ḥarakāt" data-harakah-off-label="Show ḥarakāt">Hide ḥarakāt</span>
+              </button>
             </div>
             <div
               class="quran-iraab-toolbar__mark-studied"
@@ -335,19 +373,20 @@
   </div>
 
   <script src="utils/harakah.js?v=2" defer></script>
-  <script src="utils/iraab-word-gloss-en.js?v=5" defer></script>
+  <script src="utils/iraab-word-gloss-en.js?v=9" defer></script>
   <script src="utils/quran-wbw-api.js?v=2" defer></script>
   <script src="course-outline.js" defer></script>
   <script src="iraab-colorize.js" defer></script>
   <script src="quran-text-96-114.js" defer></script>
-  <script src="quran-iraab-data.js?v=3" defer></script>
+  <script src="quran-iraab-data.js?v=4" defer></script>
   <script src="utils/iraab-simple-en.js?v=1" defer></script>
   <script type="module">
     import { parseIraab } from './utils/iraab-parser.js?v=1';
     window.parseIraab = parseIraab;
   </script>
   <script src="utils/iraab-connecting-glossary.js?v=1" defer></script>
-  <script src="quran-iraab.js?v=64" defer></script>
-  <div id="qg-tooltip" class="qg-tooltip" hidden lang="ar" dir="rtl"></div>
+  <script src="surah-iraab-revision.js?v=12" defer></script>
+  <script src="quran-iraab.js?v=69" defer></script>
+  <div id="qg-tooltip" class="qg-tooltip" lang="en" dir="ltr" aria-hidden="true"></div>
 </body>
 </html>

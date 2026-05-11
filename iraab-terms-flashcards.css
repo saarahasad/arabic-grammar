@@ -1,0 +1,256 @@
+/* Iʿrāb terminology flashcards */
+
+.flashcards-page {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.flashcards-page__kicker {
+  font-family: var(--font-arabic-ui, 'Cairo', sans-serif);
+  text-align: center;
+  color: var(--accent-sentence, #0f766e);
+  font-size: 0.95rem;
+  margin: 0 0 0.35rem;
+}
+
+.flashcards-page__title {
+  text-align: center;
+  font-size: 1.65rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  color: var(--ink, #1e293b);
+}
+
+.flashcards-page__lede {
+  text-align: center;
+  color: var(--ink-muted, #64748b);
+  font-size: 0.95rem;
+  margin: 0 0 1.5rem;
+  line-height: 1.55;
+}
+
+.flashcards-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.flashcards-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--ink-muted, #64748b);
+}
+
+.flashcards-toolbar__group label {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.flashcards-btn {
+  font-family: var(--font-latin, inherit);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--bg, #fff);
+  color: var(--ink, #1e293b);
+  cursor: pointer;
+  box-shadow: var(--card-shadow, 0 2px 6px rgba(0, 0, 0, 0.05));
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.flashcards-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--card-shadow-hover, 0 4px 14px rgba(0, 0, 0, 0.065));
+}
+
+.flashcards-btn:active {
+  transform: translateY(0);
+}
+
+.flashcards-btn--primary {
+  border-color: rgba(15, 118, 110, 0.35);
+  background: linear-gradient(145deg, #f0fdfa, #ccfbf1);
+  color: #0f766e;
+}
+
+.flashcards-counter {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  color: var(--ink-muted, #64748b);
+  min-width: 4.5rem;
+  text-align: center;
+}
+
+#flashcards-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.flashcards-scene {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 28rem;
+  /* Reserve vertical space so flex parents never collapse this region */
+  min-height: 12rem;
+}
+
+/*
+ * Use a div[role="button"], not <button>: WebKit/Safari often gives a <button>
+ * zero height when its only children are position:absolute, which collapses the
+ * flip card and stacks controls on top of the text (thin focus outline bar).
+ */
+.flashcards-card {
+  display: block;
+  width: 100%;
+  min-height: 12rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--card-radius, 16px);
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+.flashcards-card:focus {
+  outline: none;
+}
+
+.flashcards-card:focus-visible {
+  outline: 3px solid rgba(67, 56, 202, 0.45);
+  outline-offset: 4px;
+}
+
+.flashcards-card__inner {
+  position: relative;
+  width: 100%;
+  min-height: 12rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(12rem, auto);
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+  border-radius: var(--card-radius, 16px);
+}
+
+.flashcards-card__inner--flipped {
+  transform: rotateY(180deg);
+}
+
+/* Stack both faces in the same grid cell (no absolute positioning). */
+.flashcards-card__face {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 12rem;
+  margin: 0;
+  padding: 1.35rem 1.25rem;
+  border-radius: var(--card-radius, 16px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    var(--card-shadow, 0 2px 6px rgba(0, 0, 0, 0.05));
+  border: 1px solid var(--card-border, rgba(0, 0, 0, 0.08));
+  text-align: center;
+  line-height: 1.55;
+  box-sizing: border-box;
+}
+
+.flashcards-card__face--a {
+  background: linear-gradient(155deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.flashcards-card__face--b {
+  transform: rotateY(180deg);
+  background: linear-gradient(155deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.flashcards-card__face--ar {
+  font-family: var(--font-arabic, 'Amiri', serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--ink, #1e293b);
+}
+
+.flashcards-card__face--en {
+  font-family: var(--font-latin, 'Inter', system-ui, sans-serif);
+  font-size: 1rem;
+  font-weight: 450;
+  color: var(--ink, #1e293b);
+}
+
+.flashcards-hint {
+  margin: 0;
+  padding-top: 0.25rem;
+  font-size: 0.82rem;
+  color: var(--ink-muted, #64748b);
+  text-align: center;
+  max-width: 26rem;
+  line-height: 1.45;
+}
+
+.flashcards-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.flashcards-footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.flashcards-footer a {
+  color: var(--accent-hub, #4338ca);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.flashcards-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .flashcards-card__face--ar {
+    font-size: 1.2rem;
+  }
+
+  .flashcards-scene {
+    min-height: 10.5rem;
+  }
+
+  .flashcards-card {
+    min-height: 10.5rem;
+  }
+
+  .flashcards-card__inner {
+    grid-template-rows: minmax(10.5rem, auto);
+    min-height: 10.5rem;
+  }
+
+  .flashcards-card__face {
+    min-height: 10.5rem;
+  }
+}

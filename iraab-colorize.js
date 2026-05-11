@@ -1,6 +1,6 @@
 /**
  * Longest-match colorizer for Arabic iʿrāb analysis strings (diacritic-insensitive).
- * Wraps known terminology in pill spans (background + text + border) aligned to grammatical families.
+ * Wraps known terminology in pill spans (background + text; borderless rounded pills) aligned to grammatical families.
  * @param {string} text
  * @returns {string} HTML (non-matches escaped)
  */
@@ -164,9 +164,7 @@
       x.bg +
       '; color: ' +
       x.text +
-      '; border: 0.5px solid ' +
-      x.border +
-      '; border-radius: 4px; padding: 2px 6px; font-weight: 500; cursor: default'
+      '; border: none; border-radius: 999px; padding: 2px 8px; font-weight: 500; cursor: default'
     );
   }
 

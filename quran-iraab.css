@@ -19,6 +19,12 @@
   --iraab-teal-hover: #0f766e;
   --iraab-teal-soft: rgba(13, 148, 136, 0.12);
   --iraab-teal-border: rgba(13, 148, 136, 0.35);
+  /* Pinned āyah word highlight (Beginner): softer mint + thin bottom accent */
+  --iraab-teal-pin-fill: rgba(13, 148, 136, 0.055);
+  --iraab-teal-pin-underline: #6dccc2;
+  --iraab-teal-pin-bar-height: 2px;
+  --iraab-teal-pin-padding-y: 0.52em;
+  --iraab-teal-pin-padding-x: 0.16em;
   --iraab-segment-bg: linear-gradient(145deg, #eff6ff 0%, #dbeafe 55%, #e0e7ff 100%);
   --iraab-segment-border: rgba(59, 130, 246, 0.35);
   --iraab-analysis-font: 'Amiri', serif;
@@ -638,6 +644,48 @@ button.quran-iraab-nav-surah--studied:not(.quran-iraab-nav-surah--current) {
   width: 100%;
 }
 
+.quran-iraab-toolbar__mode-radios--quad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+@media (max-width: 720px) {
+  .quran-iraab-toolbar__mode-radios--quad {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.quran-iraab-toolbar__mode-radios--quad .quran-iraab-toolbar__mode-option-text {
+  font-size: 0.8125rem;
+}
+
+.quran-iraab-revision-embed {
+  margin-top: 0.25rem;
+}
+
+.quran-iraab-revision-embed__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.quran-iraab-revision-fallback {
+  padding: 0.15rem 0;
+}
+
+.quran-iraab-main .quran-iraab-revision-embed.surah-rev-page {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .quran-iraab-toolbar__mode-option {
   flex: 1;
   display: inline-flex;
@@ -976,6 +1024,28 @@ button.quran-iraab-nav-surah--studied:not(.quran-iraab-nav-surah--current) {
   width: 100%;
   text-align: center;
   box-sizing: border-box;
+}
+
+.quran-iraab-toolbar__harakah {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.quran-iraab-toolbar__harakah-btn {
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.quran-iraab-toolbar__harakah-btn[aria-pressed="true"] {
+  border-color: rgba(15, 118, 110, 0.38);
+  background: linear-gradient(180deg, #f0fdfa 0%, #ecfeff 100%);
+  color: #0f766e;
+  box-shadow: 0 1px 3px rgba(13, 148, 136, 0.12);
 }
 
 .quran-iraab__grid {
@@ -1410,61 +1480,61 @@ button.quran-iraab__prompt-face:focus-visible {
 .qg-iraab-legend__chip.iraab-fam--nouns {
   background: #eeedfe;
   color: #3c3489;
-  border: 0.5px solid #afa9ec;
+  border: none;
 }
 
 .irab-term.iraab-fam--verbs,
 .qg-iraab-legend__chip.iraab-fam--verbs {
   background: #faece7;
   color: #712b13;
-  border: 0.5px solid #f0997b;
+  border: none;
 }
 
 .irab-term.iraab-fam--irab,
 .qg-iraab-legend__chip.iraab-fam--irab {
   background: #e6f1fb;
   color: #0c447c;
-  border: 0.5px solid #85b7eb;
+  border: none;
 }
 
 .irab-term.iraab-fam--particles,
 .qg-iraab-legend__chip.iraab-fam--particles {
   background: #e1f5ee;
   color: #085041;
-  border: 0.5px solid #5dcaa5;
+  border: none;
 }
 
 .irab-term.iraab-fam--pronouns,
 .qg-iraab-legend__chip.iraab-fam--pronouns {
   background: #fbeaf0;
   color: #72243e;
-  border: 0.5px solid #ed93b1;
+  border: none;
 }
 
 .irab-term.iraab-fam--modifiers,
 .qg-iraab-legend__chip.iraab-fam--modifiers {
   background: #faeeda;
   color: #633806;
-  border: 0.5px solid #ef9f27;
+  border: none;
 }
 
 .irab-term.iraab-fam--clauses,
 .qg-iraab-legend__chip.iraab-fam--clauses {
   background: #eaf3de;
   color: #27500a;
-  border: 0.5px solid #97c459;
+  border: none;
 }
 
 .irab-term.iraab-fam--exceptions,
 .qg-iraab-legend__chip.iraab-fam--exceptions {
   background: #f1efe8;
   color: #444441;
-  border: 0.5px solid #b4b2a9;
+  border: none;
 }
 
 .irab-term[class*='iraab-fam--'] {
-  border-radius: 4px;
-  padding: 2px 6px;
+  border-radius: 999px;
+  padding: 2px 8px;
   font-weight: 500;
   cursor: default;
   box-decoration-break: clone;
@@ -1521,7 +1591,7 @@ button.quran-iraab__prompt-face:focus-visible {
 
 .quran-iraab__rule-link:focus-visible {
   outline: none;
-  border-radius: 2px;
+  border-radius: 999px;
   box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.2);
 }
 
@@ -1555,7 +1625,7 @@ html.quran-iraab--scholar .quran-iraab__analysis-parts span.irab-term {
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
-  padding: 2px 6px !important;
+  padding: 2px 8px !important;
   overflow: visible !important;
 }
 
@@ -1707,8 +1777,8 @@ html.quran-iraab--scholar .qg-word-card__iraab-body .quran-iraab__analysis-parts
 }
 
 .qg-iraab-legend__chip {
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 500;
   font-family: var(--iraab-analysis-font);
@@ -1925,6 +1995,15 @@ html.quran-iraab--scholar .qg-word-card__iraab-body .quran-iraab__analysis-parts
   unicode-bidi: isolate;
 }
 
+.qg-word-card__note--has-note {
+  background: linear-gradient(180deg, rgba(240, 253, 250, 0.85) 0%, #ffffff 55%);
+  border-top: 1px solid rgba(13, 148, 136, 0.12);
+  margin-top: 0.15rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.55rem;
+  border-radius: 0 0 10px 10px;
+}
+
 /* Saved explanation: read as page copy; textarea hidden until Edit */
 .qg-word-card__note--has-note .qg-word-card__note-input {
   display: none;
@@ -1977,9 +2056,9 @@ html.quran-iraab--scholar .qg-word-card__iraab-body .quran-iraab__analysis-parts
 .qg-word-card__note-bullets li {
   position: relative;
   margin: 0;
-  padding: 0 0 0 1.1rem;
-  line-height: 1.4;
-  color: #475569;
+  padding: 0.2rem 0 0.2rem 1.15rem;
+  line-height: 1.45;
+  color: #334155;
 }
 
 /* Round marker: same accent as the word card (amber / blue / green theme) */
@@ -2046,45 +2125,67 @@ html.quran-iraab--scholar .qg-word-card__iraab-body .quran-iraab__analysis-parts
   box-shadow: 0 0 0 2px var(--iraab-teal-soft);
 }
 
-/* Scholar analysis pills: inline styles + tooltip `.irab-term` stay visible */
+/* Highlighted grammar lemmas in analysis: hover shows English gloss (`data-def` / `#qg-tooltip`). */
 
-/* Floating tooltip (scholar) */
+.quran-iraab__analysis-parts span.irab-term[data-def],
+.quran-iraab-detail .qg-iraab-tip[data-def] {
+  cursor: help;
+}
+
+/* Floating tooltip — fade/slide via `.qg-tooltip--visible` (see `wireQgIraabTooltip`) */
 #qg-tooltip.qg-tooltip {
   position: fixed;
   z-index: 20000;
   left: 0;
   top: 0;
-  max-width: 240px;
-  padding: 0.65rem 0.85rem;
-  background: #1c1c1e;
-  color: #fff;
+  max-width: 280px;
+  padding: 0.7rem 0.95rem;
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid rgba(15, 23, 42, 0.14);
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.12);
   pointer-events: none;
-  font-size: 0.88rem;
-  line-height: 1.45;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 6px, 0);
+  transition:
+    opacity 0.14s ease-out,
+    transform 0.14s ease-out,
+    visibility 0.14s;
+  will-change: opacity, transform;
+}
+
+#qg-tooltip.qg-tooltip.qg-tooltip--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
 }
 
 .qg-tooltip__term {
   font-family: 'Amiri', serif;
-  font-size: 1.05rem;
+  font-size: 1.06rem;
   font-weight: 600;
-  margin: 0 0 0.25rem;
-  color: #fff;
+  margin: 0 0 0.3rem;
+  color: #0f172a;
 }
 
 .qg-tooltip__roman {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-style: italic;
-  color: #94a3b8;
-  margin: 0 0 0.35rem;
+  color: #64748b;
+  margin: 0 0 0.4rem;
 }
 
 .qg-tooltip__def {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.8rem;
-  color: #f8fafc;
+  font-size: 0.84rem;
+  color: #334155;
   margin: 0;
   white-space: pre-wrap;
 }
@@ -2491,10 +2592,16 @@ html.quran-iraab--hide-wbw .quran-iraab__wbw {
 }
 
 .quran-iraab__ayah--tokens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.25rem 0.45rem;
+  direction: rtl;
   margin: 0;
   font-family: var(--font-quran-uthmani);
   font-size: clamp(1.55rem, 3.8vw, 2rem);
-  line-height: 2.1;
+  line-height: 1.35;
   color: #0f172a;
   font-weight: 400;
   text-align: center;
@@ -2502,10 +2609,55 @@ html.quran-iraab--hide-wbw .quran-iraab__wbw {
 
 .quran-iraab__ayah-gap {
   white-space: pre-wrap;
+  align-self: flex-end;
+  line-height: 1.35;
+}
+
+/* Beginner: Saheeh-style gloss under each clickable segment (filled after Quran.com WBW fetch).
+ * Use block stacking inside `inline-block` (not flex): some engines still lay out `inline-flex` + RTL
+ * ancestors as one horizontal band (English beside Arabic). */
+.quran-iraab__ayah-token-wrap {
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: min(11rem, 100%);
+  vertical-align: bottom;
+  text-align: center;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.quran-iraab__ayah-token-wrap:not(.quran-iraab__ayah-token-wrap--chip) > .quran-iraab__ayah-token {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.quran-iraab__ayah-token-gloss {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0 2px;
+  clear: both;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(0.68rem, 1.9vw, 0.8rem);
+  font-weight: 500;
+  line-height: 1.3;
+  color: #475569;
+  text-align: center;
+  word-break: break-word;
+}
+
+.quran-iraab__ayah-token-gloss:empty {
+  display: none;
+}
+
+html.quran-iraab--scholar .quran-iraab__ayah-token-gloss {
+  display: none !important;
 }
 
 .quran-iraab__ayah-token {
-  display: inline;
   margin: 0;
   padding: 0 0.05em;
   border: none;
@@ -2518,13 +2670,14 @@ html.quran-iraab--hide-wbw .quran-iraab__wbw {
   color: inherit;
   cursor: pointer;
   vertical-align: baseline;
+  box-sizing: border-box;
   transition:
     background 0.15s ease,
     box-shadow 0.15s ease;
 }
 
 .quran-iraab__ayah-token:hover {
-  background: rgba(13, 148, 136, 0.08);
+  background: rgba(13, 148, 136, 0.055);
 }
 
 .quran-iraab__ayah-token:focus-visible {
@@ -2533,9 +2686,18 @@ html.quran-iraab--hide-wbw .quran-iraab__wbw {
 }
 
 .quran-iraab__ayah-token.is-current {
-  background: rgba(13, 148, 136, 0.1);
-  border-radius: 4px;
-  box-shadow: inset 0 -0.2em 0 0 var(--iraab-teal);
+  background: var(--iraab-teal-pin-fill);
+  border-radius: 8px;
+  padding: var(--iraab-teal-pin-padding-y) var(--iraab-teal-pin-padding-x)
+    calc(var(--iraab-teal-pin-padding-y) + 0.06em);
+  box-shadow: inset 0 calc(-1 * var(--iraab-teal-pin-bar-height)) 0 0 var(--iraab-teal-pin-underline);
+}
+
+.quran-iraab__ayah-token--chip.is-current {
+  padding: 0.52rem 0.55rem 0.56rem;
+  background: var(--iraab-teal-pin-fill);
+  border-radius: 10px;
+  box-shadow: inset 0 calc(-1 * var(--iraab-teal-pin-bar-height)) 0 0 var(--iraab-teal-pin-underline);
 }
 
 .quran-iraab__ayah-fallback-chips {
@@ -2546,6 +2708,16 @@ html.quran-iraab--hide-wbw .quran-iraab__wbw {
   margin-top: 0.75rem;
 }
 
+.quran-iraab__ayah-token-wrap--chip {
+  max-width: min(13rem, 100%);
+}
+
+.quran-iraab__ayah-token-wrap--chip > .quran-iraab__ayah-token--chip {
+  display: inline-flex;
+  width: auto;
+  max-width: 100%;
+}
+
 .quran-iraab__ayah-token--chip {
   display: inline-flex;
   padding: 0.35rem 0.55rem;
@@ -2554,6 +2726,10 @@ html.quran-iraab--hide-wbw .quran-iraab__wbw {
   font-family: var(--font-quran-uthmani);
   font-size: clamp(1.1rem, 2.8vw, 1.35rem);
   line-height: 1.4;
+}
+
+.quran-iraab__ayah-fallback-chips .quran-iraab__ayah-token-gloss {
+  max-width: 12rem;
 }
 
 .quran-iraab__ayah-wrap--wbw-after {
@@ -2722,11 +2898,12 @@ html.quran-iraab--beginner .qg-beginner-focus-dynamic .quran-iraab__analysis-par
   align-items: unset !important;
   justify-content: unset !important;
   box-sizing: border-box !important;
+  font-size: calc(var(--iraab-analysis-size) * 1.12) !important;
   line-height: inherit !important;
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
-  padding: 2px 6px !important;
+  padding: 2px 9px !important;
   overflow: visible !important;
 }
 
@@ -2736,6 +2913,7 @@ html.quran-iraab--beginner .qg-beginner-focus-dynamic .quran-iraab__analysis-par
   align-items: unset !important;
   justify-content: unset !important;
   box-sizing: border-box !important;
+  font-size: calc(var(--iraab-analysis-size) * 1.12) !important;
   line-height: inherit !important;
   height: auto !important;
   min-height: 0 !important;
@@ -2932,6 +3110,11 @@ html.quran-iraab--beginner .qg-beginner-focus-dynamic .quran-iraab__analysis-par
   padding: 0.5rem 0 0;
   margin-top: 0.35rem;
   border-top: 1px solid rgba(241, 245, 249, 0.98);
+}
+
+.quran-iraab__card--beginner .qg-word-card__note--has-note {
+  padding-top: 0.55rem;
+  border-top-color: rgba(13, 148, 136, 0.14);
 }
 
 .quran-iraab__card--beginner .qg-word-card__note-input {

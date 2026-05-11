@@ -1,0 +1,748 @@
+/* Full-surah revision — Arabic grammatical tags (pill chips), one scroll */
+
+@font-face {
+  font-family: 'KFGQPC Uthmanic HAFS';
+  src: url('assets/fonts/kfgqpc-hafs-uthmanic-script-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+#main.surah-rev-page,
+.quran-iraab-revision-embed.surah-rev-page {
+  --rev-fs-mul: 1;
+}
+
+.surah-rev-page {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 4rem;
+  /* Naskh tuned for heavy tashkīl — clearer than Amiri at pill / analysis sizes */
+  --font-arabic-revision: 'Scheherazade New', 'Amiri', serif;
+}
+
+.surah-rev-page__head {
+  margin-bottom: 1.75rem;
+}
+
+.surah-rev-page__kicker {
+  font-size: calc(0.8125rem * var(--rev-fs-mul));
+  color: var(--ink-muted);
+  margin: 0 0 4px;
+}
+
+.surah-rev-page__title {
+  font-family: var(--font-latin);
+  font-size: calc(1.2rem * var(--rev-fs-mul));
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+  color: var(--ink);
+}
+
+.surah-rev-page__title-ar {
+  font-family: var(--font-arabic-revision);
+  font-size: calc(1.35rem * var(--rev-fs-mul));
+  margin: 0 0 0.75rem;
+}
+
+.surah-rev-page__sub {
+  font-size: calc(0.8125rem * var(--rev-fs-mul));
+  color: #64748b;
+  margin: 0 0 0.65rem;
+  line-height: 1.5;
+}
+
+.surah-rev-page__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  font-size: calc(0.8125rem * var(--rev-fs-mul));
+  font-weight: 600;
+}
+
+.surah-rev-page__links a {
+  color: #0d9488;
+  text-decoration: none;
+}
+
+.surah-rev-page__layout-hint {
+  font-family: var(--font-latin, system-ui), sans-serif;
+  font-size: 0.875rem;
+  color: var(--ink-muted, #64748b);
+}
+
+.surah-rev-page__links a:hover {
+  text-decoration: underline;
+}
+
+/* One āyah = one mushaf-style row: segments flow RTL; tags stacked above each phrase */
+
+.surah-rev__ayah {
+  margin: 0;
+  padding: 0;
+}
+
+.surah-rev__ayah-inner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 0.35rem 0.65rem;
+  direction: rtl;
+  padding: 0.55rem 0 0.65rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.surah-rev__ayah:last-child .surah-rev__ayah-inner {
+  border-bottom: none;
+}
+
+.surah-rev__flow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 0.2rem 0.35rem;
+  flex: 1 1 auto;
+  min-width: min(100%, 12rem);
+}
+
+.surah-rev__chunk {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  max-width: 100%;
+}
+
+.surah-rev__tags-above {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  max-width: min(100%, 17rem);
+}
+
+.surah-rev__word-flow {
+  font-family: 'KFGQPC Uthmanic HAFS', 'Amiri Quran', 'Amiri', serif;
+  font-size: calc(1.65rem * var(--rev-fs-mul));
+  line-height: 1.52;
+  color: #0f172a;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Āyah number at verse end (mushaf side): Eastern + Western digits */
+
+.surah-rev__ayah-badge {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 8px 5px;
+  margin-inline-start: 4px;
+  border-radius: 10px;
+  background: rgba(241, 245, 249, 0.95);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  user-select: none;
+  line-height: 1;
+}
+
+.surah-rev__ayah-badge-ar {
+  font-family: var(--font-arabic-revision);
+  font-size: calc(1rem * var(--rev-fs-mul));
+  font-weight: 700;
+  color: #64748b;
+}
+
+.surah-rev__ayah-badge-en {
+  font-family: var(--font-latin);
+  font-size: calc(0.72rem * var(--rev-fs-mul));
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.surah-rev__tag {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-family: var(--font-arabic-revision);
+  font-size: calc(0.9rem * var(--rev-fs-mul));
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+/* Warm cream palette (readable Arabic labels) */
+.surah-rev__tag--verb {
+  background: #e8f5ef;
+  color: #0d5c3f;
+}
+
+.surah-rev__tag--noun {
+  background: #e8f0fa;
+  color: #154e86;
+}
+
+.surah-rev__tag--part {
+  background: #fff4e6;
+  color: #5c3d1e;
+}
+
+.surah-rev__tag--pron {
+  background: #fce8ef;
+  color: #7a2848;
+}
+
+.surah-rev__tag--case {
+  background: #eeedf8;
+  color: #3d3570;
+}
+
+.surah-rev__tag--mute {
+  background: #f1efe8;
+  color: #4a4844;
+}
+
+.surah-rev-picker {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.surah-rev-picker__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: var(--card-surface);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--card-shadow);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.surah-rev-picker__link:hover,
+.surah-rev-picker__link:focus-visible {
+  border-color: rgba(13, 148, 136, 0.35);
+  outline: none;
+}
+
+.surah-rev-picker__name {
+  font-weight: 600;
+  color: #0f766e;
+  font-size: calc(0.9375rem * var(--rev-fs-mul));
+}
+
+.surah-rev-picker__name-ar {
+  font-family: var(--font-arabic-revision);
+  font-size: calc(1rem * var(--rev-fs-mul));
+  color: var(--ink);
+}
+
+.surah-rev-picker__meta {
+  font-size: calc(0.75rem * var(--rev-fs-mul));
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+/* --- Mushaf-style sheet (single-surah view) --- */
+
+.surah-rev-page--mushaf {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.25rem 0.75rem 4rem;
+  background: linear-gradient(180deg, #c9dae9 0%, #d8e6f2 35%, #e2ecf6 100%);
+  min-height: 100vh;
+}
+
+.surah-rev-mushaf {
+  margin-top: 1rem;
+}
+
+.surah-rev-mushaf__frame {
+  background: linear-gradient(165deg, #f3f8fc 0%, #eef5fb 45%, #e8f2fa 100%);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.95),
+    inset 0 0 0 5px #5a87b5,
+    inset 0 0 0 7px rgba(180, 205, 228, 0.65),
+    inset 0 0 0 10px rgba(255, 255, 255, 0.55),
+    inset 0 0 0 13px #6b99c9,
+    0 16px 48px rgba(28, 52, 82, 0.14);
+  overflow: hidden;
+}
+
+.surah-rev-mushaf__titlebar {
+  padding: 1rem 1.25rem 1.1rem;
+  text-align: center;
+  background-image:
+    radial-gradient(ellipse 120% 180% at 15% 20%, rgba(255, 255, 255, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 160% at 85% 30%, rgba(255, 255, 255, 0.14) 0%, transparent 50%),
+    linear-gradient(180deg, #5c90c4 0%, #457cb0 42%, #3d6fa0 100%);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.surah-rev-mushaf__title-ar {
+  font-family: 'KFGQPC Uthmanic HAFS', 'Amiri Quran', 'Amiri', serif;
+  font-size: clamp(
+    calc(1.35rem * var(--rev-fs-mul)),
+    calc(4vw * var(--rev-fs-mul)),
+    calc(1.85rem * var(--rev-fs-mul))
+  );
+  font-weight: 700;
+  color: #0b1828;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
+  margin: 0;
+  display: block;
+}
+
+.surah-rev-mushaf__sheet {
+  padding: 1.35rem 1.35rem 2.25rem;
+}
+
+.surah-rev-page--mushaf .surah-rev__ayah-inner {
+  border-bottom-color: rgba(148, 182, 212, 0.45);
+  padding-top: 0.65rem;
+  padding-bottom: 0.85rem;
+}
+
+.surah-rev-page--mushaf .surah-rev__word-flow {
+  font-family: 'KFGQPC Uthmanic HAFS', 'Amiri Quran', 'Amiri', serif;
+  font-size: calc(1.78rem * var(--rev-fs-mul));
+  line-height: 1.52;
+  color: #0c1520;
+}
+
+.surah-rev__chunk--bismillah {
+  flex: 1 1 100%;
+  width: 100%;
+  margin: 0.35rem 0 0.85rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px dashed rgba(91, 136, 178, 0.35);
+}
+
+.surah-rev__chunk--bismillah .surah-rev__tags-above {
+  max-width: 100%;
+}
+
+.surah-rev__chunk--bismillah .surah-rev__word-flow {
+  font-size: clamp(
+    calc(1.82rem * var(--rev-fs-mul)),
+    calc(4.8vw * var(--rev-fs-mul)),
+    calc(2.25rem * var(--rev-fs-mul))
+  );
+  letter-spacing: 0.03em;
+  line-height: 1.58;
+}
+
+.surah-rev-page--mushaf .surah-rev__ayah-badge {
+  align-self: center;
+  flex-shrink: 0;
+  min-width: 2.35rem;
+  min-height: 2.35rem;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 6px;
+  margin-inline-start: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #e8f4fc 0%, #bdd9ef 52%, #9fc8e8 100%);
+  border: 2px solid #fff;
+  box-shadow:
+    0 1px 2px rgba(15, 40, 70, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.surah-rev-page--mushaf .surah-rev__ayah-badge-ar {
+  font-family: 'KFGQPC Uthmanic HAFS', 'Amiri Quran', serif;
+  font-size: calc(1.05rem * var(--rev-fs-mul));
+  color: #2f4f72;
+}
+
+.surah-rev-page--mushaf .surah-rev__ayah-badge-en {
+  display: none;
+}
+
+/* Optional English row under Arabic tags (explicit tagsEn in JSON) */
+
+.surah-rev__tags-en {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 6px;
+  max-width: min(100%, 19rem);
+}
+
+.surah-rev__tag-en {
+  font-family: var(--font-latin, 'DM Sans', system-ui, sans-serif);
+  font-size: calc(0.62rem * var(--rev-fs-mul));
+  font-weight: 600;
+  line-height: 1.25;
+  color: #64748b;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.95);
+  border: none;
+}
+
+@media (max-width: 520px) {
+  .surah-rev-page--mushaf {
+    padding-inline: 0.35rem;
+  }
+
+  .surah-rev-mushaf__sheet {
+    padding-inline: 0.85rem;
+  }
+}
+
+/* Optional reference infographic (manifest `revisionInfographicUrl`) */
+
+.surah-rev-infographic {
+  margin: 0 0 1.25rem;
+  text-align: center;
+}
+
+.surah-rev-infographic__img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.surah-rev-infographic__cap {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-arabic-revision);
+  font-size: calc(0.9rem * var(--rev-fs-mul));
+  color: #64748b;
+}
+
+/* Madrasa-style three-column table (?layout=table) — same JSON tag pills */
+
+.surah-rev-page--sheet {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 4rem;
+  background: #fafaf8;
+  min-height: 100vh;
+}
+
+.surah-rev-sheet-wrap {
+  margin-top: 0.35rem;
+}
+
+.surah-rev-sheet__banner {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.surah-rev-sheet__banner-title {
+  font-family: var(--font-arabic-revision);
+  font-size: clamp(
+    calc(1.5rem * var(--rev-fs-mul)),
+    calc(3.4vw * var(--rev-fs-mul)),
+    calc(2.05rem * var(--rev-fs-mul))
+  );
+  font-weight: 700;
+  color: #1e5a9e;
+  margin: 0 0 0.35rem;
+}
+
+.surah-rev-sheet__banner-basmala {
+  font-family: 'KFGQPC Uthmanic HAFS', 'Amiri Quran', 'Amiri', serif;
+  font-size: clamp(
+    calc(1.2rem * var(--rev-fs-mul)),
+    calc(2.8vw * var(--rev-fs-mul)),
+    calc(1.55rem * var(--rev-fs-mul))
+  );
+  color: #15803d;
+  margin: 0;
+}
+
+.surah-rev-sheet-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  background: #fff;
+}
+
+.surah-rev-sheet {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-arabic-revision);
+  font-size: calc(1.2rem * var(--rev-fs-mul));
+}
+
+.surah-rev-sheet__th {
+  padding: 0.72rem 0.85rem;
+  font-weight: 700;
+  font-size: calc(1.08rem * var(--rev-fs-mul));
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.surah-rev-sheet__th--num {
+  background: #16a34a;
+  width: 5.5rem;
+}
+
+.surah-rev-sheet__th--text {
+  background: #2563eb;
+  min-width: 12rem;
+}
+
+.surah-rev-sheet__th--irab {
+  background: #7c3aed;
+  min-width: 28rem;
+}
+
+.surah-rev-sheet__td {
+  padding: 0.8rem 0.95rem;
+  vertical-align: top;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.surah-rev-sheet__td--num {
+  text-align: center;
+  font-weight: 700;
+  font-size: calc(1.25rem * var(--rev-fs-mul));
+  color: #166534;
+  background: #f0fdf4;
+}
+
+.surah-rev-sheet__td--text {
+  font-family: 'KFGQPC Uthmanic HAFS', 'Amiri Quran', 'Amiri', serif;
+  font-size: clamp(
+    calc(1.35rem * var(--rev-fs-mul)),
+    calc(2.4vw * var(--rev-fs-mul)),
+    calc(1.65rem * var(--rev-fs-mul))
+  );
+  line-height: 1.88;
+  color: #0f172a;
+}
+
+/* Analysis column: extra leading so stacked ḥarakāt and multi-line entries stay legible */
+.surah-rev-sheet__td--irab {
+  line-height: 2.5;
+}
+
+.surah-rev-sheet__ayah-bracket {
+  color: #64748b;
+  padding: 0 0.12em;
+  font-family: var(--font-arabic-revision);
+}
+
+.surah-rev-sheet__analysis-list {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+  list-style: disc;
+}
+
+.surah-rev-sheet__analysis-item {
+  margin: 0.85rem 0;
+  line-height: 2.5;
+}
+
+.surah-rev-sheet__lemma {
+  font-size: calc(1.22rem * var(--rev-fs-mul));
+  color: #a52a2a;
+  font-weight: 700;
+}
+
+.surah-rev-sheet__tags {
+  display: inline;
+}
+
+.surah-rev-sheet__tags .surah-rev__tag {
+  margin-inline-start: 5px;
+  margin-top: 5px;
+  font-size: calc(1.05rem * var(--rev-fs-mul));
+  padding: 5px 11px;
+}
+
+/* Full Arabic prose from revision JSON `detailAr` (table layout only) */
+
+.surah-rev-sheet__detail {
+  display: inline;
+  font-family: var(--font-arabic-revision);
+  font-size: calc(1.18rem * var(--rev-fs-mul));
+  font-weight: 400;
+  color: #333333;
+  line-height: 2.5;
+}
+
+.surah-rev-sheet__tags-en {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 6px;
+  margin-top: 6px;
+}
+
+.surah-rev-sheet__tags-en .surah-rev__tag-en {
+  font-size: calc(0.78rem * var(--rev-fs-mul));
+  padding: 3px 7px;
+}
+
+.surah-rev-sheet__note {
+  margin: 1rem 0 0;
+  padding: 0.85rem 1.1rem;
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  font-family: var(--font-arabic-revision);
+  font-size: calc(1.12rem * var(--rev-fs-mul));
+  color: #713f12;
+  line-height: 1.55;
+}
+
+.surah-rev-sheet__note-icon {
+  margin-inline-end: 0.35rem;
+}
+
+/* Text size controls (A− / Reset / A+) */
+
+.surah-rev-font-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin-top: 0.65rem;
+  padding: 0.5rem 0.65rem;
+  background: rgba(248, 250, 252, 0.95);
+  border: 1px solid rgba(203, 213, 225, 0.85);
+  border-radius: 8px;
+  font-family: var(--font-latin, 'DM Sans', system-ui, sans-serif);
+  font-size: calc(0.8125rem * var(--rev-fs-mul));
+}
+
+.surah-rev-font-tools__label {
+  font-weight: 600;
+  color: #475569;
+  margin-inline-end: 0.15rem;
+}
+
+.surah-rev-font-tools__btn {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  min-width: 2.35rem;
+  padding: 0.38rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.surah-rev-font-tools__btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.surah-rev-font-tools__btn:focus-visible {
+  outline: 2px solid #0d9488;
+  outline-offset: 2px;
+}
+
+/* Quran.com WBW English gloss on hover (table verse column + analysis lemmas; mushaf phrases) */
+
+.surah-rev-sheet__ayah-word {
+  display: inline;
+  cursor: help;
+  text-decoration: underline dotted rgba(100, 116, 139, 0.5);
+  text-underline-offset: 2px;
+}
+
+.surah-rev-page--mushaf .surah-rev__word-flow[title] {
+  cursor: help;
+  text-decoration: underline dotted rgba(71, 85, 105, 0.45);
+  text-underline-offset: 3px;
+}
+
+.surah-rev-sheet__lemma[data-def] {
+  cursor: help;
+  text-decoration: underline dotted rgba(165, 42, 42, 0.45);
+  text-underline-offset: 2px;
+}
+
+/* Floating grammar / gloss tooltip (shared script: `wireQgIraabTooltip` in `iraab-word-gloss-en.js`) */
+
+#qg-tooltip.qg-tooltip {
+  position: fixed;
+  z-index: 20000;
+  left: 0;
+  top: 0;
+  max-width: 280px;
+  padding: 0.7rem 0.95rem;
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.12);
+  pointer-events: none;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 6px, 0);
+  transition:
+    opacity 0.14s ease-out,
+    transform 0.14s ease-out,
+    visibility 0.14s;
+  will-change: opacity, transform;
+}
+
+#qg-tooltip.qg-tooltip.qg-tooltip--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+}
+
+.qg-tooltip__term {
+  font-family: 'Amiri', serif;
+  font-size: 1.06rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem;
+  color: #0f172a;
+}
+
+.qg-tooltip__roman {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #64748b;
+  margin: 0 0 0.4rem;
+}
+
+.qg-tooltip__def {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 0.84rem;
+  color: #334155;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.qg-iraab-tip[data-def],
+.surah-rev-sheet__detail--iraab span.irab-term[data-def] {
+  cursor: help;
+}

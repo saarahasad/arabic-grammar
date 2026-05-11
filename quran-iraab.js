@@ -4,6 +4,7 @@
  * Choosing a surah shows **all** its āyāt in one scrollable column; the āyah menu (or ← / → keys)
  * moves within that surah and scrolls the active verse into view.
  * Per-word **Explanation** fields use `localStorage` (`quranIraabWordNotes`); the toolbar downloads a JSON backup.
+ * Highlighted lemmas in the Arabic analysis (`.irab-term`) show **`iraabEnglishGlossForToken`** English on hover (`#qg-tooltip` only; native `title` is omitted to avoid duplicate tooltips).
  * **Studied surahs**: toolbar button toggles finish state per surah (`localStorage` `quranIraabStudiedSurahs`).
  */
 (function () {
@@ -11,8 +12,9 @@
 
   /**
    * When false: hide English tied to curated iʿrāb data (`translationEn`, `analysisEn` / simple-en,
-   * `promptEn`, beginner → glosses, scholar literal gloss + grammar-term `data-def`). Source objects
-   * in `quran-iraab-data.js` are unchanged. Set to true to show that English again.
+   * `promptEn`, beginner inline gloss rows, scholar literal gloss panels). Grammar vocabulary in the
+   * flowing analysis still gets short English on hover via `utils/iraab-word-gloss-en.js` (`#qg-tooltip`
+   * on `.irab-term` / `.qg-iraab-tip`). Source objects in `quran-iraab-data.js` are unchanged.
    */
   const SHOW_QURAN_IRAAB_ENGLISH = false;
 
@@ -81,11 +83,19 @@
   }
 
   const IRAAB_UNAVAILABLE_AR = 'الْإِعْرَابُ غَيْرُ مُتَوَفَّرٍ لِهَذِهِ الْآيَةِ';
-  /** `'beginner'` (default) or `'scholar'` — color legend, literal gloss line, floating term tooltips. */
+  /**
+   * View mode: `beginner` | `scholar` | `rev-mushaf` | `rev-table` (full-surah tag layouts for surahs 91–101).
+   * Scholar: colour legend, literal gloss line, floating term tooltips.
+   */
   const QG_MODE_STORAGE_KEY = 'quranIraabGrammarMode';
   const WORD_NOTES_STORAGE_KEY = 'quranIraabWordNotes';
   /** Object keyed by surah number string, truthy = user marked surah studied. */
   const STUDIED_SURAHS_STORAGE_KEY = 'quranIraabStudiedSurahs';
+
+  const REVISION_MANIFEST_URL = 'surah-walkthrough-manifest.json';
+  let quranRevisionManifestPromise = null;
+  /** Incremented so stale async revision loads do not overwrite the container. */
+  let revisionEmbedRequestId = 0;
 
   function readStudiedSurahsMap() {
     try {
@@ -152,6 +162,14 @@
     return typeof v === 'string' ? v : '';
   }
 
+  /** Stored user note, or curated `row.defaultWordNote` when the user has not saved anything. */
+  function effectiveWordNote(ayahId, rowIndex, row) {
+    const stored = getWordNote(ayahId, rowIndex);
+    if (stored.trim() !== '') return stored;
+    const d = row && row.defaultWordNote;
+    return typeof d === 'string' ? d : '';
+  }
+
   function setWordNote(ayahId, rowIndex, text) {
     const m = readWordNotesMap();
     const key = wordNoteStorageKey(ayahId, rowIndex);
@@ -162,6 +180,20 @@
       m[key] = t;
     }
     writeWordNotesMap(m);
+  }
+
+  /** Avoid duplicating curated `defaultWordNote` into localStorage when the user never edited. */
+  function shouldSkipPersistWordNote(ayahId, rowIndex, text, row) {
+    const stored = getWordNote(ayahId, rowIndex);
+    if (stored.trim() !== '') return false;
+    const d = row && typeof row.defaultWordNote === 'string' ? row.defaultWordNote.trim() : '';
+    if (!d) return false;
+    return String(text).trim() === d;
+  }
+
+  function persistWordNoteIfNeeded(ayahId, rowIndex, text, row) {
+    if (shouldSkipPersistWordNote(ayahId, rowIndex, text, row)) return;
+    setWordNote(ayahId, rowIndex, text);
   }
 
   /**
@@ -232,9 +264,9 @@
     flushList();
   }
 
-  function wordNoteFieldHtml(entryId, rowIndex) {
-    const saved = getWordNote(entryId, rowIndex);
-    const has = saved.trim() !== '';
+  function wordNoteFieldHtml(entryId, rowIndex, row) {
+    const effective = effectiveWordNote(entryId, rowIndex, row);
+    const has = effective.trim() !== '';
     return `
     <div class="qg-word-card__note${has ? ' qg-word-card__note--has-note' : ''}" data-word-note-root>
       <div class="qg-word-card__note-view" data-word-note-view${has ? '' : ' hidden'}>
@@ -247,7 +279,7 @@
     </div>`;
   }
 
-  function wireWordNotes(container) {
+  function wireWordNotes(container, ayahList) {
     if (!container) return;
     const timers = new WeakMap();
     container.querySelectorAll('[data-word-note-root]').forEach(function (root) {
@@ -262,7 +294,15 @@
       const rowIndex = Number(rowStr);
       if (Number.isNaN(rowIndex)) return;
 
-      ta.value = getWordNote(ayahId, rowIndex);
+      const entry =
+        ayahList && ayahList.length
+          ? ayahList.find(function (a) {
+              return a.id === ayahId;
+            })
+          : null;
+      const row =
+        entry && entry.rows && entry.rows[rowIndex] ? entry.rows[rowIndex] : null;
+      ta.value = effectiveWordNote(ayahId, rowIndex, row);
 
       function applyModeFromValue() {
         const v = ta.value;
@@ -302,25 +342,25 @@
         let timer = timers.get(ta);
         if (timer) clearTimeout(timer);
         timer = window.setTimeout(function () {
-          setWordNote(ayahId, rowIndex, ta.value);
+          persistWordNoteIfNeeded(ayahId, rowIndex, ta.value, row);
         }, 320);
         timers.set(ta, timer);
       });
       ta.addEventListener('paste', function () {
         window.setTimeout(function () {
-          setWordNote(ayahId, rowIndex, ta.value);
+          persistWordNoteIfNeeded(ayahId, rowIndex, ta.value, row);
         }, 0);
       });
       ta.addEventListener('blur', function () {
         window.requestAnimationFrame(function () {
-          setWordNote(ayahId, rowIndex, ta.value);
+          persistWordNoteIfNeeded(ayahId, rowIndex, ta.value, row);
           applyModeFromValue();
         });
       });
     });
   }
 
-  function flushWordNotesFromDom() {
+  function flushWordNotesFromDom(ayahList) {
     const detail = document.getElementById('quran-iraab-detail');
     if (!detail) return;
     detail.querySelectorAll('[data-word-note]').forEach(function (ta) {
@@ -329,12 +369,20 @@
       if (ayahId == null || rowStr == null) return;
       const rowIndex = Number(rowStr);
       if (Number.isNaN(rowIndex)) return;
-      setWordNote(ayahId, rowIndex, ta.value);
+      const entry =
+        ayahList && ayahList.length
+          ? ayahList.find(function (a) {
+              return a.id === ayahId;
+            })
+          : null;
+      const row =
+        entry && entry.rows && entry.rows[rowIndex] ? entry.rows[rowIndex] : null;
+      persistWordNoteIfNeeded(ayahId, rowIndex, ta.value, row);
     });
   }
 
   function downloadAyahNotesBackup(ayahList) {
-    flushWordNotesFromDom();
+    flushWordNotesFromDom(ayahList);
     const map = readWordNotesMap();
     const notes = {};
     const words = [];
@@ -675,7 +723,7 @@
 
   /** Scholar: Quran.com English gloss belongs under the Qurʾānic phrase column in the gloss table (not above it). */
   function syncPhraseHeadGlossInScholarTable(card) {
-    if (!card || readQuranGrammarMode() !== 'scholar') return;
+    if (!card || !isScholarAnalysisMode()) return;
     const mount = card.querySelector('[data-beginner-focus-rows-mount]');
     if (!mount) return;
     const phraseEn = mount.querySelector(
@@ -698,7 +746,7 @@
     const glossEl = card.querySelector('[data-beginner-focus-gloss]');
     if (!glossEl) return;
 
-    if (readQuranGrammarMode() !== 'scholar') {
+    if (!isScholarAnalysisMode()) {
       glossEl.textContent = '';
       glossEl.setAttribute('lang', 'en');
       glossEl.setAttribute('dir', 'ltr');
@@ -792,6 +840,26 @@
         const shown = sanitizedWbwGlossEn(g);
         el.textContent = shown;
       });
+      card.querySelectorAll('[data-beginner-inline-gloss-row]').forEach((el) => {
+        const ri = Number(el.getAttribute('data-beginner-inline-gloss-row'));
+        if (Number.isNaN(ri)) return;
+        const g = glosses[ri] != null ? glosses[ri] : '';
+        const shown = sanitizedWbwGlossEn(g);
+        el.textContent = shown;
+      });
+      const fb =
+        (typeof window.IRAAB_TOOLTIP_FALLBACK_EN === 'string' && window.IRAAB_TOOLTIP_FALLBACK_EN.trim()) ||
+        'No glossary entry yet.';
+      card.querySelectorAll('.quran-iraab__ayah-token').forEach((btn) => {
+        const ri = Number(btn.getAttribute('data-beginner-row'));
+        if (Number.isNaN(ri)) return;
+        const g = glosses[ri] != null ? glosses[ri] : '';
+        const shown = sanitizedWbwGlossEn(g);
+        const def = shown || fb;
+        btn.setAttribute('data-term', (btn.textContent || '').trim());
+        btn.setAttribute('data-def', def);
+        btn.classList.add('qg-iraab-tip');
+      });
       if (card.getAttribute('data-beginner-card') === '1') {
         syncBeginnerFocusGlossFromStore(card);
       }
@@ -832,14 +900,21 @@
 
   function readQuranGrammarMode() {
     try {
-      return localStorage.getItem(QG_MODE_STORAGE_KEY) === 'scholar' ? 'scholar' : 'beginner';
+      const raw = localStorage.getItem(QG_MODE_STORAGE_KEY);
+      if (raw === 'scholar' || raw === 'rev-mushaf' || raw === 'rev-table') return raw;
+      return 'beginner';
     } catch (e) {
       return 'beginner';
     }
   }
 
+  function isScholarAnalysisMode() {
+    return readQuranGrammarMode() === 'scholar';
+  }
+
   function writeQuranGrammarMode(mode) {
-    const m = mode === 'scholar' ? 'scholar' : 'beginner';
+    const m =
+      mode === 'scholar' || mode === 'rev-mushaf' || mode === 'rev-table' ? mode : 'beginner';
     try {
       localStorage.setItem(QG_MODE_STORAGE_KEY, m);
     } catch (e) {
@@ -849,7 +924,7 @@
   }
 
   function applyGrammarModeClass() {
-    const scholar = readQuranGrammarMode() === 'scholar';
+    const scholar = isScholarAnalysisMode();
     document.documentElement.classList.toggle('quran-iraab--scholar', scholar);
     document.documentElement.classList.toggle('quran-iraab--beginner', !scholar);
   }
@@ -858,25 +933,53 @@
     return escapeHtml(str).replace(/"/g, '&quot;');
   }
 
+  /** Short English for coloured grammar lemmas in analysis (`TOKEN_EN`); optional row-level fallback when English mode is on. */
+  function irabTermDefForHover(innerText, analysisEnRow) {
+    const inner = innerText == null ? '' : String(innerText);
+    let token = '';
+    if (typeof window.iraabEnglishGlossForToken === 'function') {
+      token = window.iraabEnglishGlossForToken(inner) || '';
+    }
+    const row =
+      SHOW_QURAN_IRAAB_ENGLISH && analysisEnRow != null && String(analysisEnRow).trim()
+        ? String(analysisEnRow).trim()
+        : '';
+    return token || row;
+  }
+
+  /**
+   * Scholar inline pills: attach hover data for `#qg-tooltip` (no native `title` — avoids double tooltips).
+   * Prefer per-token glossary gloss; if English mode is on, fall back to full `analysisEn` for unknown tokens.
+   */
   function scholarAnnotateTerms(html, analysisEn) {
     if (html == null || html === '') return '';
-    const def = escapeAttr(String(analysisEn || ''));
+    const fb =
+      (typeof window.IRAAB_TOOLTIP_FALLBACK_EN === 'string' && window.IRAAB_TOOLTIP_FALLBACK_EN.trim()) ||
+      'No glossary entry yet.';
     return String(html).replace(
       /<span class="irab-term" style="([^"]+)">([^<]*)<\/span>/gi,
       function (_full, style, inner) {
+        let def = irabTermDefForHover(inner, analysisEn);
+        if (!String(def).trim()) def = fb;
         return (
           '<span class="irab-term" style="' +
           style.replace(/"/g, '&quot;') +
           '" data-term="' +
           escapeAttr(inner) +
           '" data-roman="" data-def="' +
-          def +
+          escapeAttr(def) +
           '">' +
-          inner +
+          escapeHtml(inner) +
           '</span>'
         );
       }
     );
+  }
+
+  function injectIrabTermHoverGloss(html) {
+    return typeof window.enrichIraabAnalysisTooltips === 'function'
+      ? window.enrichIraabAnalysisTooltips(html)
+      : html;
   }
 
   function literalGlossLine(row) {
@@ -1004,7 +1107,7 @@
     }
     const rawDef = opts && opts.analysisEn != null ? opts.analysisEn : '';
     const analysisEn = SHOW_QURAN_IRAAB_ENGLISH ? rawDef : '';
-    const scholar = readQuranGrammarMode() === 'scholar';
+    const scholar = isScholarAnalysisMode();
 
     if (scholar) {
       let html;
@@ -1016,14 +1119,16 @@
       } else {
         html = typeof window.colorizeIraab === 'function' ? window.colorizeIraab(t) : escapeHtml(t);
       }
-      return scholarAnnotateTerms(html, analysisEn);
+      return injectIrabTermHoverGloss(scholarAnnotateTerms(html, analysisEn));
     }
 
-    return typeof window.colorizeIraabClasses === 'function'
-      ? window.colorizeIraabClasses(t)
-      : typeof window.colorizeIraab === 'function'
-        ? window.colorizeIraab(t)
-        : escapeHtml(t);
+    const flowing =
+      typeof window.colorizeIraabClasses === 'function'
+        ? window.colorizeIraabClasses(t)
+        : typeof window.colorizeIraab === 'function'
+          ? window.colorizeIraab(t)
+          : escapeHtml(t);
+    return injectIrabTermHoverGloss(flowing);
   }
 
   function renderLinkPart(p, row) {
@@ -1032,7 +1137,7 @@
     const arTitle = (pair.ar && String(pair.ar).trim()) || '';
     const arInPill = arabicUiText(p.text != null ? String(p.text) : '', false);
     const labelPlain = arTitle ? arTitle + ' — ' + arInPill : arInPill;
-    const showTitle = readQuranGrammarMode() === 'scholar';
+    const showTitle = isScholarAnalysisMode();
     const colors =
       typeof window.iraabColorsForRule === 'function'
         ? window.iraabColorsForRule(p.rule)
@@ -1049,9 +1154,7 @@
       colors.bg +
       '; color: ' +
       colors.text +
-      '; border: 0.5px solid ' +
-      colors.border +
-      '; border-radius: 4px; padding: 2px 6px; font-weight: 500; text-decoration: none; cursor: pointer; box-decoration-break: clone; -webkit-box-decoration-break: clone';
+      '; border: none; border-radius: 999px; padding: 2px 8px; font-weight: 500; text-decoration: none; cursor: pointer; box-decoration-break: clone; -webkit-box-decoration-break: clone';
 
     return (
       '<span class="quran-iraab__rule-link-stack">' +
@@ -1206,7 +1309,7 @@
   function wireIraabSpeakButton(card, entry) {
     const btn = card.querySelector('[data-iraab-speak-toggle]');
     if (!btn || card.getAttribute('data-beginner-card') !== '1') return;
-    if (readQuranGrammarMode() !== 'scholar') return;
+    if (!isScholarAnalysisMode()) return;
     if (!iraabSpeechSupported()) {
       btn.disabled = true;
       btn.title = 'Read aloud is not supported in this browser.';
@@ -1436,7 +1539,7 @@
     const parts = row && row.analysisParts;
     if (!parts || !parts.length) return '';
 
-    if (readQuranGrammarMode() === 'scholar' && typeof window.formatIraabMixedColumnsChunked === 'function') {
+    if (isScholarAnalysisMode() && typeof window.formatIraabMixedColumnsChunked === 'function') {
       const glossCols = buildScholarIraabGlossColumns(row);
       if (glossCols.length) {
         const html = window.formatIraabMixedColumnsChunked(glossCols, {
@@ -1444,10 +1547,11 @@
             typeof window.colorizeIraab === 'function' ? window.colorizeIraab(w) : escapeHtml(w),
         });
         const analysisEn = SHOW_QURAN_IRAAB_ENGLISH ? effectiveAnalysisEn(row) : '';
-        return `<div class="quran-iraab__analysis-parts quran-iraab__analysis-parts--scholar-gloss">${scholarAnnotateTerms(
-          html,
-          analysisEn
-        )}</div>`;
+        let inner = scholarAnnotateTerms(html, analysisEn);
+        if (typeof window.enrichIraabAnalysisTooltips === 'function') {
+          inner = window.enrichIraabAnalysisTooltips(inner);
+        }
+        return `<div class="quran-iraab__analysis-parts quran-iraab__analysis-parts--scholar-gloss">${inner}</div>`;
       }
     }
 
@@ -1504,7 +1608,7 @@
    * Scholar: Qurʾānic segment above analysis — omitted when that phrase is already column 1 of the gloss table.
    */
   function scholarAnalysisSegmentHtml(row) {
-    if (readQuranGrammarMode() !== 'scholar') return '';
+    if (!isScholarAnalysisMode()) return '';
     const seg = row.segment == null ? '' : String(row.segment).trim();
     if (!seg || isPlaceholderAnalysisSegment(seg)) return '';
     if (
@@ -1522,6 +1626,8 @@
 
   /**
    * Beginner: map full `ayahText` to clickable segment buttons (curated row order).
+   * Rows whose `segment` does not occur in the āyah (e.g. sentence-level notes) are omitted from
+   * the line; if they appear after all matched rows, their focus state uses the last matched word.
    * @returns {{ html: string, tokenized: boolean }}
    */
   function buildBeginnerAyahTokensHtml(entry, rows) {
@@ -1535,8 +1641,12 @@
         tokenized: false,
       };
     }
+
     let pos = 0;
     const chunks = [];
+    const matchedRowIndices = new Set();
+    let lastMatchedRowIndex = -1;
+
     for (let i = 0; i < rows.length; i++) {
       const seg = rows[i].segment == null ? '' : String(rows[i].segment);
       if (!seg.trim()) {
@@ -1547,13 +1657,7 @@
       }
       const found = findCuratedSegmentInAyah(ayah, seg, pos);
       if (!found) {
-        return {
-          html:
-            '<blockquote class="quran-iraab__ayah quran-iraab__ayah--plain" lang="ar" dir="rtl">' +
-            escapeHtml(displayAyahChunk(ayah, true)) +
-            '</blockquote>',
-          tokenized: false,
-        };
+        continue;
       }
       const idx = found.index;
       if (idx > pos) {
@@ -1561,26 +1665,98 @@
       }
       chunks.push({ type: 'token', text: found.text, index: i });
       pos = found.end;
+      matchedRowIndices.add(i);
+      lastMatchedRowIndex = i;
     }
+
     if (pos < ayah.length) {
       chunks.push({ type: 'gap', text: ayah.slice(pos) });
     }
+
+    if (!matchedRowIndices.size) {
+      return {
+        html:
+          '<blockquote class="quran-iraab__ayah quran-iraab__ayah--plain" lang="ar" dir="rtl">' +
+          escapeHtml(displayAyahChunk(ayah, true)) +
+          '</blockquote>',
+        tokenized: false,
+      };
+    }
+
+    /** Unmatched row index → matched row index whose token should show `is-current` for that row */
+    const highlightAnchorByRow = Object.create(null);
+    for (let i = 0; i < rows.length; i++) {
+      const seg = rows[i].segment == null ? '' : String(rows[i].segment);
+      if (!seg.trim() || isPlaceholderAnalysisSegment(seg)) {
+        continue;
+      }
+      if (matchedRowIndices.has(i)) {
+        continue;
+      }
+      let anyMatchedAfter = false;
+      for (let j = i + 1; j < rows.length; j++) {
+        if (matchedRowIndices.has(j)) {
+          anyMatchedAfter = true;
+          break;
+        }
+      }
+      if (!anyMatchedAfter && lastMatchedRowIndex >= 0) {
+        highlightAnchorByRow[i] = lastMatchedRowIndex;
+      }
+    }
+
+    function highlightForAttr(tokenRowIndex) {
+      const set = new Set([tokenRowIndex]);
+      for (const k of Object.keys(highlightAnchorByRow)) {
+        const j = Number(k);
+        if (highlightAnchorByRow[j] === tokenRowIndex) {
+          set.add(j);
+        }
+      }
+      return [...set].sort((a, b) => a - b).join(',');
+    }
+
     let html = '';
     for (let c = 0; c < chunks.length; c++) {
       const p = chunks[c];
       if (p.type === 'gap') {
-        html +=
-          '<span class="quran-iraab__ayah-gap">' + escapeHtml(displayAyahChunk(p.text, true)) + '</span>';
+        const gapShown = displayAyahChunk(p.text, true);
+        const gapHtml =
+          typeof window.wrapArabicPlainStringWithTooltips === 'function'
+            ? window.wrapArabicPlainStringWithTooltips(gapShown)
+            : escapeHtml(gapShown);
+        html += '<span class="quran-iraab__ayah-gap">' + gapHtml + '</span>';
       } else {
         const label = 'Focus row ' + String(p.index + 1) + ' of ' + String(rows.length);
+        const hf = highlightForAttr(p.index);
+        const segShown = displayAyahChunk(p.text, true);
+        let preDef = '';
+        if (typeof window.iraabEnglishGlossForToken === 'function') {
+          preDef = window.iraabEnglishGlossForToken(segShown.trim()) || '';
+        }
+        const fb =
+          (typeof window.IRAAB_TOOLTIP_FALLBACK_EN === 'string' && window.IRAAB_TOOLTIP_FALLBACK_EN.trim()) ||
+          'No glossary entry yet.';
+        const tipDef = preDef || fb;
         html +=
-          '<button type="button" class="quran-iraab__ayah-token" data-beginner-row="' +
+          '<span class="quran-iraab__ayah-token-wrap">' +
+          '<button type="button" class="quran-iraab__ayah-token qg-iraab-tip" lang="ar" dir="rtl" data-beginner-row="' +
           p.index +
+          '" data-term="' +
+          escapeAttr(segShown) +
+          '" data-def="' +
+          escapeAttr(tipDef) +
+          '" data-beginner-highlight-for="' +
+          escapeAttr(hf) +
           '" aria-label="' +
           escapeAttr(label) +
           '">' +
-          escapeHtml(displayAyahChunk(p.text, true)) +
-          '</button>';
+          escapeHtml(segShown) +
+          '</button>' +
+          '<span class="quran-iraab__ayah-token-gloss" lang="en" dir="ltr" data-beginner-inline-gloss-row="' +
+          p.index +
+          '"></span>' +
+          '</span>';
       }
     }
     return {
@@ -1594,14 +1770,32 @@
     for (let i = 0; i < rows.length; i++) {
       const seg = rows[i].segment == null ? '' : String(rows[i].segment);
       if (!seg.trim() || isPlaceholderAnalysisSegment(seg)) continue;
+      const chipShown = displayAyahChunk(seg, true);
+      let chipDef = '';
+      if (typeof window.iraabEnglishGlossForToken === 'function') {
+        chipDef = window.iraabEnglishGlossForToken(chipShown.trim()) || '';
+      }
+      const chipFb =
+        (typeof window.IRAAB_TOOLTIP_FALLBACK_EN === 'string' && window.IRAAB_TOOLTIP_FALLBACK_EN.trim()) ||
+        'No glossary entry yet.';
+      const chipTip = chipDef || chipFb;
       html +=
-        '<button type="button" class="quran-iraab__ayah-token quran-iraab__ayah-token--chip" data-beginner-row="' +
+        '<span class="quran-iraab__ayah-token-wrap quran-iraab__ayah-token-wrap--chip">' +
+        '<button type="button" class="quran-iraab__ayah-token quran-iraab__ayah-token--chip qg-iraab-tip" lang="ar" dir="rtl" data-beginner-row="' +
         i +
+        '" data-term="' +
+        escapeAttr(chipShown) +
+        '" data-def="' +
+        escapeAttr(chipTip) +
         '" aria-label="' +
         escapeAttr('Focus phrase ' + String(i + 1)) +
         '">' +
-        escapeHtml(displayAyahChunk(seg, true)) +
-        '</button>';
+        escapeHtml(chipShown) +
+        '</button>' +
+        '<span class="quran-iraab__ayah-token-gloss" lang="en" dir="ltr" data-beginner-inline-gloss-row="' +
+        i +
+        '"></span>' +
+        '</span>';
     }
     return html
       ? '<div class="quran-iraab__ayah-fallback-chips" role="group" aria-label="Analysed phrases">' +
@@ -1921,7 +2115,7 @@
       '<p class="qg-beginner-focus-gloss qg-beginner-focus-gloss--empty" data-beginner-focus-gloss lang="en" dir="ltr"></p>' +
       '<div class="qg-beginner-focus-dynamic" data-beginner-focus-rows-mount aria-live="polite"></div>' +
       nav +
-      wordNoteFieldHtml(entry.id, 0) +
+      wordNoteFieldHtml(entry.id, 0, rows[0]) +
       '</div>' +
       '</div>' +
       (SHOW_QURAN_IRAAB_ENGLISH && entry.translationEn
@@ -1965,7 +2159,8 @@
     if (prevStr == null || prevStr === '') return;
     const prev = Number(prevStr);
     if (Number.isNaN(prev) || prev === nextIdx) return;
-    setWordNote(entry.id, prev, ta.value);
+    const prevRow = entry.rows[prev];
+    persistWordNoteIfNeeded(entry.id, prev, ta.value, prevRow);
   }
 
   function applyBeginnerRow(card, entry, idx) {
@@ -1981,7 +2176,13 @@
     card.querySelectorAll('.quran-iraab__ayah-token').forEach((btn) => {
       const ri = Number(btn.getAttribute('data-beginner-row'));
       if (Number.isNaN(ri)) return;
-      const on = ri === i;
+      let on = ri === i;
+      if (!on) {
+        const hf = btn.getAttribute('data-beginner-highlight-for');
+        if (hf && hf.trim()) {
+          on = hf.split(',').some((x) => Number(String(x).trim()) === i);
+        }
+      }
       btn.classList.toggle('is-current', on);
       if (on) btn.setAttribute('aria-current', 'true');
       else btn.removeAttribute('aria-current');
@@ -2007,7 +2208,7 @@
     const ta = card.querySelector('[data-word-note]');
     if (ta) {
       ta.setAttribute('data-note-row', String(i));
-      ta.value = getWordNote(entry.id, i);
+      ta.value = effectiveWordNote(entry.id, i, rows[i]);
       const root = ta.closest('[data-word-note-root]');
       if (root) {
         const view = root.querySelector('[data-word-note-view]');
@@ -2063,6 +2264,15 @@
     wireIraabReveal(card);
   }
 
+  function getRevisionManifestCached() {
+    if (!quranRevisionManifestPromise) {
+      quranRevisionManifestPromise = fetch(REVISION_MANIFEST_URL).then((r) =>
+        r.ok ? r.json() : { surahs: [] }
+      );
+    }
+    return quranRevisionManifestPromise;
+  }
+
   /**
    * Renders every āyah of the surah in one scrollable column; scrolls to `scrollToId` when set.
    * @param {{ preserveScroll?: boolean }} [opts] — if true, skip scrolling the active āyah into view and restore window scroll (e.g. grammar-mode toggle).
@@ -2085,6 +2295,105 @@
     }
     const targetId =
       scrollToId && list.some((a) => a.id === scrollToId) ? scrollToId : list[0].id;
+
+    const mode = readQuranGrammarMode();
+    if (mode === 'rev-mushaf' || mode === 'rev-table') {
+      const reqId = ++revisionEmbedRequestId;
+      container.innerHTML =
+        '<p class="quran-iraab__empty quran-iraab__revision-loading" lang="en">Loading full-surah tags…</p>';
+      const entryForAyah = list.find((a) => a.id === targetId) || list[0];
+      const scrollAyahNum =
+        entryForAyah && entryForAyah.ayah != null ? Number(entryForAyah.ayah) : 1;
+
+      const finishRevisionEmbedUi = () => {
+        const ayahEl = container.querySelector('#ayah-' + scrollAyahNum);
+        if (!preserveScroll && ayahEl && ayahEl.scrollIntoView) {
+          ayahEl.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        }
+        try {
+          history.replaceState(null, '', `#${encodeURIComponent(targetId)}`);
+        } catch (e) {
+          /* ignore */
+        }
+        if (preserveScroll) {
+          window.requestAnimationFrame(function () {
+            window.scrollTo(window.scrollX || window.pageXOffset || 0, savedScrollY);
+            window.requestAnimationFrame(function () {
+              window.scrollTo(window.scrollX || window.pageXOffset || 0, savedScrollY);
+            });
+          });
+        }
+        if (
+          window.quranSurahRevisionEmbed &&
+          typeof window.quranSurahRevisionEmbed.applyFontMul === 'function'
+        ) {
+          window.quranSurahRevisionEmbed.applyFontMul();
+        }
+      };
+
+      getRevisionManifestCached()
+        .then((manifest) => {
+          if (reqId !== revisionEmbedRequestId) return;
+          const meta = (manifest.surahs || []).find((s) => s.num === surahNum);
+          if (!meta || !meta.revisionUrl) {
+            container.innerHTML =
+              '<div class="quran-iraab-revision-fallback">' +
+              '<p class="quran-iraab__empty" lang="en">The <strong>Mushaf</strong> and <strong>Table</strong> views show the full-surah Arabic tag walkthrough for <strong>surahs 91–101</strong> only. Choose <strong>Beginner</strong> or <strong>Scholar</strong> above, or open one of those surahs.</p>' +
+              '</div>';
+            if (preserveScroll) {
+              window.requestAnimationFrame(function () {
+                window.scrollTo(window.scrollX || window.pageXOffset || 0, savedScrollY);
+              });
+            }
+            return;
+          }
+          const layout = mode === 'rev-table' ? 'table' : 'mushaf';
+          Promise.all([
+            fetch(meta.revisionUrl).then((r) =>
+              r.ok ? r.json() : Promise.reject(new Error('revision'))
+            ),
+            typeof window.fetchQuranChapterWbw === 'function'
+              ? window.fetchQuranChapterWbw(surahNum).catch(() => null)
+              : Promise.resolve(null),
+          ])
+            .then(([ayat, wbwMap]) => {
+              if (reqId !== revisionEmbedRequestId) return;
+              const embed = window.quranSurahRevisionEmbed;
+              if (!embed || typeof embed.buildBodyHtml !== 'function') {
+                container.innerHTML =
+                  '<p class="quran-iraab__empty" lang="en">Revision layout failed to load. Reload the page.</p>';
+                return;
+              }
+              const body = embed.buildBodyHtml(layout, ayat, meta, wbwMap);
+              const tools =
+                '<div class="quran-iraab-revision-embed__bar">' +
+                (typeof embed.renderFontToolsHtml === 'function' ? embed.renderFontToolsHtml() : '') +
+                '</div>';
+              container.innerHTML =
+                '<div class="quran-iraab-revision-embed surah-rev-page surah-rev-page--' +
+                (layout === 'table' ? 'sheet' : 'mushaf') +
+                '" data-surah="' +
+                escapeHtml(String(surahNum)) +
+                '">' +
+                tools +
+                body +
+                '</div>';
+              finishRevisionEmbedUi();
+            })
+            .catch(() => {
+              if (reqId !== revisionEmbedRequestId) return;
+              container.innerHTML =
+                '<p class="quran-iraab__empty" lang="en">Could not load full-surah tags for this surah.</p>';
+            });
+        })
+        .catch(() => {
+          if (reqId !== revisionEmbedRequestId) return;
+          container.innerHTML =
+            '<p class="quran-iraab__empty" lang="en">Could not load revision manifest.</p>';
+        });
+      return;
+    }
+
     const html =
       '<div class="quran-iraab-surah-pages" data-surah="' +
       escapeHtml(String(surahNum)) +
@@ -2093,7 +2402,7 @@
       '</div>';
     container.innerHTML = html;
     container.querySelectorAll('.quran-iraab__card').forEach((card) => wireIraabCard(card));
-    wireWordNotes(container);
+    wireWordNotes(container, ayahList);
     container.querySelectorAll('.quran-iraab__card[data-beginner-card="1"]').forEach((card) => {
       const id = card.getAttribute('data-ayah-id');
       const ent = ayahList.find((a) => a.id === id);
@@ -2129,6 +2438,19 @@
         '<p class="quran-iraab__empty">' +
         escapeHtml(arabicUiText('لم يُعثر على هذه الآية.', false)) +
         '</p>';
+      return;
+    }
+    const revEmbed = container.querySelector('.quran-iraab-revision-embed');
+    if (revEmbed && String(entry.surah) === revEmbed.getAttribute('data-surah')) {
+      const el = container.querySelector('#ayah-' + entry.ayah);
+      if (el && el.scrollIntoView) {
+        el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+      try {
+        history.replaceState(null, '', `#${encodeURIComponent(id)}`);
+      } catch (e) {
+        /* ignore */
+      }
       return;
     }
     const existing = container.querySelector('.quran-iraab-surah-pages');
@@ -2470,11 +2792,10 @@
     applyWbwDocClass();
     applyGrammarModeClass();
     (function syncGrammarModeRadiosEarly() {
-      const b = document.getElementById('quran-iraab-mode-beginner');
-      const s = document.getElementById('quran-iraab-mode-scholar');
-      const scholar = readQuranGrammarMode() === 'scholar';
-      if (b) b.checked = !scholar;
-      if (s) s.checked = scholar;
+      const mode = readQuranGrammarMode();
+      document.querySelectorAll('input[name="quran-iraab-grammar-mode"]').forEach((inp) => {
+        inp.checked = inp.value === mode;
+      });
     })();
     applyQuranIraabChromeHarakah();
 
@@ -2522,8 +2843,6 @@
       refreshStudiedMarkers();
     }
 
-    const grammarModeBeginner = document.getElementById('quran-iraab-mode-beginner');
-    const grammarModeScholar = document.getElementById('quran-iraab-mode-scholar');
     function refreshOpenSurahAfterGrammarModeChange() {
       const id = ayahSel && ayahSel.value ? ayahSel.value : ayahList[0].id;
       const entry = ayahList.find((a) => a.id === id);
@@ -2533,67 +2852,58 @@
       }
     }
     function onGrammarModeRadioChange() {
-      writeQuranGrammarMode(grammarModeScholar && grammarModeScholar.checked ? 'scholar' : 'beginner');
+      const checked = document.querySelector('input[name="quran-iraab-grammar-mode"]:checked');
+      writeQuranGrammarMode(checked && checked.value ? checked.value : 'beginner');
       refreshOpenSurahAfterGrammarModeChange();
     }
     function toggleGrammarModeFromKeyboard() {
-      const next = readQuranGrammarMode() === 'scholar' ? 'beginner' : 'scholar';
+      let cur = readQuranGrammarMode();
+      if (cur !== 'beginner' && cur !== 'scholar') cur = 'beginner';
+      const next = cur === 'scholar' ? 'beginner' : 'scholar';
       writeQuranGrammarMode(next);
-      if (grammarModeBeginner) grammarModeBeginner.checked = next === 'beginner';
-      if (grammarModeScholar) grammarModeScholar.checked = next === 'scholar';
+      document.querySelectorAll('input[name="quran-iraab-grammar-mode"]').forEach((inp) => {
+        inp.checked = inp.value === next;
+      });
       refreshOpenSurahAfterGrammarModeChange();
     }
-    if (grammarModeBeginner) grammarModeBeginner.addEventListener('change', onGrammarModeRadioChange);
-    if (grammarModeScholar) grammarModeScholar.addEventListener('change', onGrammarModeRadioChange);
+    const grammarModeGroup = document.querySelector('.quran-iraab-toolbar__grammar-mode');
+    if (grammarModeGroup) {
+      grammarModeGroup.addEventListener('change', function (e) {
+        const t = e.target;
+        if (t && t.name === 'quran-iraab-grammar-mode') onGrammarModeRadioChange();
+      });
+    }
+
+    const harakahToggleBtn = document.getElementById('quran-iraab-toggle-harakah');
+    function syncHarakahToggleBtn() {
+      if (!harakahToggleBtn) return;
+      const show =
+        typeof window.readShowHarakah === 'function' ? window.readShowHarakah() : true;
+      harakahToggleBtn.setAttribute('aria-pressed', show ? 'true' : 'false');
+      const labelEl = harakahToggleBtn.querySelector('.quran-iraab-toolbar__btn-label');
+      if (labelEl) {
+        const onLabel = labelEl.getAttribute('data-harakah-on-label') || 'Hide ḥarakāt';
+        const offLabel = labelEl.getAttribute('data-harakah-off-label') || 'Show ḥarakāt';
+        labelEl.textContent = show ? onLabel : offLabel;
+      }
+    }
+    syncHarakahToggleBtn();
+    if (harakahToggleBtn) {
+      harakahToggleBtn.addEventListener('click', function () {
+        if (typeof window.readShowHarakah !== 'function' || typeof window.writeShowHarakah !== 'function') return;
+        const next = !window.readShowHarakah();
+        window.writeShowHarakah(next);
+        syncHarakahToggleBtn();
+        refreshSurahAndNavHarakah();
+        refreshOpenSurahAfterGrammarModeChange();
+      });
+    }
 
     const LEGACY_HASH_IDS = { '101-1-3': '101-1', '103-1-2': '103-1' };
 
-    let qgTooltipCurrent = null;
-    /** Separate from `qgTooltipCurrent`: two terms can match the same node ref across moves; defs differ when Arabic label repeats. */
-    let qgTooltipLastSig = '';
-    container.addEventListener('mousemove', function (e) {
-      const tip = document.getElementById('qg-tooltip');
-      if (!tip) return;
-      if (readQuranGrammarMode() !== 'scholar') {
-        if (!tip.hidden) {
-          tip.hidden = true;
-          tip.innerHTML = '';
-        }
-        qgTooltipCurrent = null;
-        qgTooltipLastSig = '';
-        return;
-      }
-      const el = e.target.closest('.irab-term');
-      if (!el || !container.contains(el)) {
-        tip.hidden = true;
-        tip.innerHTML = '';
-        qgTooltipCurrent = null;
-        qgTooltipLastSig = '';
-        return;
-      }
-      const term = el.getAttribute('data-term') || (el.textContent || '').trim();
-      const roman = el.getAttribute('data-roman') || '';
-      const def = el.getAttribute('data-def') || '';
-      const sig = term + '\x1e' + roman + '\x1e' + def + '\x1e' + (el.closest('[data-segment]')?.getAttribute('data-segment') || '');
-      if (sig !== qgTooltipLastSig) {
-        qgTooltipLastSig = sig;
-        qgTooltipCurrent = el;
-        tip.innerHTML =
-          '<div class="qg-tooltip__term" dir="rtl" lang="ar">' +
-          escapeHtml(term) +
-          '</div>' +
-          (roman
-            ? '<div class="qg-tooltip__roman" lang="en" dir="ltr">' + escapeHtml(roman) + '</div>'
-            : '') +
-          (def ? '<div class="qg-tooltip__def" lang="en" dir="ltr">' + escapeHtml(def) + '</div>' : '');
-        tip.hidden = false;
-      }
-      const pad = 14;
-      let x = e.clientX + pad;
-      let y = e.clientY + pad;
-      tip.style.left = Math.min(x, window.innerWidth - 248) + 'px';
-      tip.style.top = Math.min(y, window.innerHeight - 100) + 'px';
-    });
+    if (typeof window.wireQgIraabTooltip === 'function') {
+      window.wireQgIraabTooltip(container);
+    }
 
     function applyHashOrDefault() {
       let id = ayahList[0].id;

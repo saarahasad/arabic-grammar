@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "surahs": [
+    {
+      "num": 91,
+      "slug": "shams",
+      "titleEn": "Ash-Shams",
+      "titleAr": "ٱلشَّمْسِ",
+      "revisionUrl": "surah-shams-iraab-revision.json",
+      "ayahCount": 15
+    },
+    {
+      "num": 92,
+      "slug": "layl",
+      "titleEn": "Al-Layl",
+      "titleAr": "ٱللَّيْلِ",
+      "revisionUrl": "surah-layl-iraab-revision.json",
+      "ayahCount": 21
+    },
+    {
+      "num": 93,
+      "slug": "duha",
+      "titleEn": "Ad-Duha",
+      "titleAr": "ٱلضُّحَىٰ",
+      "revisionUrl": "surah-duha-iraab-revision.json",
+      "ayahCount": 11
+    },
+    {
+      "num": 94,
+      "slug": "sharh",
+      "titleEn": "Ash-Sharh",
+      "titleAr": "ٱلشَّرْح",
+      "revisionUrl": "surah-sharh-iraab-revision.json",
+      "ayahCount": 8
+    },
+    {
+      "num": 95,
+      "slug": "tin",
+      "titleEn": "At-Tin",
+      "titleAr": "التِّينِ",
+      "revisionUrl": "surah-tin-iraab-revision.json",
+      "ayahCount": 8
+    },
+    {
+      "num": 96,
+      "slug": "alaq",
+      "titleEn": "Al-Alaq",
+      "titleAr": "الْعَلَقِ",
+      "revisionUrl": "surah-alaq-iraab-revision.json",
+      "ayahCount": 19
+    },
+    {
+      "num": 97,
+      "slug": "qadr",
+      "titleEn": "Al-Qadr",
+      "titleAr": "الْقَدْرِ",
+      "revisionUrl": "surah-qadr-iraab-revision.json",
+      "ayahCount": 5
+    },
+    {
+      "num": 98,
+      "slug": "bayyinah",
+      "titleEn": "Al-Bayyinah",
+      "titleAr": "الْبَيْنَةِ",
+      "revisionUrl": "surah-bayyinah-iraab-revision.json",
+      "ayahCount": 8
+    },
+    {
+      "num": 99,
+      "slug": "zalzalah",
+      "titleEn": "Az-Zalzalah",
+      "titleAr": "الزَّلْزَلَةُ",
+      "revisionUrl": "surah-zalzalah-iraab-revision.json",
+      "ayahCount": 8
+    },
+    {
+      "num": 100,
+      "slug": "adiyat",
+      "titleEn": "Al-Adiyat",
+      "titleAr": "الْعَادِيَاتِ",
+      "revisionUrl": "surah-adiyat-iraab-revision.json",
+      "ayahCount": 11
+    },
+    {
+      "num": 101,
+      "slug": "qariyah",
+      "titleEn": "Al-Qari'ah",
+      "titleAr": "الْقَارِعَةُ",
+      "revisionUrl": "surah-qariyah-iraab-revision.json",
+      "ayahCount": 11,
+      "revisionInfographicUrl": "assets/revision/surah-101-qariyah-iraab-sheet.png"
+    },
+    {
+      "num": 102,
+      "slug": "takathur",
+      "titleEn": "At-Takathur",
+      "titleAr": "التَّكَاثُرُ",
+      "revisionUrl": "surah-takathur-iraab-revision.json",
+      "ayahCount": 8
+    },
+    {
+      "num": 103,
+      "slug": "asr",
+      "titleEn": "Al-'Asr",
+      "titleAr": "الْعَصْرِ",
+      "revisionUrl": "surah-asr-iraab-revision.json",
+      "ayahCount": 3
+    },
+    {
+      "num": 104,
+      "slug": "humazah",
+      "titleEn": "Al-Humazah",
+      "titleAr": "الْهُمَزَةُ",
+      "revisionUrl": "surah-humazah-iraab-revision.json",
+      "ayahCount": 9
+    },
+    {
+      "num": 105,
+      "slug": "fil",
+      "titleEn": "Al-Fil",
+      "titleAr": "الْفِيلِ",
+      "revisionUrl": "surah-fil-iraab-revision.json",
+      "ayahCount": 5
+    },
+    {
+      "num": 106,
+      "slug": "quraysh",
+      "titleEn": "Quraysh",
+      "titleAr": "قُرَيْشٍ",
+      "revisionUrl": "surah-quraysh-iraab-revision.json",
+      "ayahCount": 4
+    },
+    {
+      "num": 107,
+      "slug": "maoon",
+      "titleEn": "Al-Ma'un",
+      "titleAr": "الْمَاعُونِ",
+      "revisionUrl": "surah-maoon-iraab-revision.json",
+      "ayahCount": 7
+    },
+    {
+      "num": 108,
+      "slug": "kawthar",
+      "titleEn": "Al-Kawthar",
+      "titleAr": "الْكَوْثَرِ",
+      "revisionUrl": "surah-kawthar-iraab-revision.json",
+      "ayahCount": 3
+    },
+    {
+      "num": 109,
+      "slug": "kafirun",
+      "titleEn": "Al-Kafirun",
+      "titleAr": "الْكَافِرُونَ",
+      "revisionUrl": "surah-kafirun-iraab-revision.json",
+      "ayahCount": 6
+    },
+    {
+      "num": 110,
+      "slug": "nasr",
+      "titleEn": "An-Nasr",
+      "titleAr": "النَّصْرِ",
+      "revisionUrl": "surah-nasr-iraab-revision.json",
+      "ayahCount": 3
+    },
+    {
+      "num": 111,
+      "slug": "masad",
+      "titleEn": "Al-Masad",
+      "titleAr": "الْمَسَدِ",
+      "revisionUrl": "surah-masad-iraab-revision.json",
+      "ayahCount": 5
+    },
+    {
+      "num": 112,
+      "slug": "ikhlas",
+      "titleEn": "Al-Ikhlas",
+      "titleAr": "الْإِخْلَاصِ",
+      "revisionUrl": "surah-ikhlas-iraab-revision.json",
+      "ayahCount": 4
+    },
+    {
+      "num": 113,
+      "slug": "falaq",
+      "titleEn": "Al-Falaq",
+      "titleAr": "الْفَلَقِ",
+      "revisionUrl": "surah-falaq-iraab-revision.json",
+      "ayahCount": 5
+    },
+    {
+      "num": 114,
+      "slug": "nas",
+      "titleEn": "An-Nas",
+      "titleAr": "النَّاسِ",
+      "revisionUrl": "surah-nas-iraab-revision.json",
+      "ayahCount": 6
+    }
+  ]
+}
